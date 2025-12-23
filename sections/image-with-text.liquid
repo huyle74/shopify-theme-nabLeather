@@ -1,0 +1,144 @@
+{% assign NotEmptySection = false %}
+{% for block in section.blocks %}
+  {% if block.settings.featured_image != blank or block.settings.featured_text_content != blank %}
+    {% assign NotEmptySection = true %}
+  {% endif %}
+{% endfor %}
+
+{% if NotEmptySection %}
+<section id="section-{{ section.id }}" class="spacing-above spacing-bottom">
+  <div class="FeaturedContent--Wrapper{% if section.blocks.size == 1 %} full-width{% endif %}">
+  {% for block in section.blocks %}
+    {% case block.type %}
+      {% when 'text' %}
+         <div class="FeaturedContent--text block--{{ forloop.index }} {% if forloop.index == 1 %}left-side{% else %}right-side{% endif %}">
+           <div class="FeaturedContent--TextWrap">
+             {% if block.settings.featured_subheading != blank %}
+                <h3 class="SectionHeader__SubHeading Heading u-h6">{{ block.settings.featured_subheading }}</h3>
+             {% endif %}
+            {% if block.settings.featured_heading != blank %}
+              <h2 class="SectionHeader__Heading Heading u-h1">{{ block.settings.featured_heading }}</h2>
+            {% endif %}
+           {% if block.settings.featured_text_content != blank %}
+                <div class="SectionHeader__Description Rte">
+                {{ block.settings.featured_text_content }}
+              </div>
+            {% endif %}
+           </div>
+         </div>
+      {% when 'image' %}
+         <div class="FeaturedContent--image block--{{ forloop.index }}">
+           <div class="FeaturedContent--imageContent">
+             {% assign media = block.settings.featured_image %}
+              {%- capture supported_sizes -%}{%- render 'image-size', sizes: '200,400,600,700,800,900,1000,1200,1400,1600', image: media -%}{%- endcapture -%}
+               <div class="AspectRatio AspectRatio--withFallback" style="padding-bottom: {{ 100.0 | divided_by: media.aspect_ratio }}%; --aspect-ratio: {{ media.aspect_ratio }};">
+                  {% assign image_url = media | img_url: '1x1' | replace: '_1x1.', '_{width}x.' %}
+  
+                  <img class="Image--lazyLoad Image--fadeIn" data-src="{{ image_url }}" data-widths="[{{ supported_sizes }}]" data-sizes="auto" data-expand="-100" alt="{{ media.alt | escape }}" data-max-width="{{ media.width }}" data-max-height="{{ media.height }}" data-original-src="{{ media | img_url: 'master' }}">
+               </div>
+           </div>
+         </div>
+    {% endcase %}
+  {% endfor %}
+  </div>
+</section>
+{% endif %}
+<style>
+  .FeaturedContent--Wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 15px;
+  }
+  .FeaturedContent--image,.FeaturedContent--text {
+    width: 50%;
+  }
+  .spacing-above {
+    padding: 60px 0;
+  }
+  .FeaturedContent--TextWrap .SectionHeader__Description p {
+    font-size: 14px;
+  }
+  .left-side .FeaturedContent--TextWrap {
+    max-width: 500px;
+  }
+  .right-side .FeaturedContent--TextWrap {
+    max-width: 500px;
+    margin-left:auto;
+  }
+  .FeaturedContent--Wrapper.full-width .FeaturedContent--TextWrap{
+    max-width: unset;
+    margin-left:none;
+  }
+  .FeaturedContent--Wrapper.full-width > div{
+    width:100%;
+  }
+  @media(max-width:600px){
+    .FeaturedContent--Wrapper {
+      flex-direction: column;
+      padding: 0 12px;
+      gap: 10px;
+    }
+    .FeaturedContent--image, .FeaturedContent--text{
+      width:100%;
+    }
+    .FeaturedContent--text {
+      order: 2;
+      margin-top: 10px;
+    }
+    .spacing-above{
+      padding-top:20px;
+      padding-bottom:20px;
+    }
+  }
+ 
+</style>
+{% schema %}
+  {
+    "name": "Image with text",
+    "settings": [],
+    "blocks":[
+      {
+        "type":"image",
+        "name":"Image",
+        "limit":1,
+        "settings":[
+          {
+            "type":"image_picker",
+            "label":"Add image",
+            "id":"featured_image"
+          }
+        ]
+      },
+      {
+        "type":"text",
+        "name":"Text",
+        "limit":1,
+        "settings":[
+          {
+            "type":"text",
+            "label":"Sub heading",
+            "id":"featured_subheading"
+          },
+          {
+            "type":"text",
+            "label":"Heading",
+            "id":"featured_heading"
+          },
+          {
+            "type":"richtext",
+            "label":"Text content",
+            "id":"featured_text_content"
+          }
+        ]
+      }
+    ],
+    "presets":[
+      {
+        "name":"Image with text"
+      }
+    ]
+  }
+{% endschema %}

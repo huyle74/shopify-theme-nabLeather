@@ -1,0 +1,137 @@
+<section id="section-{{ section.id }}" class="custom-multicolumn-card-main">
+  <div class="custom-multicolumn-card-container Container">
+    <div class="custom-multicolumn-card-wrapper">
+      {% for block in section.blocks %}
+        {% if block.type == 'card-content' %}
+          <div class="custom-multicolumn-card">
+            {% if block.settings.card_heading != blank %}
+              <h3 class="custom-multicolumn-card-heading">{{ block.settings.card_heading }}</h3>
+            {% endif %}
+            {% if block.settings.card_content != blank %}
+              <div class="custom-multicolumn-card-content">{{ block.settings.card_content }}</div>
+            {% endif %}
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+<style>
+  #section-{{ section.id }} {
+    background-color: {{ section.settings.bg_color }};
+    padding-top: {{ section.settings.padding_top_mobile }}px;
+    padding-bottom: {{ section.settings.padding_bottom_mobile }}px;
+  }
+  #section-{{ section.id }} .custom-multicolumn-card {
+    background-color: {{ section.settings.card_bg_color }};
+  }
+  #section-{{ section.id }} .custom-multicolumn-card-heading {
+    color: {{ section.settings.text_color }};
+  } 
+  #section-{{ section.id }} .custom-multicolumn-card-heading {
+    color: {{ section.settings.text_color }};
+  } 
+  #section-{{ section.id }} .custom-multicolumn-card-content > * {
+    color: {{ section.settings.text_color_content }};
+  } 
+  @media (min-width: 768px) {
+    #section-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top_desktop }}px;
+      padding-bottom: {{ section.settings.padding_bottom_desktop }}px;
+    }
+  }
+</style>
+{% schema %}
+  {
+    "name": "Custom multicolumn card",
+    "settings": [   
+      {
+        "type": "color",
+        "id": "bg_color",
+        "label": "Background Color",
+        "default": "#f3f3f3"
+      },   
+      {
+        "type": "color",
+        "id": "card_bg_color",
+        "label": "Card background color",
+        "default": "#eaeaea"
+      },
+      {
+        "type": "color",
+        "id": "text_color",
+        "label": "Heading color",
+        "default": "#333333"
+      },   
+      {
+        "type": "color",
+        "id": "text_color_content",
+        "label": "Paragraph color",
+        "default": "#1c1b1b"
+      },
+      {
+        "type": "range",
+        "id": "padding_top_mobile",
+        "label": "Top Padding (Mobile)",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "default": 40
+      },
+      {
+        "type": "range",
+        "id": "padding_bottom_mobile",
+        "label": "Bottom Padding (Mobile)",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "default": 40
+      },
+      {
+        "type": "range",
+        "id": "padding_top_desktop",
+        "label": "Top Padding (Desktop)",
+        "min": 0,
+        "max": 200,
+        "step": 4,
+        "unit": "px",
+        "default": 80
+      },
+      {
+        "type": "range",
+        "id": "padding_bottom_desktop",
+        "label": "Bottom Padding (Desktop)",
+        "min": 0,
+        "max": 200,
+        "step": 4,
+        "unit": "px",
+        "default": 80
+      }
+    ],
+    "blocks": [
+      {
+        "type": "card-content",
+        "name": "Card content",
+        "settings": [
+          {
+            "type": "text",
+            "id": "card_heading",
+            "label": "Card heading"
+          },
+          {
+            "type": "richtext",
+            "id": "card_content",
+            "label": "Card content"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Custom multicolumn card"
+      }
+    ]
+  }
+{% endschema %}

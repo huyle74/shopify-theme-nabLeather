@@ -1,0 +1,112 @@
+{
+  "sections": {
+    "c79510ec-9239-4df9-9fd2-4810f2bc69b5": {
+      "type": "slideshow",
+      "blocks": {
+        "template--16281995542659__c79510ec-9239-4df9-9fd2-4810f2bc69b5-168078300920a75098-0": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/leather_42e9fd5e-5238-4ff9-8d64-7868cef8b841.jpg",
+            "apply_overlay": true,
+            "content_position": "middleCenter",
+            "subheading": "We don't compromise with quality.",
+            "title": "CRAFTED TO LAST.",
+            "button_1_text": "Contact us",
+            "button_1_link": "shopify://pages/contact-us",
+            "button_2_text": "",
+            "button_2_link": ""
+          }
+        }
+      },
+      "block_order": [
+        "template--16281995542659__c79510ec-9239-4df9-9fd2-4810f2bc69b5-168078300920a75098-0"
+      ],
+      "disabled": true,
+      "settings": {
+        "show_fullscreen": true,
+        "show_arrow": false,
+        "autoplay": true,
+        "cycle_speed": 5,
+        "text_color": "#ffffff",
+        "button_color": "#363636",
+        "button_background": "#ffffff"
+      }
+    },
+    "custom_image_with_text_overlay_Gdaw4G": {
+      "type": "custom-image-with-text-overlay",
+      "name": "Custom image text overlay",
+      "settings": {
+        "image_height": "default-height",
+        "image": "shopify://shop_images/Untitled_design_95_-Photoroom_1_c3c4e194-db16-4b34-b220-3dcfbaee7f0b.jpg",
+        "mobile_image": "shopify://shop_images/BOGO_Fathers_9.jpg",
+        "text_color": "#ffffff",
+        "overlay_color": "#000000",
+        "overlay_opacity": 15,
+        "text_align_position": "center",
+        "text_align_position_mobile": "center",
+        "title": "",
+        "subheading": "",
+        "content": "",
+        "banner_button_label": "",
+        "banner_button_link": "#"
+      }
+    },
+    "main": {
+      "type": "main-collection",
+      "settings": {
+        "show_collection_info": true,
+        "show_collection_image": false,
+        "apply_overlay": true,
+        "show_color_swatch": false,
+        "show_vendor": false,
+        "collection_image_visibility": "first",
+        "collection_image_size": "normal",
+        "show_sort_by": true,
+        "show_layout_switch": false,
+        "toolbar_position": "bottom",
+        "show_filters": true,
+        "show_filter_color_swatch": false,
+        "expand_filters": false,
+        "filter_position": "drawer",
+        "filter_menu": "",
+        "grid_items_per_page": 16,
+        "grid_mobile_items_per_row": "2",
+        "grid_desktop_items_per_row": 4,
+        "image_height": "default-height",
+        "text_color": "#ffffff",
+        "overlay_color": "#000000",
+        "overlay_opacity": 30,
+        "banner_button_label": "",
+        "banner_button_link": ""
+      }
+    },
+    "recently-viewed-products": {
+      "type": "recently-viewed-products",
+      "settings": {
+        "title": "Recently viewed",
+        "show_product_info": true,
+        "show_vendor": false,
+        "show_color_swatch": false
+      }
+    },
+    "9fc439df-4ebe-42ba-a63f-58dadb589440": {
+      "type": "text-with-image",
+      "disabled": true,
+      "settings": {
+        "subheading": "",
+        "title": "",
+        "image_position": "right",
+        "content": "",
+        "link_text": "",
+        "link_url": ""
+      }
+    }
+  },
+  "order": [
+    "c79510ec-9239-4df9-9fd2-4810f2bc69b5",
+    "custom_image_with_text_overlay_Gdaw4G",
+    "main",
+    "recently-viewed-products",
+    "9fc439df-4ebe-42ba-a63f-58dadb589440"
+  ]
+}

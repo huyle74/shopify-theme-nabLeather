@@ -1,0 +1,284 @@
+<section id="section-{{ section.id }}" class="custom-image-with-text-overlay-main custom-iwt--{{ section.settings.image_height }}">
+  <div class="custom-iwt-container">
+    <div class="custom-iwt-wrapper">
+      <div class="custom-iwt-image">
+        {% assign has_mobile_img = false %}
+        {% if template.name == 'collection' %}
+          {% if collection.metafields.custom.collection_banner_image != blank or collection.metafields.custom.collection_banner_image_mobile != blank %}
+            {% assign desktop_image = collection.metafields.custom.collection_banner_image %}
+            {% assign mobile_image = collection.metafields.custom.collection_banner_image_mobile %}
+            {% if collection.metafields.custom.collection_banner_image_mobile != blank %}
+              {% assign has_mobile_img = true %}
+            {% endif %}
+          {% else %}
+            {% assign desktop_image = section.settings.image %}
+            {% assign mobile_image = section.settings.mobile_image %}
+            {% if section.settings.mobile_image != blank %}
+              {% assign has_mobile_img = true %}
+            {% endif %}
+          {% endif %}
+        {% elsif template contains 'page' %}
+          {% if page.metafields.custom.page_banner_image != blank or page.metafields.custom.page_banner_image_mobile != blank %}
+            {% assign desktop_image = page.metafields.custom.page_banner_image %}
+            {% assign mobile_image = page.metafields.custom.page_banner_image_mobile %}
+            {% if page.metafields.custom.page_banner_image_mobile != blank %}
+              {% assign has_mobile_img = true %}
+            {% endif %}
+          {% else %}
+            {% assign desktop_image = section.settings.image %}
+            {% assign mobile_image = section.settings.mobile_image %}
+            {% if section.settings.mobile_image != blank %}
+              {% assign has_mobile_img = true %}
+            {% endif %}
+          {% endif %}
+        {% else %}
+          {% assign desktop_image = section.settings.image %}
+          {% assign mobile_image = section.settings.mobile_image %}
+          {% if section.settings.mobile_image != blank %}
+            {% assign has_mobile_img = true %}
+          {% endif %}
+        {% endif %}
+        <img
+          class="custom-iwt-desktop-image{% if has_mobile_img %} custom-iwt-has-mob-image{% endif %}"
+          src="{{ desktop_image | img_url:'master' }}"
+          alt="banner-desktop" />
+        {% if mobile_image != blank %}
+          <img
+            class="custom-iwt-mobile-image{% if has_mobile_img %} custom-iwt-has-mob-image{% endif %}"
+            src="{{ mobile_image | img_url:'master' }}"
+            alt="mobile-desktop" />
+        {% endif %}
+      </div>
+      <div class="custom-iwt-content text--{{ section.settings.text_align_position }} mobile-text--{{ section.settings.text_align_position_mobile }}">
+
+        {%- if template.name == 'collection' and collection.metafields.custom.collection_banner_subheading != blank -%}
+          <h3 class="SectionHeader__SubHeading Heading u-h6">
+            {{ collection.metafields.custom.collection_banner_subheading | escape }}
+          </h3>
+        {%- elsif template contains 'page' and page.metafields.custom.page_banner_subheading != blank -%}
+          <h3 class="SectionHeader__SubHeading Heading u-h6">
+            {{ page.metafields.custom.page_banner_subheading | escape }}
+          </h3>
+        {%- elsif section.settings.subheading != blank -%}
+          <h3 class="SectionHeader__SubHeading Heading u-h6">
+            {{ section.settings.subheading | escape }}
+          </h3>
+        {%- endif -%}
+
+        {%- if template.name == 'collection' and collection.metafields.custom.collection_banner_heading != blank -%}
+          <h2 class="SectionHeader__Heading Heading u-h1">
+            {{ collection.metafields.custom.collection_banner_heading | escape }}
+          </h2>
+        {%- elsif template contains 'page' and page.metafields.custom.page_banner_heading != blank -%}
+          <h2 class="SectionHeader__Heading Heading u-h1">
+            {{ page.metafields.custom.page_banner_heading | escape }}
+          </h2>
+        {%- elsif section.settings.title != blank -%}
+          <h2 class="SectionHeader__Heading Heading u-h1">
+            {{ section.settings.title | escape }}
+          </h2>
+        {%- endif -%}
+
+        {%- if template.name == 'collection' and collection.metafields.custom.collection_banner_content != blank -%}
+          <div class="SectionHeader__Description">
+            {{ collection.metafields.custom.collection_banner_content | metafield_tag }}
+          </div>
+        {%- elsif template contains 'page' and page.metafields.custom.page_banner_content != blank -%}
+          <div class="SectionHeader__Description">
+            {{ page.metafields.custom.page_banner_content | metafield_tag }}
+          </div>
+        {%- elsif section.settings.content != blank -%}
+          <div class="SectionHeader__Description">
+            {{ section.settings.content }}
+          </div>
+        {%- endif -%}
+
+        {%- if template.name == 'collection' and collection.metafields.custom.collection_banner_button_label != blank -%}
+          <a href="{{ collection.metafields.custom.collection_banner_button_link }}" class="Button Button--primary button__alt">
+            {{ collection.metafields.custom.collection_banner_button_label }}
+          </a>
+        {%- elsif template contains 'page' and page.metafields.custom.page_banner_button_label != blank -%}
+          <a href="{{ page.metafields.custom.page_banner_button_link }}" class="Button Button--primary button__alt">
+            {{ page.metafields.custom.page_banner_button_label }}
+          </a>
+        {%- elsif section.settings.banner_button_label != blank -%}
+          <a href="{{ section.settings.banner_button_link }}" class="Button Button--primary button__alt">
+            {{ section.settings.banner_button_label }}
+          </a>
+        {%- endif -%}
+
+      </div>
+    </div>
+  </div>
+</section>
+<style>
+  #section-{{ section.id }} .SectionHeader__SubHeading
+  , #section-{{ section.id }}
+  .SectionHeader__Heading
+  , #section-{{ section.id }}
+  .SectionHeader__Description {
+    color: {{ section.settings.text_color }};
+    margin: 0;
+  }
+  #section-{{ section.id }}
+  .custom-iwt-content {
+    {%- assign overlay_opacity = section.settings.overlay_opacity | divided_by: 100.0 -%}
+    background-color: {{ section.settings.overlay_color | color_modify: 'alpha', overlay_opacity }};
+  }
+  #section-{{ section.id }}
+  .text--left {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+  }
+  #section-{{ section.id }}
+  .text--center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  #section-{{ section.id }}
+  .text--right {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+  }
+  @media screen and (max-width: 750px) {
+    #section-{{ section.id }} .mobile-text--left {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+    #section-{{ section.id }}
+    .mobile-text--center {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    #section-{{ section.id }}
+    .mobile-text--right {
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+    }
+  }
+</style>
+{% schema %}
+  {
+    "name": "Custom image text overlay",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Image Block"
+      },
+      {
+        "type": "select",
+        "id": "image_height",
+        "label": "Image height",
+        "options": [
+          {
+            "value": "default-height",
+            "label": "Original"
+          }, {
+            "value": "fit-to-screen",
+            "label": "Fit to screen"
+          }
+        ],
+        "default": "default-height"
+      },
+      {
+        "type": "image_picker",
+        "id": "image",
+        "label": "Desktop Image"
+      },
+      {
+        "type": "image_picker",
+        "id": "mobile_image",
+        "label": "Mobile Image"
+      }, {
+        "type": "header",
+        "content": "Content Block"
+      }, {
+        "type": "color",
+        "id": "text_color",
+        "label": "Text",
+        "default": "#ffffff"
+      }, {
+        "type": "color",
+        "id": "overlay_color",
+        "label": "Overlay",
+        "default": "#000000"
+      }, {
+        "type": "range",
+        "id": "overlay_opacity",
+        "label": "Overlay opacity",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "%",
+        "default": 30
+      }, {
+        "type": "select",
+        "id": "text_align_position",
+        "label": "Desktop Text Position",
+        "options": [
+          {
+            "value": "left",
+            "label": "Left"
+          }, {
+            "value": "center",
+            "label": "Center"
+          }, {
+            "value": "right",
+            "label": "Right"
+          }
+        ],
+        "default": "center"
+      }, {
+        "type": "select",
+        "id": "text_align_position_mobile",
+        "label": "Mobile Text Position",
+        "options": [
+          {
+            "value": "left",
+            "label": "Left"
+          }, {
+            "value": "center",
+            "label": "Center"
+          }, {
+            "value": "right",
+            "label": "Right"
+          }
+        ],
+        "default": "center"
+      }, {
+        "type": "text",
+        "id": "title",
+        "label": "Heading",
+        "default": "Tell your story"
+      }, {
+        "type": "text",
+        "id": "subheading",
+        "label": "Sub-heading"
+      }, {
+        "type": "richtext",
+        "id": "content",
+        "label": "Text",
+        "default": "<p>Add your own custom content to give more information about your store, availability details...</p>"
+      }, {
+        "type": "text",
+        "id": "banner_button_label",
+        "label": "Button label"
+      }, {
+        "type": "url",
+        "id": "banner_button_link",
+        "label": "Button url"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Custom image text overlay"
+      }
+    ]
+  }
+{% endschema %}

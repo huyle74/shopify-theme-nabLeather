@@ -1,0 +1,173 @@
+{% assign page_handle = page.handle %}
+{% assign collection_handle = collection.handle %}
+{% schema %}
+  {
+    "name": "Inner Banner",
+    "settings": [
+        {
+          "type": "image_picker",
+          "id": "inner-bnr-img_banner",
+          "label": "Deafult Background Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "inner-bnr-img_mob_banner",
+          "label": "Deafult Mobile Background Image"
+        },
+		{
+        "id": "inner-bnr-small-title",
+        "type": "text",
+        "label": "Deafult Banner Small Title",
+        "default": "We don't compromise with quality."
+
+        },
+        {
+        "id": "inner-bnr-main-title",
+        "type": "text",
+        "label": "Deafult Banner Main Title",
+        "default": "CRAFTED TO LAST."
+
+        },
+        {
+        "id": "inner-bnr-button-title",
+        "type": "text",
+        "label": "Button Title",
+         "default": "Contact Us"
+        },
+        {
+        "id": "inner-bnr-button-link",
+        "type": "url",
+        "label": "Button Link"
+        }
+	]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}
+{% assign flag = 0 %}
+
+{%- unless blog.metafields.global.inner_banner == blank  -%}
+{% assign flag = 1 %}
+<div class="inner_bnr_sec">
+  <div class="inner_bnr sec-cls-{% if page_handle != blank %}{{page_handle}}{% else %}{{collection_handle}}{% endif %}" style="background-image: url({{blog.metafields.global.inner_banner}});">
+    <div class="container">
+      <div class="bnr_txt">
+        <p class="SectionHeader__SubHeading Heading u-h6">{{blog.metafields.global.inner_banner_short}}</p>
+        <p class="SectionHeader__Heading SectionHeader__Heading--emphasize Heading u-h1">{{blog.metafields.global.inner_banner_large}}</p>
+        <a href="/pages/{{blog.metafields.global.inner_banner_link}}" class="Button Button--primary button__alt">{{blog.metafields.global.inner_banner_button_name}}</a>
+      </div>
+    </div>
+  </div>
+</div>
+{%- endunless -%}
+{%- unless page.metafields.global.inner_banner == blank  -%}
+{% assign flag = 1 %}
+<div class="inner_bnr_sec">
+  <div class="inner_bnr sec-cls-{% if page_handle != blank %}{{page_handle}}{% else %}{{collection_handle}}{% endif %}" style="background-image: url({{page.metafields.global.inner_banner}});">
+    <div class="container">
+      <div class="bnr_txt">
+        <p class="SectionHeader__SubHeading Heading u-h6">{{page.metafields.global.inner_banner_short}}</p>
+        <p class="SectionHeader__Heading SectionHeader__Heading--emphasize Heading u-h1">{{page.metafields.global.inner_banner_large}}</p>
+        <a href="{{page.metafields.global.inner_banner_link}}" class="Button Button--primary button__alt">{{page.metafields.global.inner_banner_button_name}}</a>
+      </div>
+    </div>
+  </div>
+</div>
+{%- endunless -%}
+{% comment %}{%- unless collection.metafields.global.inner_banner == blank  -%}
+{% assign flag = 1 %}
+<div class="inner_bnr_sec">
+  <div class="inner_bnr sec-cls-{% if page_handle != blank %}{{page_handle}}{% else %}{{collection_handle}}{% endif %}" style="background-image: url({{collection.metafields.global.inner_banner}});">
+    <div class="container">
+      <div class="bnr_txt">
+        <p class="SectionHeader__SubHeading Heading u-h6">{{collection.metafields.global.inner_banner_short}}</p>
+        <p class="SectionHeader__Heading SectionHeader__Heading--emphasize Heading u-h1">{{collection.metafields.global.inner_banner_large}}</p>
+        {% unless collection.handle == 'mens-full-grain-leather-belts' %}
+          <a href="/pages/{{collection.metafields.global.inner_banner_link}}" class="Button Button--primary button__alt">{{collection.metafields.global.inner_banner_button_name}}</a>
+        {% endunless %}
+      </div>
+    </div>
+  </div>
+</div>
+{%- endunless -%} {% endcomment %}
+{%- unless collection.metafields.global.inner_banner == blank -%}
+  {% assign flag = 1 %}
+  <div class="inner_bnr_sec">
+    <div class=" herr inner_bnr sec-cls-{% if page_handle != blank %}{{page_handle}}{% else %}{{collection_handle}}{% endif %}">
+      
+      <style>
+        @media (max-width: 767px) {
+          .inner_bnr.sec-cls-{{ collection_handle }} {
+            background-image: url('{{ collection.metafields.global.inner_banner_mobile | default: collection.metafields.global.inner_banner }}') !important;
+            padding: 30% 3%;
+          }
+        }
+        @media (min-width: 768px) {
+          .inner_bnr.sec-cls-{{ collection_handle }} {
+            background-image: url('{{ collection.metafields.global.inner_banner }}');
+          }
+        }
+      </style>
+
+      <div class="container">
+        <div class="bnr_txt">
+          <p class="SectionHeader__SubHeading Heading u-h6">{{ collection.metafields.global.inner_banner_short }}</p>
+          <p class="SectionHeader__Heading SectionHeader__Heading--emphasize Heading u-h1">{{ collection.metafields.global.inner_banner_large }}</p>
+          {% unless collection.handle == 'mens-full-grain-leather-belts' %}
+            <a href="/pages/{{ collection.metafields.global.inner_banner_link }}" class="Button Button--primary button__alt">
+              {{ collection.metafields.global.inner_banner_button_name }}
+            </a>
+          {% endunless %}
+        </div>
+      </div>
+    </div>
+  </div>
+{%- endunless -%}
+
+{% if flag != 1 %}
+<div class="inner_bnr_sec">
+  <div class="inner_bnr {% if section.settings.inner-bnr-img_mob_banner != blank %} hide-banner{% endif %} sec-cls-{% if page_handle != blank %}{{page_handle}}{% else %}{{collection_handle}}{% endif %}" style="background-image: url({% if section.settings.inner-bnr-img_banner != blank %}{{section.settings.inner-bnr-img_banner | img_url : 'master'}} {% else %}{{ 'leather.jpg' | asset_url }} {% endif %});">
+    <div class="container">
+      <div class="bnr_txt">
+        {% if section.settings.inner-bnr-small-title != blank %}       
+        	<p class="SectionHeader__SubHeading Heading u-h6">{{ section.settings.inner-bnr-small-title }}</p>
+       {% endif %}
+        
+        <p class="SectionHeader__Heading SectionHeader__Heading--emphasize Heading u-h1">{{ section.settings.inner-bnr-main-title }}</p>
+        <a href="{{ section.settings.inner-bnr-button-link }}" class="Button Button--primary button__alt">{{ section.settings.inner-bnr-button-title }}</a>
+      </div>
+    </div>
+  </div>
+  
+  
+  {% if section.settings.inner-bnr-img_mob_banner != blank %}
+    
+  
+   <div class="inner_bnr inner_bnr_mob" style="display:none; background-image: url({{section.settings.inner-bnr-img_mob_banner | img_url : 'master'}});">  
+    <div class="container">
+      <div class="bnr_txt">
+        {% if section.settings.inner-bnr-small-title != blank %}       
+        	<p class="SectionHeader__SubHeading Heading u-h6">{{ section.settings.inner-bnr-small-title }}</p>
+       {% endif %}
+        
+        <p class="SectionHeader__Heading SectionHeader__Heading--emphasize Heading u-h1">{{ section.settings.inner-bnr-main-title }}</p>
+        <a href="{{ section.settings.inner-bnr-button-link }}" class="Button Button--primary button__alt">{{ section.settings.inner-bnr-button-title }}</a>
+      </div>
+    </div>
+  </div>
+    
+    {% endif %}
+    
+  
+  
+</div>
+{% endif %}
+<style>
+.sec-cls-womens-leather-belts .bnr_txt .Button.Button--primary.button__alt {
+  display: none;
+}
+</style>

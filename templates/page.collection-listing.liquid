@@ -1,0 +1,42 @@
+{%- capture flickity_options -%}
+  {
+    "prevNextButtons": true,
+    "pageDots": false,
+    "wrapAround": false,
+    "contain": true,
+    "cellAlign": "center",
+    "watchCSS": true,
+    "dragThreshold": 8,
+    "groupCells": true,
+    "arrowShape": {"x0": 20, "x1": 60, "y1": 40, "x2": 60, "y2": 35, "x3": 25}
+  }
+  {%- endcapture -%}
+
+<div class="container">
+  <header class="PageHeader">
+    <div class="SectionHeader SectionHeader--center">
+      <h1 class="SectionHeader__Heading Heading u-h1">{{ page.title }}</h1>
+    </div>
+  </header>
+<!-- PageContent--narrow  -->
+  <div class="">
+    {{ page.content }}
+    {% for link in linklists['main-menu'].links %}
+    	{% if link.handle ==  page.handle  %} 
+    		{% assign counter = counter | plus:1 %}
+    		{%- for sub_link in link.links -%}
+         	<h2 class="collection_title cnt{{counter}}"><a href="{{sub_link.url}}">{{sub_link.title}}</a> </h2>
+      		{% assign collection = sub_link.object %}
+    		<div class="ProductList ProductList--carousel Carousel collection_list">
+              {%- for product in collection.products limit: 4 -%}        
+                <div class="Carousel__Cell is-selected">
+                  {%- render 'product-item', product: product, show_product_info: true, show_vendor: false, show_color_swatch: false, show_labels: true -%}
+                </div>
+              {%- endfor -%}
+            </div>
+            <div class="more_link"><a href="{{sub_link.url}}" class="Button Button--primary">Click Here to See All {{sub_link.title}}</a></div>
+         {% endfor %}
+       {% endif %}
+        {% endfor %}
+  </div>
+</div>

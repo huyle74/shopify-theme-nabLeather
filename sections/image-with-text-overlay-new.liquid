@@ -1,0 +1,245 @@
+<section id="section-{{ section.id }}" class="image-with-text-overlay-new">
+  {%- capture mobile_size -%}750x{% if section.settings.image.height >= 960 %}960{% else %}{{ section.settings.image.height }}{% endif %}{%- endcapture -%}
+
+  <div class="FlexboxIeFix">
+    <div class="ImageHero {% if section.settings.section_size != 'normal' %}ImageHero--{{ section.settings.section_size }}{% endif %}" {% if section.settings.image %}style="background: url({{ section.settings.image | img_url: '1x1' }})"{% endif %}>
+      <div class="ImageHero__ImageWrapper">
+        <picture class="ImageHero__Image {% if section.settings.overlay_opacity > 0 %}ImageHero__ImageWrapper--hasOverlay{% endif %} Image--lazyLoad Image--zoomOut">
+          {% if template.name == 'collection' %}
+            {% if collection.metafields.custom.collection_banner_image != blank or collection.metafields.custom.collection_banner_image_mobile != blank %}
+              {% assign desktop_image = collection.metafields.custom.collection_banner_image %}
+              {% assign mobile_image = collection.metafields.custom.collection_banner_image_mobile %}
+            {% else %}
+              {% assign desktop_image = section.settings.image %}
+              {% assign mobile_image = section.settings.mobile_image %}
+            {% endif %}
+          {% elsif template contains 'page' %}
+            {% if page.metafields.custom.page_banner_image != blank or page.metafields.custom.page_banner_image_mobile != blank %}
+              {% assign desktop_image = page.metafields.custom.page_banner_image %}
+              {% assign mobile_image = page.metafields.custom.page_banner_image_mobile %}
+            {% else %}
+              {% assign desktop_image = section.settings.image %}
+              {% assign mobile_image = section.settings.mobile_image %}
+            {% endif %}
+          {% else %}
+            {% assign desktop_image = section.settings.image %}
+            {% assign mobile_image = section.settings.mobile_image %}
+          {% endif %}
+        
+          {% if desktop_image != blank %}
+            {% if mobile_image != blank %}
+              <source media="(max-width: 767px)" srcset="{{ mobile_image | img_url: '750x', crop: 'center' }}">
+            {% endif %}
+            <source srcset="{{ desktop_image | img_url: '1500x', crop: 'center' }}">
+            <img 
+              src="{{ desktop_image | img_url: '1500x', crop: 'center' }}" 
+              alt="Banner Image" 
+              class="Image--responsive" 
+              loading="lazy"
+            >
+          {% endif %}
+        </picture>
+
+
+        <noscript>
+          {% if template.name == 'collection' %}
+            {% assign mobile_image = collection.metafields.custom.collection_banner_image_mobile %}
+            {% assign desktop_image = collection.metafields.custom.collection_banner_image %}
+          {% elsif template contains 'page' %}
+            {% assign mobile_image = page.metafields.custom.page_banner_image_mobile %}
+            {% assign desktop_image = page.metafields.custom.page_banner_image %}
+          {% else %}
+            {% assign mobile_image = section.settings.mobile_image %}
+            {% assign desktop_image = section.settings.image %}
+          {% endif %}
+          {% if mobile_image != blank %}
+            <div class="ImageHero__Image" style="background-image: url({{ mobile_image | img_url: '750x' }})"></div>
+          {% elsif desktop_image != blank %}
+            <div class="ImageHero__Image" style="background-image: url({{ desktop_image | img_url: '1000x' }})"></div>
+          {% elsif section.settings.image != blank %}
+            <div class="ImageHero__Image" style="background-image: url({{ section.settings.image | img_url: '1000x' }})"></div>
+          {% endif %}
+        </noscript>
+
+
+
+        {%- unless section.settings.image != blank -%}
+          <div class="PlaceholderBackground PlaceholderBackground--Dark">
+            {{ 'lifestyle-1' | placeholder_svg_tag: 'PlaceholderBackground__Svg' }}
+          </div>
+        {%- endunless -%}
+      </div>
+
+      {%- if collection.metafields.custom.collection_banner_subheading != blank or collection.metafields.custom.collection_banner_heading != blank or collection.metafields.custom.collection_banner_content != blank or collection.metafields.custom.collection_banner_button_label != blank or section.settings.subheading != blank or section.settings.title != blank or section.settings.content != blank or section.settings.banner_button_label != blank -%}
+        <div class="ImageHero__ContentOverlay">
+          {%- if section.settings.subheading != blank or section.settings.title != blank or section.settings.content != blank -%}
+            <header class="SectionHeader">            
+              {%- if template.name == 'collection' and collection.metafields.custom.collection_banner_subheading != blank -%}
+                <h3 class="SectionHeader__SubHeading Heading u-h6">
+                  {{ collection.metafields.custom.collection_banner_subheading | escape }}
+                </h3>
+              {%- elsif template contains 'page' and page.metafields.custom.page_banner_subheading != blank -%}
+                <h3 class="SectionHeader__SubHeading Heading u-h6">
+                  {{ page.metafields.custom.page_banner_subheading | escape }}
+                </h3>
+              {%- elsif section.settings.subheading != blank -%}
+                <h3 class="SectionHeader__SubHeading Heading u-h6">
+                  {{ section.settings.subheading | escape }}
+                </h3>
+              {%- endif -%}
+
+              {%- if template.name == 'collection' and collection.metafields.custom.collection_banner_heading != blank -%}
+                <h2 class="SectionHeader__Heading Heading u-h1">
+                  {{ collection.metafields.custom.collection_banner_heading | escape }}
+                </h2>
+              {%- elsif template contains 'page' and page.metafields.custom.page_banner_heading != blank -%}
+                <h2 class="SectionHeader__Heading Heading u-h1">
+                  {{ page.metafields.custom.page_banner_heading | escape }}
+                </h2>
+              {%- elsif section.settings.title != blank -%}
+                <h2 class="SectionHeader__Heading Heading u-h1">
+                  {{ section.settings.title | escape }}
+                </h2>
+              {%- endif -%}
+              {%- if template.name == 'collection' and collection.metafields.custom.collection_banner_content != blank -%}
+                <div class="SectionHeader__Description">
+                  {{ collection.metafields.custom.collection_banner_content | metafield_tag }}
+                </div>
+              {%- elsif template contains 'page' and page.metafields.custom.page_banner_content != blank -%}
+                <div class="SectionHeader__Description">
+                  {{ page.metafields.custom.page_banner_content | metafield_tag }}
+                </div>
+              {%- elsif section.settings.content != blank -%}
+                <div class="SectionHeader__Description">
+                  {{ section.settings.content }}
+                </div>
+              {%- endif -%}
+
+              {%- if template.name == 'collection' and collection.metafields.custom.collection_banner_button_label != blank -%}
+                <a href="{{ collection.metafields.custom.collection_banner_button_link }}" class="Button Button--primary button__alt">
+                  {{ collection.metafields.custom.collection_banner_button_label }}
+                </a>
+              {%- elsif template contains 'page' and page.metafields.custom.page_banner_button_label != blank -%}
+                <a href="{{ page.metafields.custom.page_banner_button_link }}" class="Button Button--primary button__alt">
+                  {{ page.metafields.custom.page_banner_button_label }}
+                </a>
+              {%- elsif section.settings.banner_button_label != blank -%}
+                <a href="{{ section.settings.banner_button_link }}" class="Button Button--primary button__alt">
+                  {{ section.settings.banner_button_label }}
+                </a>
+              {%- endif -%}
+
+            </header>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+<style>
+  #section-{{ section.id }},
+  #section-{{ section.id }} .Heading {
+    color: {{ section.settings.text_color }};
+  }
+
+  #section-{{ section.id }} .ImageHero__ImageWrapper--hasOverlay::before {
+    {%- assign overlay_opacity = section.settings.overlay_opacity | divided_by: 100.0 -%}
+    background-color: {{ section.settings.overlay_color | color_modify: 'alpha', overlay_opacity }};
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Image with text overlay",
+  "settings": [
+    {
+      "type": "select",
+      "id": "section_size",
+      "label": "Section size",
+      "options": [
+        {
+          "value": "small",
+          "label": "Small"
+        },
+        {
+          "value": "normal",
+          "label": "Normal"
+        },
+        {
+          "value": "large",
+          "label": "Large"
+        }
+      ],
+      "default": "large"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image",
+      "info": "1500 x 800px .jpg recommended"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_image",
+      "label": "Mobile Image",
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "overlay_color",
+      "label": "Overlay",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Overlay opacity",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 30
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Sub-heading"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Tell your story"
+    },
+    {
+      "type": "richtext",
+      "id": "content",
+      "label": "Text",
+      "default": "<p>Add your own custom content to give more information about your store, availability details...</p>"
+    },
+    {
+      "type": "text",
+      "id": "banner_button_label",
+      "label": "Button label"
+    },
+    {
+      "type": "url",
+      "id": "banner_button_link",
+      "label": "Button url"
+    }
+  ],
+  "presets": [
+    {
+      "category": "Image",
+      "name": "Image with text (overlay) New",
+      "settings": {}
+    }
+  ]
+}
+{% endschema %}

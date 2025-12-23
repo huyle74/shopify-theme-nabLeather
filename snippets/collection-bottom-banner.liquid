@@ -1,0 +1,47 @@
+<div class="custom-iwt-container">
+  <div class="custom-iwt-wrapper">
+    <div class="custom-iwt-image">
+      {% assign has_mobile_img = false %}
+      {% if template.name == 'collection' %}
+          {% if collection.metafields.custom.bottom_banner_desktop_image != blank or collection.metafields.custom.bottom_banner_mobile_image != blank %}
+            {% assign desktop_image = collection.metafields.custom.bottom_banner_desktop_image %}
+            {% assign mobile_image = collection.metafields.custom.bottom_banner_mobile_image %}
+            {% if collection.metafields.custom.bottom_banner_mobile_image != blank %}
+              {% assign has_mobile_img = true %}
+            {% endif %}
+          {% else %}
+            {% assign desktop_image = section.settings.image %}
+            {% assign mobile_image = section.settings.mobile_image %}
+            {% if section.settings.mobile_image != blank %}
+              {% assign has_mobile_img = true %}
+            {% endif %}
+          {% endif %}
+        {% else %}
+          {% assign desktop_image = section.settings.image %}
+          {% assign mobile_image = section.settings.mobile_image %}
+          {% if section.settings.mobile_image != blank %}
+              {% assign has_mobile_img = true %}
+            {% endif %}
+        {% endif %}
+        {% if desktop_image != blank %}
+          <img class="custom-iwt-desktop-image{% if has_mobile_img %} custom-iwt-has-mob-image{% endif %}" src="{{ desktop_image | img_url:'master' }}" alt="banner-desktop" />
+        {% endif %}
+        {% if mobile_image != blank %}
+          <img class="custom-iwt-mobile-image" src="{{ mobile_image | img_url:'master' }}" alt="mobile-desktop" />
+        {% endif %}
+    </div>
+    <div class="custom-iwt-content">
+
+      {%- if template.name == 'collection' and collection.metafields.custom.bottom_banner_button_label != blank -%}
+        <a href="{{ collection.metafields.custom.bottom_banner_button_url }}" class="Button Button--primary button__alt">
+          {{ collection.metafields.custom.bottom_banner_button_label }}
+        </a>
+      {%- elsif section.settings.banner_button_label != blank -%}
+        <a href="{{ section.settings.banner_button_link }}" class="Button Button--primary button__alt">
+          {{ section.settings.banner_button_label }}
+        </a>
+      {%- endif -%}
+      
+    </div>
+  </div>
+</div>

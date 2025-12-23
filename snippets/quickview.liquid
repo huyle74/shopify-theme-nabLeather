@@ -1,0 +1,31 @@
+<div class="qv-product-images" style="opacity: 0"></div>
+<div class="qv-content">
+ <div class="holder">
+   <h3 class="qv-product-title Heading  u-h2"></h3>
+   <h4 class="qv-product-type"></h4>
+   <h5 class="qv-product-price ProductItem__Price Price Price--highlight Text--subdued"></h5>
+   <h5 class="qv-product-original-price ProductItem__Price Price Price--compareAt Text--subdued"></h5>
+   <hr />
+   <div class="qv-add-to-cart">
+     <div class="qv-product-options Select Select--primary"></div>
+     <div class="quantity">
+      <div class="ProductForm__QuantitySelector" {{ block.shopify_attributes }}>
+          {%- if block.settings.show_label -%}
+            <span class="ProductForm__Label">{{ 'product.form.quantity' | t }}:</span>
+          {%- endif -%}
+      
+          <div class="QuantitySelector QuantitySelector--large">
+            {%- assign quantity_minus_one = line_item.quantity | minus: 1 -%}
+            <button type="button" class="QuantitySelector__Button Link Link--secondary" data-action="decrease-quantity">{% render 'icon' with 'minus' %}</button>
+            <input type="text" class="QuantitySelector__CurrentQuantity qv-quantity" pattern="[0-9]*" name="quantity" value="1" aria-label="{{ 'product.form.quantity' | t }}">
+            <button type="button" class="QuantitySelector__Button Link Link--secondary" data-action="increase-quantity">{% render 'icon' with 'plus' %}</button>
+          </div>
+        </div>
+     </div>
+     <button type="submit" class="qv-add-button Button Button--secondary" >Add to Cart</button>
+     <div class="qv-add-to-cart-response"></div>
+   </div>
+   <div class="qv-product-description"></div>
+ </div>
+ <a class="view-product" href=""><span>View Full Product Details</span></a>
+</div>

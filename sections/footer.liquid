@@ -1,0 +1,473 @@
+{% if page.handle != 'contact-us' %}
+  
+<section class="foot_form_sec common_sec">
+  <div class="container">
+  <div class="foot_form">
+    <p class="SectionHeader__Heading center Heading u-h1">Quick Contact</p>
+        {% form 'contact' %}
+    {% if form.posted_successfully? %}
+    <script> 
+      $(document).ready(function() {
+        var submitted_data_pop=sessionStorage.getItem('submitted_data_pop');
+        if(submitted_data_pop!=''){
+          function getCookie(name) {
+            var value = "; " + document.cookie;
+            var parts = value.split("; " + name + "=");
+            if (parts.length == 2) return parts.pop().split(";").shift();
+          }
+          var obj = jQuery.parseJSON(submitted_data_pop)
+          var ad_fname=obj.fname;
+          var ad_email=obj.email;
+          var ad_phone=obj.phone;
+          var ad_comments=obj.additional_com;
+          if(ad_fname !="" && ad_email !="" && ad_phone !='') {
+            $.ajax({
+              url: 'https://www.adluge.com/clientcenter/api/addlead-callback.php',
+              jsonp: "callback",
+              dataType: "jsonp",
+              data:{
+                fname : ad_fname,
+                phone : ad_phone,
+                email : ad_email,
+                comments  : ad_comments,
+                client_code  : "ueur8h4yarq5lh1",
+                referer : window.location.href,
+                lead_sessionid : getCookie("_adl_id.AL_1919")
+              },
+              success: function (data){
+                sessionStorage.setItem('submitted_data_pop', '');
+                window.location = "/pages/thank-you"; 
+              },
+            });
+          }
+        }
+      });
+    </script>
+    {% endif %}
+    {% if form.errors %}
+    <div class="alert alert-success alert-dismissible" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <!-- {{ form.errors.size }} or {{ form.errors | size }} -->
+      <p style="margin-bottom: 5px;">Your contact form has {{ form.errors | size | pluralize: "an error", "a few errors" }}. To submit your form, make the following changes and try again:</p>
+      {% for field in form.errors %}
+      <p style="margin-bottom: 5px;">The {{ field | capitalize | replace: 'Body', 'Message' }} field {{ form.errors.messages[field] }}.</p>
+      {% endfor %}
+    </div>
+    {% endif %}
+    <div class="form_wrap">
+      <div class="form_row">
+        <div class="form_col_3">
+          <div class="input-holder">
+            <input type="text" class="required" id="bname" title="Name" placeholder="Name*" name="contact[Name]">
+          </div>
+        </div>
+        <div class="form_col_3">
+          <div class="input-holder">
+            <input placeholder="Email*" type="text"  class="required email" id="bemail" title="Email" name="contact[email]">
+          </div>
+        </div>
+        <div class="form_col_3">
+          <div class="input-holder">
+            <input type="text" id="bphone" title="Phone" class="required tel" placeholder="Phone*" name="contact[Phone]">
+          </div>
+        </div>
+        <div class="form_col_1">
+          <div class="input-holder">
+            <textarea  id="bcomments" title="Questions/Comments" placeholder="Questions/Comments" name="contact[Comments_or_Questions]"></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="submit_wrap"><input type="submit" id="submit_btn" value="Submit" class="Button Button--primary"></div>
+    </div>
+    {% endform %}
+  </div>
+  </div>
+</section>
+ {% endif %} 
+
+{%- comment -%}
+<!-- Popup Form 1-->
+<a class="btn popup_cta_1">click</a>
+<div class="pop_overlay pop_overlay_1">
+	<div class="close_bg"></div>
+  <div class="form_wrap">
+    <div class="form_title" id="popup_title">Click</div>
+    <div class="close_cta"><svg class="icon"><use xlink:href="#closeBtn"></use></svg></div>
+    <div class="page_form">
+    	content
+    </div>
+  </div>
+</div>
+{%- endcomment -%}
+<script>
+$('.popup_cta_1').click(function(){
+  $('.pop_overlay_1').addClass('appear_form');
+  var formT = $(this).text();
+  $('.form_title').html(formT);
+  $('.form_subject').val(formT);
+});
+  
+$('.close_cta, .close_bg').click(function(){
+  $('.pop_overlay').removeClass('appear_form');
+});
+</script>
+<!-- End Popup Form 1-->
+
+
+<footer id="section-{{ section.id }}" data-section-id="{{ section.id }}" data-section-type="footer" class="Footer {% if section.blocks.size <= 2 %}Footer--center{% endif %}" role="contentinfo">
+  
+  <div class="Container">
+  
+    {%- if section.blocks.size > 0 -%}
+      <div class="Footer__Inner">
+      
+        {%- for block in section.blocks -%}
+          <div class="Footer__Block Footer__Block--{{ block.type }}" {{ block.shopify_attributes }}>
+            {%- case block.type -%}
+              {%- when 'text' -%}
+                {%- if block.settings.title != blank -%}
+                  <span class="Footer__Title Heading u-h6">{{ block.settings.title | escape }}</span>
+                {%- endif -%}
+
+                {%- if block.settings.content != blank -%}
+                  <div class="Footer__Content Rte">
+                    {{ block.settings.content }}
+                  </div>
+                {%- endif -%}
+
+                {%- if block.settings.show_social_media -%}
+                  {% render 'social-media', class: 'Footer__Social', spacing: 'loose' %}
+                {%- endif -%}
+
+              {%- when 'links' -%}
+                {%- assign linklist = linklists[block.settings.menu] -%}
+
+                {%- if linklist != empty -%}
+                  <span class="Footer__Title Heading u-h6">{{ linklist.title | escape }}</span>
+
+                  <ul class="Linklist">
+                    {%- for link in linklist.links -%}
+                      <li class="Linklist__Item">
+                        <a href="{{ link.url }}" class="Link Link--primary">{{ link.title | escape }}</a>
+                      </li>
+                    {%- endfor -%}
+                  </ul>
+                {%- endif -%}
+
+              {%- when 'newsletter' -%}
+                {%- if block.settings.title != blank -%}
+                  <span class="Footer__Title Heading u-h6">{{ block.settings.title | escape }}</span>
+                {%- endif -%}
+
+                {%- if block.settings.content != blank -%}
+                  <div class="Footer__Content Rte">
+                    {{ block.settings.content }}
+                  </div>
+                {%- endif -%}
+
+                {%- form 'customer', id: 'footer-newsletter', class: 'Footer__Newsletter Form' -%}
+                  {%- if form.posted_successfully? -%}
+                    <p class="Form__Alert Alert Alert--success">{{ 'footer.newsletter.success' | t }}</p>
+                  {%- else -%}
+                    {%- if form.errors -%}
+                      <p class="Form__Alert Alert Alert--error">{{ form.errors.messages['email'] }}</p>
+                    {%- endif -%}
+
+                    <input type="hidden" name="contact[tags]" value="newsletter">
+                    <input type="email" name="contact[email]" class="Form__Input" aria-label="{{ 'footer.newsletter.input' | t }}" placeholder="{{ 'footer.newsletter.input' | t }}" required>
+                    <button type="submit" class="Form__Submit Button Button--primary">{{ 'footer.newsletter.submit' | t }}</button>
+                  {%- endif -%}
+                {%- endform -%}
+            {%- endcase -%}
+          </div>
+        {%- endfor -%}
+        <!--  Footer contact information -->
+          <div class="Footer__Block footer_info">
+            <div class="footer_info_txt">
+               
+               <p>We offer handmade, full-grain leather belts & goods manufactured in Canada.</p>
+               <ul class="foot_contact_info">
+                {%- if settings.company_address != blank -%}
+                  <li class="info_adrs">
+                    <svg viewBox="0 0 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                        <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                          <g id="location-outline" fill="#000000" transform="translate(106.666667, 42.666667)">
+                            <path d="M149.333333,7.10542736e-15 C231.807856,7.10542736e-15 298.666667,66.8588107 298.666667,149.333333 C298.666667,176.537017 291.413333,202.026667 278.683512,224.008666 C270.196964,238.663333 227.080238,313.32711 149.333333,448 C71.5864284,313.32711 28.4697022,238.663333 19.9831547,224.008666 C7.25333333,202.026667 2.84217094e-14,176.537017 2.84217094e-14,149.333333 C2.84217094e-14,66.8588107 66.8588107,7.10542736e-15 149.333333,7.10542736e-15 Z M149.333333,85.3333333 C113.987109,85.3333333 85.3333333,113.987109 85.3333333,149.333333 C85.3333333,184.679557 113.987109,213.333333 149.333333,213.333333 C184.679557,213.333333 213.333333,184.679557 213.333333,149.333333 C213.333333,113.987109 184.679557,85.3333333 149.333333,85.3333333 Z" id="Combined-Shape"></path>
+                          </g>
+                        </g>
+                    </svg>
+                    {{ settings.company_address }}
+                  </li>
+                {%- endif -%}
+                {%- if settings.header_phone != blank -%}
+                  <li class="call_li">
+                      <svg  version="1.1" id="_x32_" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"  xml:space="preserve">
+                        <g>
+                          <path class="st0" d="M403.854,409.684c-17.68-14.106-72.76-41.247-86.349-44.375c-13.562-3.154-29.98,9.962-34.501,26.248
+                              c-4.547,16.295-13.027,14.753-13.027,14.753s-32.67-12.003-92.429-71.534c-59.769-59.549-71.85-92.175-71.85-92.175
+                              s-1.595-8.48,14.692-13.089c16.252-4.564,29.314-21.035,26.125-34.598c-3.171-13.562-30.532-68.563-44.69-86.165
+                              c-14.192-17.601-41.606-8.524-47.633-4.135C48.13,108.987-15.581,149.49,3.58,224.072
+                              c19.186,74.592,60.346,134.264,105.579,179.348c45.242,45.066,105.062,85.998,179.715,104.904
+                              c74.644,18.915,114.919-44.944,119.274-51.006C412.51,451.273,421.481,423.816,403.854,409.684z"/>
+                          <path class="st0" d="M247.023,189.177c9.9,4.854,25.644,13.86,43.893,32.1c18.25,18.25,27.247,33.993,32.1,43.884
+                              c5.099,10.4,8.866,12.494,11.915,11.784c5.029-1.166,6.702-2.515,7.167-13.001c0.385-8.936-3.89-35.588-31.076-62.773
+                              c-27.186-27.186-53.846-31.452-62.764-31.067c-10.496,0.447-11.828,2.129-12.992,7.175
+                              C234.555,180.311,236.623,184.087,247.023,189.177z"/>
+                          <path class="st0" d="M262.95,84.247c-12.808-0.009-16.042,7.92-16.428,10.995c-0.788,6.212,3.794,11.249,13.308,13.974
+                              c10.881,3.11,53.986,16.935,90.099,53.048c36.122,36.113,49.956,79.226,53.057,90.107c2.716,9.506,7.744,14.08,13.964,13.3
+                              c3.092-0.369,11.012-3.61,10.995-16.418c0.009-10.137-6.186-63.22-53.986-111.038C326.17,90.423,273.06,84.237,262.95,84.247z"/>
+                          <path class="st0" d="M437.304,74.889C368.836,6.422,296.602,0.526,284.187,0.201c-15.157-0.385-21.167,6.414-21.158,13.387
+                              c-0.009,5.94,6.08,12.046,15.139,14.377c13.597,3.486,67.495,11.976,130.784,75.266c63.307,63.29,71.78,117.197,75.284,130.803
+                              c2.322,9.041,8.437,15.139,14.368,15.139c6.982,0,13.781-6.002,13.378-21.149C511.667,215.601,505.771,143.366,437.304,74.889z"/>
+                        </g>
+                      </svg>
+                     <a href="tel:{{ settings.header_phone }}">{{ settings.header_phone }}</a>
+                  </li>
+               {%- endif -%}
+               {%- if settings.company_email != blank -%}
+                  <li class="mail_li">
+                     <svg fill="#000000"  version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve">
+                        <g id="7935ec95c421cee6d86eb22ecd12600d">
+                          <path style="display: inline;" d="M170.591,239.406L1.584,429.263c-0.433-1.911-1.084-3.759-1.084-5.852V88.589
+                                  c0-2.541,0.71-4.837,1.356-7.144L170.591,239.406z M493.987,65.524c-1.238-0.277-2.424-0.876-3.79-0.876H21.819
+                                  c-1.297,0-2.456,0.599-3.769,0.876l237.961,222.734L493.987,65.524z M262.808,313.021c-1.954,1.869-4.372,2.777-6.797,2.777
+                                  c-2.419,0-4.842-0.908-6.775-2.777l-62.21-58.217L16.656,446.145c1.698,0.523,3.364,1.207,5.163,1.207h468.378
+                                  c1.89,0,3.534-0.684,5.243-1.207L325.082,254.804L262.808,313.021z M341.494,239.406l168.98,189.836
+                                  c0.459-1.911,1.025-3.759,1.025-5.831V88.589c0-2.499-0.62-4.837-1.26-7.133L341.494,239.406z">
+                          
+                          </path>
+                        </g>
+                      </svg>
+                     <a href="mailto:{{ settings.company_email }}">{{ settings.company_email }}</a>
+                  </li>
+                  {%- endif -%}             
+               </ul>
+               <div class="social-contact">
+                {% render 'social-media' %}            
+               </div>
+              </div>
+          </div>
+        <!--  Footer contact information end -->
+      </div>
+    {%- endif -%}
+
+    <div class="Footer__Aside">
+      {%- if section.settings.show_country_selector and localization.available_countries.size > 1 -%}
+        {%- assign country_selector = true -%}
+      {%- endif -%}
+
+      {%- if section.settings.show_locale_selector and localization.available_languages.size > 1 -%}
+        {%- assign locale_selector = true -%}
+      {%- endif -%}
+
+      {%- if locale_selector or country_selector -%}
+        <div class="Footer__Localization">
+          {%- form 'localization', id: 'localization_form_footer', class: 'Footer__LocalizationForm' -%}
+            {%- if country_selector -%}
+              <div class="Footer__LocalizationItem">
+                <input type="hidden" name="country_code" value="{{ localization.country.iso_code }}">
+                <span class="u-visually-hidden">{{ 'footer.general.country' | t }}</span>
+
+                <button type="button" class="SelectButton Link Link--primary u-h8" aria-haspopup="true" aria-expanded="false" aria-controls="footer-currency-popover">
+                  {{- localization.country.name }} ({{ localization.country.currency.iso_code }} {% if localization.country.currency.symbol %}{{ localization.country.currency.symbol }}{%- endif -%})
+                  {%- render 'icon', icon: 'select-arrow' -%}
+                </button>
+
+                <div id="footer-currency-popover" class="Popover Popover--small Popover--noWrap" aria-hidden="true">
+                  <header class="Popover__Header">
+                    <button type="button" class="Popover__Close Icon-Wrapper--clickable" data-action="close-popover">{% render 'icon' with 'close' %}</button>
+                    <span class="Popover__Title Heading u-h4">{{ 'footer.general.country' | t }}</span>
+                  </header>
+
+                  <div class="Popover__Content">
+                    <div class="Popover__ValueList Popover__ValueList--center" data-scrollable>
+                      {%- for country in localization.available_countries -%}
+                        <button type="submit" name="country_code" class="Popover__Value {% if country.iso_code == localization.country.iso_code %}is-selected{% endif %} Heading Link Link--primary u-h6"  value="{{ country.iso_code }}" {% if country.iso_code == localization.country.iso_code %}aria-current="true"{% endif %}>
+                          {{- country.name }} ({{ country.currency.iso_code }} {% if country.currency.symbol %}{{ country.currency.symbol }}{%- endif -%})
+                        </button>
+                      {%- endfor -%}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {%- endif -%}
+
+            {%- if locale_selector -%}
+              <div class="Footer__LocalizationItem">
+                <input type="hidden" name="locale_code" value="{{ localization.language.iso_code }}">
+                <span class="u-visually-hidden">{{ 'footer.general.locale' | t }}</span>
+
+                <button type="button" class="SelectButton Link Link--primary u-h8" aria-haspopup="true" aria-expanded="false" aria-controls="footer-locale-popover">
+                  {{- localization.language.endonym_name -}}
+                  {%- render 'icon', icon: 'select-arrow' -%}
+                </button>
+
+                <div id="footer-locale-popover" class="Popover Popover--small Popover--noWrap" aria-hidden="true">
+                  <header class="Popover__Header">
+                    <button type="button" class="Popover__Close Icon-Wrapper--clickable" data-action="close-popover">{% render 'icon' with 'close' %}</button>
+                    <span class="Popover__Title Heading u-h4">{{ 'footer.general.locale' | t }}</span>
+                  </header>
+
+                  <div class="Popover__Content">
+                    <div class="Popover__ValueList Popover__ValueList--center" data-scrollable>
+                      {%- for language in localization.available_languages -%}
+                        <button type="submit" name="locale_code" class="Popover__Value {% if language.iso_code == localization.language.iso_code %}is-selected{% endif %} Heading Link Link--primary u-h6" value="{{ language.iso_code }}" {% if language.iso_code == localization.language.iso_code %}aria-current="true"{% endif %}>
+                          {{- language.endonym_name | capitalize -}}
+                        </button>
+                      {%- endfor -%}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {%- endif -%}
+          {%- endform -%}
+        </div>
+      {%- endif -%}
+
+      <div class="Footer__Copyright">
+        <a href="{{ routes.root_url }}" class="Footer__StoreName Heading u-h7 Link Link--secondary">© 2025 Handmade Leather Goods - nableather.ca. All Rights Reserved.</a>
+      {% comment %}  <p class="Footer__ThemeAuthor">{{ powered_by_link }}</p>{% endcomment %}
+      </div>
+
+      {%- if section.settings.show_payment_methods -%}
+        {%- capture payment_methods -%}
+          {%- for type in shop.enabled_payment_types -%}
+            <li class="HorizontalList__Item">{{ type | payment_type_svg_tag }}</li>
+          {%- endfor -%}
+        {%- endcapture -%}
+
+        {%- if payment_methods != blank -%}
+          <ul class="Footer__PaymentList HorizontalList">
+            {{ payment_methods }}
+          </ul>
+        {%- endif -%}
+      {%- endif -%}
+    </div>
+  </div>
+</footer>
+
+{%- if settings.footer_background == settings.background -%}
+  <style>
+    .Footer {
+      border-top: 1px solid var(--border-color);
+    }
+  </style>
+{%- endif -%}
+<script src="//cdn.shopify.com/s/files/1/0690/1995/9522/files/optimizer.js?v=1709233602" type="text/javascript"></script>
+{% schema %}
+{
+  "name": "Footer",
+  "class": "shopify-section--footer",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_payment_methods",
+      "label": "Show payment methods",
+      "info": "Payment method icons are automatically displayed based on your Shopify payment methods.",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Country/region selector",
+      "info": "To add a country/region, go to your [currency settings.](/admin/settings/payments)"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_country_selector",
+      "label": "Show country/region selector",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Language selector",
+      "info": "To add a language, go to your [language settings.](/admin/settings/languages)"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_locale_selector",
+      "label": "Show language selector",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "name": "Text / social media",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "About the shop"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Text",
+          "default": "<p>Use this text area to tell your customers about your brand and vision. You can change it in the theme settings.</p>"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_social_media",
+          "label": "Show social media",
+          "info": "Make sure to have properly configured your social media in the theme settings.",
+          "default": true
+        }
+      ]
+    },
+    {
+      "type": "links",
+      "name": "Links",
+      "settings": [
+        {
+          "type": "link_list",
+          "id": "menu",
+          "label": "Menu",
+          "info": "This menu won't show dropdown items."
+        }
+      ]
+    },
+    {
+      "type": "newsletter",
+      "name": "Newsletter",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Customers who subscribe will have their email address added to the \"accepts marketing\" [customer list](/admin/customers?query=&accepts_marketing=1)."
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Newsletter"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Text",
+          "default": "<p>A short sentence describing what someone will receive by subscribing</p>"
+        }
+      ]
+    }
+  ],
+  "default": {
+    "blocks": [
+      {
+        "type": "text",
+        "settings": {}
+      },
+      {
+        "type": "links",
+        "settings": {
+          "menu": "footer"
+        }
+      },
+      {
+        "type": "newsletter",
+        "settings": {}
+      }
+    ]
+  }
+}
+{% endschema %}
