@@ -1,1 +1,169 @@
-{"sections":{"main":{"type":"main-product","blocks":{"product_meta":{"type":"product_meta","settings":{"show_vendor":true,"show_sku":false,"show_product_rating":false,"show_taxes_included":false}},"248761ef-195f-4af1-a06e-335455fc1da2":{"type":"shopify:\/\/apps\/loox-product-reviews-photos\/blocks\/loox-rating\/5c3b337f-fd14-4df5-b1d6-80ec13e6e28e","settings":{"contentSize":16,"pattern":"","hideText":false,"alignment":"","textColor":"","starColor":"","showAllReviews":false}},"share_buttons":{"type":"share_buttons","settings":{}},"variant_selector":{"type":"variant_selector","settings":{"selector_mode":"dropdown","show_color_swatch":false,"show_color_carousel":false,"size_chart":""}},"quantity_selector":{"type":"quantity_selector","settings":{"show_label":false}},"buy_buttons":{"type":"buy_buttons","settings":{"show_price_in_button":false,"show_payment_button":true}},"a8779f4e-2e8c-4670-9b9f-743b525d6793":{"type":"shopify:\/\/apps\/loox-product-reviews-photos\/blocks\/loox-dynamic-section\/5c3b337f-fd14-4df5-b1d6-80ec13e6e28e","settings":{"only_photos":false,"aggregated":false,"limit":3,"hide_thumbnails":false,"maxwidth":1080}},"description":{"type":"description","settings":{}}},"block_order":["product_meta","248761ef-195f-4af1-a06e-335455fc1da2","share_buttons","variant_selector","quantity_selector","buy_buttons","a8779f4e-2e8c-4670-9b9f-743b525d6793","description"],"settings":{"image_size":"fill","stack_images":false,"show_thumbnails":false,"enable_image_zoom":true,"enable_video_looping":false}},"ce2eb22b-eecc-47ea-9548-3d7c62aa05fd":{"type":"image-with-text-block","settings":{"image":"shopify:\/\/shop_images\/9-10oz_Full-Grain_Distressed_Leather_a3a96347-fe45-4a24-b0ca-c894ee94e3cd.jpg","background":"#ffffff","text_color":"#1c1b1b","block_size":"small","title":"","content":"","button_label":"","button_link":"","show_parallax":false}},"b4b9b046-9c97-4380-9172-71c22062e94a":{"type":"image-with-text-block","settings":{"image":"shopify:\/\/shop_images\/9-10oz_Full-Grain_Distressed_Leather_1.jpg","background":"#ffffff","text_color":"#1c1b1b","block_size":"small","title":"","content":"","button_label":"","button_link":"","show_parallax":false}},"loox-product-reviews-app-section":{"type":"apps","blocks":{"loox-product-reviews":{"type":"shopify:\/\/apps\/loox-product-reviews-photos\/blocks\/loox-dynamic-section\/5c3b337f-fd14-4df5-b1d6-80ec13e6e28e","settings":{"only_photos":false,"aggregated":false,"limit":20,"hide_thumbnails":false,"maxwidth":1080}}},"block_order":["loox-product-reviews"],"settings":{"include_margins":false}},"1680860199196bdbe5":{"type":"apps","blocks":{"1c52c6f4-5d32-4b0a-b275-e0b6e55a7b3c":{"type":"shopify:\/\/apps\/loox-product-reviews-photos\/blocks\/loox-dynamic-section\/5c3b337f-fd14-4df5-b1d6-80ec13e6e28e","settings":{"only_photos":false,"aggregated":false,"limit":8,"hide_thumbnails":false,"maxwidth":1080}}},"block_order":["1c52c6f4-5d32-4b0a-b275-e0b6e55a7b3c"],"settings":{"include_margins":true}},"product-recommendations":{"type":"product-recommendations","settings":{"heading":"You may also like","recommendations_count":4,"show_product_info":true,"show_vendor":false,"show_color_swatch":false}},"recently-viewed-products":{"type":"recently-viewed-products","settings":{"title":"Recently viewed","show_product_info":true,"show_vendor":false,"show_color_swatch":false}}},"order":["main","ce2eb22b-eecc-47ea-9548-3d7c62aa05fd","b4b9b046-9c97-4380-9172-71c22062e94a","loox-product-reviews-app-section","1680860199196bdbe5","product-recommendations","recently-viewed-products"]}
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "product_meta": {
+          "type": "product_meta",
+          "settings": {
+            "show_vendor": true,
+            "show_sku": false,
+            "show_product_rating": false,
+            "show_taxes_included": false
+          }
+        },
+        "248761ef-195f-4af1-a06e-335455fc1da2": {
+          "type": "shopify://apps/loox-product-reviews-photos/blocks/loox-rating/5c3b337f-fd14-4df5-b1d6-80ec13e6e28e",
+          "settings": {
+            "contentSize": 16,
+            "pattern": "",
+            "hideText": false,
+            "alignment": "",
+            "textColor": "",
+            "starColor": "",
+            "showAllReviews": false
+          }
+        },
+        "share_buttons": { "type": "share_buttons", "settings": {} },
+        "variant_selector": {
+          "type": "variant_selector",
+          "settings": {
+            "selector_mode": "dropdown",
+            "show_color_swatch": false,
+            "show_color_carousel": false,
+            "size_chart": ""
+          }
+        },
+        "quantity_selector": {
+          "type": "quantity_selector",
+          "settings": { "show_label": false }
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_price_in_button": false,
+            "show_payment_button": true
+          }
+        },
+        "a8779f4e-2e8c-4670-9b9f-743b525d6793": {
+          "type": "shopify://apps/loox-product-reviews-photos/blocks/loox-dynamic-section/5c3b337f-fd14-4df5-b1d6-80ec13e6e28e",
+          "settings": {
+            "only_photos": false,
+            "aggregated": false,
+            "limit": 3,
+            "hide_thumbnails": false,
+            "maxwidth": 1080
+          }
+        },
+        "description": { "type": "description", "settings": {} }
+      },
+      "block_order": [
+        "product_meta",
+        "248761ef-195f-4af1-a06e-335455fc1da2",
+        "share_buttons",
+        "variant_selector",
+        "quantity_selector",
+        "buy_buttons",
+        "a8779f4e-2e8c-4670-9b9f-743b525d6793",
+        "description"
+      ],
+      "settings": {
+        "image_size": "fill",
+        "stack_images": false,
+        "show_thumbnails": false,
+        "enable_image_zoom": true,
+        "enable_video_looping": false
+      }
+    },
+    "ce2eb22b-eecc-47ea-9548-3d7c62aa05fd": {
+      "type": "image-with-text-block",
+      "settings": {
+        "image": "shopify://shop_images/9-10oz_Full-Grain_Distressed_Leather_a3a96347-fe45-4a24-b0ca-c894ee94e3cd.jpg",
+        "background": "#ffffff",
+        "text_color": "#1c1b1b",
+        "block_size": "small",
+        "title": "",
+        "content": "",
+        "button_label": "",
+        "button_link": "",
+        "show_parallax": false
+      }
+    },
+    "b4b9b046-9c97-4380-9172-71c22062e94a": {
+      "type": "image-with-text-block",
+      "settings": {
+        "image": "shopify://shop_images/9-10oz_Full-Grain_Distressed_Leather_1.jpg",
+        "background": "#ffffff",
+        "text_color": "#1c1b1b",
+        "block_size": "small",
+        "title": "",
+        "content": "",
+        "button_label": "",
+        "button_link": "",
+        "show_parallax": false
+      }
+    },
+    "loox-product-reviews-app-section": {
+      "type": "apps",
+      "blocks": {
+        "loox-product-reviews": {
+          "type": "shopify://apps/loox-product-reviews-photos/blocks/loox-dynamic-section/5c3b337f-fd14-4df5-b1d6-80ec13e6e28e",
+          "settings": {
+            "only_photos": false,
+            "aggregated": false,
+            "limit": 20,
+            "hide_thumbnails": false,
+            "maxwidth": 1080
+          }
+        }
+      },
+      "block_order": ["loox-product-reviews"],
+      "settings": { "include_margins": false }
+    },
+    "1680860199196bdbe5": {
+      "type": "apps",
+      "blocks": {
+        "1c52c6f4-5d32-4b0a-b275-e0b6e55a7b3c": {
+          "type": "shopify://apps/loox-product-reviews-photos/blocks/loox-dynamic-section/5c3b337f-fd14-4df5-b1d6-80ec13e6e28e",
+          "settings": {
+            "only_photos": false,
+            "aggregated": false,
+            "limit": 8,
+            "hide_thumbnails": false,
+            "maxwidth": 1080
+          }
+        }
+      },
+      "block_order": ["1c52c6f4-5d32-4b0a-b275-e0b6e55a7b3c"],
+      "settings": { "include_margins": true }
+    },
+    "product-recommendations": {
+      "type": "product-recommendations",
+      "settings": {
+        "heading": "You may also like",
+        "recommendations_count": 4,
+        "show_product_info": true,
+        "show_vendor": false,
+        "show_color_swatch": false
+      }
+    },
+    "recently-viewed-products": {
+      "type": "recently-viewed-products",
+      "settings": {
+        "title": "Recently viewed",
+        "show_product_info": true,
+        "show_vendor": false,
+        "show_color_swatch": false
+      }
+    }
+  },
+  "order": [
+    "main",
+    "ce2eb22b-eecc-47ea-9548-3d7c62aa05fd",
+    "b4b9b046-9c97-4380-9172-71c22062e94a",
+    "loox-product-reviews-app-section",
+    "1680860199196bdbe5",
+    "product-recommendations",
+    "recently-viewed-products"
+  ]
+}

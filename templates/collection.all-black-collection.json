@@ -50,7 +50,7 @@
       }
     },
     "main": {
-      "type": "main-collection",
+      "type": "main-collection-customize",
       "settings": {
         "show_collection_info": true,
         "show_collection_image": false,

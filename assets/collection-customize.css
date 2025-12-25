@@ -1,0 +1,207 @@
+.collection {
+  padding: 0;
+  margin-left: 20px;
+}
+.menu-link {
+  margin-bottom: 20px;
+  margin-top: 20px;
+  display: flex;
+  list-style: none;
+  width: 100%;
+}
+.menu-link li {
+  position: relative;
+  padding: 10px 20px 10px 0px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 10px 0 0px;
+}
+.menu-link li:first-child::before {
+  display: none;
+  margin: 0;
+}
+.menu-link li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 6px;
+  width: 12px;
+  height: 15px;
+  transform: translate(-150%, 50%);
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 22' fill='none'%3E%3Cpath d='M11.8477 10.8477C5.85734 10.8477 1 5.99032 1 0' stroke='%2328201A' stroke-width='2' stroke-miterlimit='10'/%3E%3Cpath d='M1 21.6953C1 15.705 5.85734 10.8477 11.8477 10.8477' stroke='%2328201A' stroke-width='2' stroke-miterlimit='10'/%3E%3C/svg%3E");
+}
+
+.title-page {
+  font-size: 2rem;
+  font-weight: 800;
+}
+
+#description {
+  margin-top: 10px;
+  font-size: 1.3rem;
+}
+.collection-grid-container {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 40px;
+}
+.collection-grid {
+  margin: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+  /* z-index: 1000; */
+}
+.collection-grid-title {
+  font-size: 0.7rem;
+  font-weight: 600;
+  margin-top: 10px;
+}
+.collection-featured-image {
+  border-radius: 100px;
+  border: 2px solid #d1c1b8;
+}
+.collection-featured-image.active {
+  border: 2px solid #0069f0;
+  transition: all 0.6s ease;
+}
+.collection-grid-x-symbols {
+  display: none;
+}
+.collection-grid-x-symbols.active {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 25px;
+  height: 25px;
+  background-color: #0069f0;
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 800;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.6s ease;
+}
+/* products */
+.collection-products-section {
+  display: block;
+  position: relative;
+}
+.collection-banner-image {
+  position: absolute;
+  opacity: 0;
+}
+.collection-products-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 5px;
+  margin-top: 40px;
+}
+#productsArea {
+  display: contents;
+  transition: all 0.6s ease;
+}
+.banner-image {
+  border-radius: 20px;
+  width: 100%;
+  height: 60vh;
+  max-width: 500px;
+  max-height: 60vh;
+  object-fit: cover;
+  padding: 10px;
+}
+.collection-product-item {
+  margin: 10px;
+  display: block;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 15px;
+  border-radius: 10px;
+}
+.collection-product-image {
+  width: 100%;
+  margin-top: 15px;
+  border-radius: 5%;
+  transition: all 0.2s linear;
+}
+/* HOVER TO CHANGE IMAGE */
+.product-images-container {
+  position: relative;
+}
+.layer-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  background-color: rgba(0, 0, 0, 0.1);
+  display: flex;
+  border: 2px solid #d1c1b8;
+}
+.layer-for-hover {
+  z-index: 10;
+  height: 100%;
+  width: 100%;
+  border-right: 1px solid #000000;
+}
+.collection-product-item:hover .collection-product-image {
+  transform: scale(1.03);
+}
+.product-info {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 10px 10px 10px;
+  min-height: 60px;
+  height: max-content;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  width: 100%;
+}
+.collection-product-title {
+  font-size: 15px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+}
+.product-description {
+  font-size: 13px;
+  color: #313131;
+}
+/* HOVER product */
+.dot-container {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  margin-top: 20px;
+  gap: 6px;
+  overflow-x: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.dot-container::-webkit-scrollbar {
+  display: none;
+}
+.image-dot {
+  width: 60px;
+  height: 60px;
+  background-color: #d1c1b8;
+  border-radius: 7px;
+  display: inline-block;
+  cursor: pointer;
+  border: 2px solid white;
+}
+.image-dot.active {
+  border: 2px solid #0069f0;
+  transition: all 0.3s ease;
+}

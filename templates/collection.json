@@ -32,27 +32,9 @@
         "button_background": "#ffffff"
       }
     },
-    "custom_image_with_text_overlay_Gdaw4G": {
-      "type": "custom-image-with-text-overlay",
-      "name": "Custom image text overlay",
-      "settings": {
-        "image_height": "default-height",
-        "image": "shopify://shop_images/Untitled_design_95_-Photoroom_1_c3c4e194-db16-4b34-b220-3dcfbaee7f0b.jpg",
-        "mobile_image": "shopify://shop_images/BOGO_Fathers_9.jpg",
-        "text_color": "#ffffff",
-        "overlay_color": "#000000",
-        "overlay_opacity": 15,
-        "text_align_position": "center",
-        "text_align_position_mobile": "center",
-        "title": "",
-        "subheading": "",
-        "content": "",
-        "banner_button_label": "",
-        "banner_button_link": "#"
-      }
-    },
+
     "main": {
-      "type": "main-collection",
+      "type": "main-collection-customize",
       "settings": {
         "show_collection_info": true,
         "show_collection_image": false,
@@ -104,7 +86,6 @@
   },
   "order": [
     "c79510ec-9239-4df9-9fd2-4810f2bc69b5",
-    "custom_image_with_text_overlay_Gdaw4G",
     "main",
     "recently-viewed-products",
     "9fc439df-4ebe-42ba-a63f-58dadb589440"
