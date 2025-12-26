@@ -58,7 +58,6 @@
   align-items: center;
   position: relative;
   cursor: pointer;
-  /* z-index: 1000; */
 }
 .collection-grid-title {
   font-size: 0.7rem;
@@ -97,10 +96,6 @@
   display: block;
   position: relative;
 }
-.collection-banner-image {
-  position: absolute;
-  opacity: 0;
-}
 .collection-products-container {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -114,9 +109,7 @@
 .banner-image {
   border-radius: 20px;
   width: 100%;
-  height: 60vh;
-  max-width: 500px;
-  max-height: 60vh;
+  height: 100%;
   object-fit: cover;
   padding: 10px;
 }
@@ -124,18 +117,25 @@
   margin: 10px;
   display: block;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  padding: 15px;
+  padding: 0 0 15px 0;
   border-radius: 10px;
+  position: relative;
+  overflow: hidden;
 }
+/* Badge */
+
 .collection-product-image {
   width: 100%;
-  margin-top: 15px;
-  border-radius: 5%;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
   transition: all 0.2s linear;
+  z-index: 0;
 }
 /* HOVER TO CHANGE IMAGE */
 .product-images-container {
   position: relative;
+  z-index: 3;
+  overflow: hidden;
 }
 .layer-container {
   position: absolute;
@@ -144,29 +144,52 @@
   right: 0;
   bottom: 0;
   display: flex;
-  background-color: rgba(0, 0, 0, 0.1);
-  display: flex;
-  border: 2px solid #d1c1b8;
 }
 .layer-for-hover {
   z-index: 10;
   height: 100%;
   width: 100%;
-  border-right: 1px solid #000000;
 }
 .collection-product-item:hover .collection-product-image {
   transform: scale(1.03);
 }
+.product-badge-container {
+  display: flex;
+  gap: 10px;
+  position: absolute;
+  z-index: 100;
+  bottom: 4%;
+  left: 4%;
+}
+.product-badge-container div {
+  height: 30px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  border-radius: 15px;
+  justify-content: center;
+  font-size: 13px;
+}
+.discount-badge {
+  background-color: #bbe88b;
+}
+.new-badge {
+  background-color: #d1c1b8;
+}
 .product-info {
   display: flex;
   flex-direction: column;
-  padding: 10px 10px 10px 10px;
+  padding: 10px 10px 10px 15px;
   min-height: 60px;
   height: max-content;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
 }
 .collection-product-title {
   font-size: 15px;
@@ -179,15 +202,26 @@
   color: #313131;
 }
 /* HOVER product */
+.dots-and-arrows-container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+  position: relative;
+  z-index: 0;
+}
 .dot-container {
   display: flex;
   justify-content: start;
   align-items: center;
-  margin-top: 20px;
   gap: 6px;
   overflow-x: scroll;
   -ms-overflow-style: none;
   scrollbar-width: none;
+  margin-left: 10px;
+  margin-right: 10px;
+  z-index: 0;
+  scroll-behavior: smooth;
 }
 .dot-container::-webkit-scrollbar {
   display: none;
@@ -195,13 +229,60 @@
 .image-dot {
   width: 60px;
   height: 60px;
-  background-color: #d1c1b8;
   border-radius: 7px;
   display: inline-block;
   cursor: pointer;
-  border: 2px solid white;
+  border: 2px solid transparent;
 }
 .image-dot.active {
   border: 2px solid #0069f0;
   transition: all 0.3s ease;
+}
+/* Arrow buttons */
+.arrow-buttons-container {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 0;
+  cursor: pointer;
+}
+.arrow-btn {
+  color: #111;
+  cursor: pointer;
+  background-color: white;
+  margin-left: 10px;
+  margin-right: 10px;
+  display: none;
+  /* opacity: 0; */
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  padding: 6px;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+  z-index: 40;
+  transition: opacity 0.3s ease;
+  position: absolute;
+}
+.icon--back {
+  left: 0;
+}
+.icon--forward {
+  right: 0;
+}
+.arrow-btn.active {
+  /* opacity: 1; */
+  display: flex;
+}
+.arrow-btn:hover {
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.2);
+}
+.icon {
+  width: 20px;
+  height: 20px;
 }

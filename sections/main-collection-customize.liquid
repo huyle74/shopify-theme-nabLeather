@@ -1,109 +1,165 @@
 {% if template.name == 'collection' %}
-  {{ 'collection-customize.css' | asset_url | stylesheet_tag }}     
+  {{ 'collection-customize.css' | asset_url | stylesheet_tag }}
   <script src="{{ 'collection-customize.js' | asset_url }}" defer></script>
 {% endif %}
 
 <div class="collection">
-    {% comment %} MENU {% endcomment %}
-    <ul class="menu-link">
-        <li>
-            <a href="/">Home</a>
-        </li>
-        <li>
-            <a href={% if collection %}{{ collection.url }}{% endif %}>{{ collection.title }}</a>
-        </li>
-              {% comment %} <li>
-            <a href={% if collection %}{{ collection.url }}{% endif %}>{{ collection.products }}</a>
-        </li> {% endcomment %}
-        </ul>
+  {% comment %} MENU {% endcomment %}
+  <ul class="menu-link">
+    <li>
+      <a href="/">Home</a>
+    </li>
+    <li>
+      <a
+        href="{% if collection %}{{ collection.url }}{% endif %}"
+        id="collection-url"
+        data-url="{{ collection.url }}">{{ collection.title }}</a>
+    </li>
+  </ul>
 
-    {% comment %} TITLE  {% endcomment %}
-    <div class="title-page">
-        {{ collection.title }}
-    </div>
-    <div id="description">{{ collection.description }}</div>
+  {% comment %} TITLE  {% endcomment %}
+  <div class="title-page">
+    {{ collection.title }}
+  </div>
+  <div id="description">{{ collection.description }}</div>
 
-    {% comment %} collection {% endcomment %}
-     <div class="collection-grid-container">
-        {% for collection in collections limit: 10 %}
-            <div class="collection-grid" data-url="{{ collection.url }}">
-                {% if collection.featured_image and collection.all_products_count != 0 %}
-                    {{ collection.featured_image
-                        | image_url: width: 100, height: 100, crop: 'center'
-                        | image_tag:
-                        loading: 'lazy',
-                        alt: collection.title,
-                        class: 'collection-featured-image'
-                    }}
-                    <div class="collection-grid-title">
-                        {{collection.title}}
-                    </div>
-                    <div class="collection-grid-x-symbols">X</div>
-                {% endif %}
+  {% comment %} collection {% endcomment %}
+  <div class="collection-grid-container">
+    {% for collection in collections limit: 10 %}
+      <div class="collection-grid" data-url="{{ collection.url }}">
+        {% if collection.featured_image and collection.all_products_count != 0 %}
+          {{ collection.featured_image
+ | image_url: width: 100, height: 100, crop: 'center'
+ | image_tag:
+ loading: 'lazy',
+ alt: collection.title,
+ class: 'collection-featured-image'
+          }}
+          <div class="collection-grid-title">
+            {{ collection.title }}
+          </div>
+          <div class="collection-grid-x-symbols">X</div>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+  {% comment %} Products {% endcomment %}
+  <div class="collection-products-section">
+    <div class="collection-products-container">
+      {{ collection.featured_image
+ | image_url: width: 500, height: 500, crop: 'center'
+ | image_tag:
+ loading: 'eager',
+ alt: collection.title,
+ class: 'banner-image',
+ data-url: collection.featured_image
+      }}
+      <div id="productsArea">
+        {% for product in collection.products %}
+          <div class="collection-product-item">
+            <div class="product-info">
+              <div class="collection-product-title">
+                {{ product.title | truncate: 35 }}
+              </div>
+              <div class="product-description">
+                {{ product.description | strip_html | truncatewords: 7 }}
+              </div>
+              <div class="product-price">
+                {{ product.price | money_with_currency }}
+              </div>
             </div>
-        {% endfor %} 
-     </div>
-     {% comment %} Products {% endcomment %}
-      <div class="collection-products-section">
-        <div class="collection-products-container">
-                {{ collection.featured_image
-                | image_url: width: 230, height: 200, crop: 'center'
-                | image_tag:
-                    loading: 'eager',
-                    alt: collection.title,
-                    class: 'banner-image',
-                    data-url: collection.featured_image
-                }}   
-            <div id="productsArea">
-                {% for product in collection.products %}
-                    <div class="collection-product-item">
-                        <div class="product-info">
-                            <div class="collection-product-title">{{ product.title }}</div>
-                            <div class="product-description">{{ product.description }}</div>
-                            <div class="product-price">
-                                {{ product.price | money_with_currency }}
-                             </div>
-                        </div>
-                        <a href="{{ product.url }}">
-                            {% if product.featured_image %}
-                                <div class="product-images-container">
-                                    {{ product.featured_image
-                                        | image_url: width: 200, height: 200, crop: 'center'
-                                        | image_tag:
-                                        loading: 'lazy',
-                                        alt: product.title,
-                                        class: 'collection-product-image'
-                                    }}
-                                    <div class="layer-container">
-                                        {% for p in product.media %}
-                                            <div 
-                                            id="{{ p.id }}" 
-                                            class="layer-for-hover"
-                                            data-url="{{ p | image_url: width: 200, height: 200, crop: 'center' }}">
-                                            </div>
-                                        {% endfor %}
-                                    </div>
-                                </div>
-                            {% endif %}
-                        </a>
-                        <div class="dot-container">
-                            {% for p in product.media %}
-                                <img width="50" height="50" 
-                                src={{ p | image_url: width: 50, height: 50, crop: 'center' }} 
-                                alt="{{ p.alt }}" 
-                                class="image-dot" 
-                                id="{{ p.id }}"
-                                loading="eager"
-                                data-url="{{ p | image_url: width: 200, height: 200, crop: 'center' }}",
-                                data-id="{{ p.id }}">
-                            {% endfor %}
-                        </div>  
-                    </div>
+            <a href="{{ product.url }}">
+              {% if product.featured_image %}
+                <div class="product-images-container">
+                  {{ product.featured_image
+ | image_url: width: 500, height: 500, crop: 'center'
+ | image_tag:
+ loading: 'lazy',
+ alt: product.title,
+ class: 'collection-product-image'
+                  }}
+                  <div class="layer-container">
+                    {% for p in product.media %}
+                      <div
+                        id="{{ p.id }}"
+                        class="layer-for-hover"
+                        data-url="{{ p | image_url: width: 500, height: 500, crop: 'center' }}"></div>
+                    {% endfor %}
+                  </div>
+                  <div class="product-badge-container">
+                    {%- comment -%} SALE badge (variant-safe) {%- endcomment -%}
+                    {% assign on_sale = false %}
+                    {% if product.compare_at_price > product.price %}
+                      {% assign on_sale = true %}
+                      <div class="discount-badge">
+                        {% assign discount = product.compare_at_price | minus: product.price %}
+                        {% assign discount_percent = discount | times: 100 | divided_by: product.compare_at_price %}
+                        {{ discount_percent }}% OFF
+                      </div>
+                    {% endif %}
+                    {% if on_sale == false %}
+                      {% assign now_s = 'now' | date: '%s' %}
+                      {% assign pub_s = product.published_at | date: '%s' %}
+                      {% assign days = now_s | minus: pub_s | divided_by: 86400 %}
+                      {% if days <= 30 %}
+                        <div class="new-badge">New</div>
+                      {% endif %}
+                    {% endif %}
+                  </div>
+
+                </div>
+              {% endif %}
+            </a>
+            <div class="dots-and-arrows-container">
+              <div class="dot-container">
+                {% for p in product.media %}
+                  <img
+                    width="50"
+                    height="50"
+                    src={{ p | image_url: width: 200, height: 200, crop: 'center' }}
+                    alt="{{ p.alt }}"
+                    class="image-dot"
+                    id="{{ p.id }}"
+                    loading="eager"
+                    data-url="{{ p | image_url: width: 500, height: 500, crop: 'center' }}"
+                    ,
+                    data-id="{{ p.id }}">
                 {% endfor %}
+              </div>
+              <div class="arrow-buttons-container">
+                <button class="arrow-btn icon--back" aria-label="Previous">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="size-6">
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M6.75 15.75 3 12m0 0 3.75-3.75M3 12h18" />
+                  </svg>
+                </button>
+                <button class="arrow-btn icon--forward" aria-label="Next">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    class="size-6">
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M17.25 8.25L21 12M21 12l-3.75 3.75M21 12H3" />
+                  </svg>
+                </button>
+              </div>
             </div>
-        </div>
+          </div>
+        {% endfor %}
       </div>
     </div>
-
-  
-
+  </div>
+</div>
