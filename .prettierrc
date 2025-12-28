@@ -1,8 +1,6 @@
 {
-  "plugins": [
-    "@shopify/prettier-plugin-liquid"
-  ],
-  "printWidth": 120,
+  "plugins": ["@shopify/prettier-plugin-liquid"],
+  "printWidth": 100,
   "tabWidth": 2,
   "useTabs": false,
   "singleQuote": false,
