@@ -1,1 +1,555 @@
-{"current":{"heading_color":"#1c1b1b","text_color":"#1c1b1b","text_light_color":"#6a6a6a","link_color":"#6a6a6a","background":"#ffffff","light_background":"#ffffff","product_on_sale_color":"#f94c43","button_background":"#1c1b1b","button_text_color":"#ffffff","header_background":"#ffffff","header_heading_color":"#1c1b1b","header_light_color":"#6a6a6a","footer_background":"#ffffff","footer_heading_color":"#1c1b1b","footer_text_color":"#6a6a6a","navigation_background":"#1c1b1b","navigation_text_color":"#ffffff","newsletter_popup_background":"#1c1b1b","newsletter_popup_text_color":"#ffffff","secondary_elements_background":"#1c1b1b","secondary_elements_text_color":"#ffffff","header_phone":"9057571084","company_email":"sales@nableather.com","company_address":"134 Romina Dr, Concord, ON, L4K 4Z7, Canada.","heading_font":"montserrat_n5","heading_size":"normal","uppercase_heading":true,"text_font":"nunito_sans_n4","base_text_font_size":16,"currency_code_enabled":true,"annouce_sticky":true,"show_page_transition":false,"search_mode":"product,article","product_show_price_on_hover":false,"product_show_secondary_image":true,"product_info_alignment":"center","product_image_size":"natural","product_list_horizontal_spacing":"medium","product_list_vertical_spacing":"small","cart_type":"drawer","cart_enable_notes":true,"cart_show_free_shipping_threshold":false,"cart_free_shipping_threshold":"100","social_facebook":"https:\/\/www.facebook.com\/nableather","social_instagram":"https:\/\/instagram.com\/nableatherhq","favicon":"shopify:\/\/shop_images\/android-chrome-192x192.png","checkout_logo_position":"center","checkout_logo_size":"small","checkout_body_background_color":"#ffffff","checkout_input_background_color_mode":"white","checkout_sidebar_background_color":"#efefef","checkout_accent_color":"#1c1b1b","checkout_button_color":"#1c1b1b","sections":{"sidebar-menu":{"type":"sidebar-menu","settings":{"primary_menu":"main-menu","secondary_menu":"","show_social_media":true}},"announcement":{"type":"announcement","settings":{"enable_bar":true,"home_page_only":false,"background":"#b70f0f","text_color":"#ffffff","content":"HOLIDAY SALE. BUY 1 GET 1 FREE ON LEATHER BELTS  • 30% OFF Everything Else","link":"shopify:\/\/collections\/mens-full-grain-leather-belts"}},"header":{"type":"header","settings":{"use_sticky_header":true,"logo_max_width":140,"mobile_logo_max_width":90,"show_country_selector":false,"show_locale_selector":true,"navigation_menu":"main-menu","navigation_style":"center","show_icons":false,"enable_transparent_header":false,"enable_transparent_header_collection":false,"show_transparent_header_border":true,"transparent_text_color":"#ffffff"}},"footer":{"type":"footer","blocks":{"footer-2":{"type":"newsletter","settings":{"title":"STAY CONNECTED","content":"<p>SUBSCRIBE TO OUR NEWSLETTER AND RECEIVE 10% OFF YOUR NEXT ORDER<\/p>"}},"footer-1":{"type":"links","settings":{"menu":"products"}},"94997a50-6e1a-40b4-b540-fad574dad295":{"type":"links","settings":{"menu":"support"}},"4294c3e0-716a-46d9-a330-87bb59a54a31":{"type":"links","settings":{"menu":"about-us"}}},"block_order":["footer-2","footer-1","94997a50-6e1a-40b4-b540-fad574dad295","4294c3e0-716a-46d9-a330-87bb59a54a31"],"settings":{"show_payment_methods":true,"show_country_selector":true,"show_locale_selector":true}},"popup":{"type":"popup","settings":{"show_popup":false,"show_only_on_index":true,"show_only_for_visitors":true,"show_only_once":true,"title":"Popup","content":"<p>You can use this popup to display some useful information to your customers.<\/p>","show_newsletter":true,"apparition_delay":5}},"home-faq":{"type":"home-faq","blocks":{"2cfb63eb-0f35-4d6c-96b2-acaacfa6731c":{"type":"question","settings":{"title":"What is RFID?","answer":"<p>RFID is the use of radio waves between devices to transfer data that credit cards, payment cards, and driver's licenses all use. Personal information on these cards is vulnerable to theft by pickpockets using RFID scanners unless you have the special linings provided by a RFID blocking wallets.<\/p>"}},"ec8389e4-a08e-4c6a-a2a9-3f11670a37eb":{"type":"question","settings":{"title":"What are the shipping fees?","answer":"<p>Our shipping is set at a flat rate of $4.99 for orders under $50.00. For orders above $50.00 shipping is free. For more information, visit our<a href=\"https:\/\/nableather.com\/pages\/shipping-and-delivery\">Shipping and Delivery <\/a>page<\/p>"}},"7c7fdaa8-2cef-414f-8575-d7b6f48911c5":{"type":"question","settings":{"title":"What is my size?","answer":"<p>Please refer to our <a href=\"https:\/\/nableather.com\/pages\/sizing\">size chart<\/a>.<\/p>"}},"fe72379e-257a-452c-a31f-7173e8bb259c":{"type":"question","settings":{"title":"What if I want a different color or size?","answer":"<p>If you require a different size or would like to request a different color, please do not hesitate to contact us at nableatherco@gmail.com<\/p>"}}},"block_order":["2cfb63eb-0f35-4d6c-96b2-acaacfa6731c","ec8389e4-a08e-4c6a-a2a9-3f11670a37eb","7c7fdaa8-2cef-414f-8575-d7b6f48911c5","fe72379e-257a-452c-a31f-7173e8bb259c"],"custom_css":["[data-section-id=\"home-faq\"] {box-shadow: -4px 18px 30px -3px #0000000a inset; padding: 10px 0;}"],"settings":{"heading":"FAQs"}},"inner-banner":{"type":"inner-banner","settings":{"inner-bnr-img_banner":"shopify:\/\/shop_images\/Copy_of_Copy_of.jpg","inner-bnr-small-title":"Built For The Long Haul","inner-bnr-main-title":"CRAFTED TO LAST.","inner-bnr-button-title":"Learn More","inner-bnr-button-link":"https:\/\/nableather.com\/pages\/our-guarantee"}}},"content_for_index":[],"blocks":{"855628211100114053":{"type":"shopify:\/\/apps\/klaviyo-email-marketing-sms\/blocks\/klaviyo-onsite-embed\/2632fe16-c075-4321-a88b-50b567f42507","disabled":false,"settings":{}},"10312807297210203588":{"type":"shopify:\/\/apps\/aftersell-post-purchase-upsell\/blocks\/utm-triggers\/509ec35d-0632-4dfc-a105-fa799cd9d149","disabled":false,"settings":{}},"3720565183479497137":{"type":"shopify:\/\/apps\/globo-product-option\/blocks\/app-embed-block\/fdc9fad5-1a0f-4bd4-9c8a-1af6a6eef6b8","disabled":false,"settings":{}},"10605408327587305396":{"type":"shopify:\/\/apps\/eg-auto-add-to-cart\/blocks\/app-embed\/0f7d4f74-1e89-4820-aec4-6564d7e535d2","disabled":false,"settings":{"version":"v3"}},"12608439564960700138":{"type":"shopify:\/\/apps\/sezzle-widget\/blocks\/widget-embed\/f3a53793-e118-4764-a86b-a79bfedb0d5f","disabled":false,"settings":{"heading":"Sezzle Widget","font_size":13,"font_family":"inherit"}},"11468047240823483236":{"type":"shopify:\/\/apps\/sezzle-widget\/blocks\/checkout-embed\/f3a53793-e118-4764-a86b-a79bfedb0d5f","disabled":false,"settings":{"heading":"Sezzle Checkout Button","template":"Checkout with %%logo%%","mode":"light","padding":9,"marginTop":0,"marginRight":0,"marginBottom":0,"marginLeft":0,"width":"auto"}},"2252580038951615382":{"type":"shopify:\/\/apps\/prodvid\/blocks\/app-embed-block\/9b4094ac-d3db-4da2-9d01-8b1d5a0c746a","disabled":false,"settings":{}},"2858414731233960599":{"type":"shopify:\/\/apps\/deco-product-labels-badges\/blocks\/main\/fd2caeda-48fd-4076-b5f9-8dfada7253f1","disabled":false,"settings":{}},"10864971697205422121":{"type":"shopify:\/\/apps\/gorgias-live-chat-helpdesk\/blocks\/gorgias\/a66db725-7b96-4e3f-916e-6c8e6f87aaaa","disabled":false,"settings":{}},"18228966181090706294":{"type":"shopify:\/\/apps\/selleasy\/blocks\/app-embed\/790c1a03-a71f-4bc1-9869-00dad526d3c2","disabled":false,"settings":{"storefrontAccessToken":"7be87dd4497d243a03ce9d9bb3757d60"}},"14952540001915115444":{"type":"shopify:\/\/apps\/upcart-cart-drawer\/blocks\/app-embed\/af3da5fb-f5f7-40ec-8273-41bf50059d4b","disabled":false,"settings":{}},"10840395464443086010":{"type":"shopify:\/\/apps\/alia\/blocks\/customer-app-frame\/51f1d398-3e41-44da-b81e-defd5804b292","disabled":false,"settings":{}},"4173391341582057001":{"type":"shopify:\/\/apps\/restore-ai\/blocks\/custom_events\/0199a734-39c8-7ba5-ad02-985b2156bd53","disabled":false,"settings":{}}}},"presets":{"Allure":{"heading_color":"#1c1b1b","text_color":"#1c1b1b","text_light_color":"#6a6a6a","link_color":"#6a6a6a","background":"#efefef","light_background":"#ffffff","product_on_sale_color":"#f94c43","button_background":"#1c1b1b","button_text_color":"#ffffff","header_background":"#ffffff","header_heading_color":"#1c1b1b","header_light_color":"#6a6a6a","footer_background":"#ffffff","footer_heading_color":"#1c1b1b","footer_text_color":"#6a6a6a","newsletter_popup_background":"#1c1b1b","newsletter_popup_text_color":"#ffffff","secondary_elements_background":"#1c1b1b","secondary_elements_text_color":"#ffffff","navigation_background":"#1c1b1b","navigation_text_color":"#ffffff","heading_font":"montserrat_n5","heading_size":"small","uppercase_heading":true,"text_font":"nunito_sans_n4","base_text_font_size":14,"show_page_transition":false,"search_mode":"product,article","product_show_price_on_hover":false,"product_show_secondary_image":false,"product_info_alignment":"center","product_image_size":"natural","product_list_horizontal_spacing":"medium","product_list_vertical_spacing":"small","cart_type":"drawer","cart_enable_notes":true,"cart_show_free_shipping_threshold":false,"cart_free_shipping_threshold":"50","checkout_logo_position":"center","checkout_logo_size":"small","checkout_body_background_color":"#ffffff","checkout_input_background_color_mode":"white","checkout_sidebar_background_color":"#efefef","checkout_accent_color":"#1c1b1b","checkout_button_color":"#1c1b1b","sections":{"sidebar-menu":{"type":"sidebar-menu","settings":{"primary_menu":"main-menu","show_social_media":true}},"announcement":{"type":"announcement","settings":{"background":"#000000","text_color":"#ffffff","content":"Announce something here"}},"header":{"type":"header","settings":{"use_sticky_header":true,"logo_max_width":140,"navigation_menu":"main-menu","navigation_style":"inline","enable_transparent_header":true,"transparent_text_color":"#ffffff"}},"footer":{"type":"footer","blocks":{"footer-0":{"type":"text","settings":{"title":"About the shop","content":"<p>Use this text area to tell your customers about your brand and vision. You can change it in the theme settings.<\/p>","show_social_media":true}},"footer-1":{"type":"links","settings":{"menu":"footer"}},"footer-2":{"type":"newsletter","settings":{"title":"Newsletter","content":"<p>Subscribe to receive updates, access to exclusive deals, and more.<\/p>"}}},"block_order":["footer-0","footer-1","footer-2"],"settings":{"show_payment_methods":true}}}},"Couture":{"heading_color":"#5c5c5c","text_color":"#5c5c5c","text_light_color":"#939393","link_color":"#323232","background":"#ffffff","light_background":"#ffffff","product_on_sale_color":"#f94c43","button_background":"#5c5c5c","button_text_color":"#ffffff","header_background":"#ffffff","header_heading_color":"#5c5c5c","header_light_color":"#939393","footer_background":"#ffffff","footer_heading_color":"#5c5c5c","footer_text_color":"#939393","newsletter_popup_background":"#ffffff","newsletter_popup_text_color":"#1c1b1b","secondary_elements_background":"#5c5c5c","secondary_elements_text_color":"#ffffff","navigation_background":"#ffffff","navigation_text_color":"#5c5c5c","heading_font":"futura_n4","heading_size":"large","uppercase_heading":false,"text_font":"century_gothic_n4","base_text_font_size":15,"show_page_transition":false,"search_mode":"product,article","product_show_price_on_hover":true,"product_show_secondary_image":false,"product_info_alignment":"left","product_image_size":"natural","product_list_horizontal_spacing":"small","product_list_vertical_spacing":"small","cart_type":"drawer","cart_enable_notes":true,"cart_show_free_shipping_threshold":false,"cart_free_shipping_threshold":"50","checkout_logo_position":"center","checkout_logo_size":"small","checkout_body_background_color":"#fff","checkout_input_background_color_mode":"white","checkout_sidebar_background_color":"#fafafa","checkout_accent_color":"#323232","checkout_button_color":"#5c5c5c","sections":{"sidebar-menu":{"type":"sidebar-menu","settings":{"primary_menu":"main-menu","show_social_media":true}},"announcement":{"type":"announcement","settings":{"background":"#f3f3f3","text_color":"#5c5c5c","content":"Announce something here"}},"header":{"type":"header","settings":{"use_sticky_header":true,"logo_max_width":140,"navigation_menu":"main-menu","navigation_style":"center","enable_transparent_header":true,"transparent_text_color":"#ffffff"}},"footer":{"type":"footer","blocks":{"footer-0":{"type":"text","settings":{"title":"About the shop","content":"<p>Use this text area to tell your customers about your brand and vision. You can change it in the theme settings.<\/p>","show_social_media":true}},"footer-1":{"type":"links","settings":{"menu":"footer"}},"footer-2":{"type":"newsletter","settings":{"title":"Newsletter","content":"<p>Subscribe to receive updates, access to exclusive deals, and more.<\/p>"}}},"block_order":["footer-0","footer-1","footer-2"],"settings":{"show_payment_methods":true}}}},"Vogue":{"heading_color":"#303030","text_color":"#303030","text_light_color":"#595959","link_color":"#000000","background":"#ffffff","light_background":"#ffffff","product_on_sale_color":"#f94c43","button_background":"#f5db8b","button_text_color":"#303030","header_background":"#ffffff","header_heading_color":"#303030","header_light_color":"#595959","footer_background":"#ffffff","footer_heading_color":"#303030","footer_text_color":"#595959","navigation_background":"#ffffff","navigation_text_color":"#303030","newsletter_popup_background":"#ffffff","newsletter_popup_text_color":"#303030","secondary_elements_background":"#fce7a8","secondary_elements_text_color":"#303030","heading_font":"din_neuzeit_grotesk_n3","heading_size":"small","uppercase_heading":true,"text_font":"futura_n4","base_text_font_size":14,"show_page_transition":false,"show_element_staggering":false,"search_mode":"product,article","product_show_price_on_hover":true,"product_show_secondary_image":false,"product_info_alignment":"center","product_image_size":"natural","product_list_horizontal_spacing":"medium","product_list_vertical_spacing":"small","cart_type":"drawer","cart_enable_notes":true,"cart_show_free_shipping_threshold":false,"cart_free_shipping_threshold":"50","checkout_logo_position":"left","checkout_logo_size":"medium","checkout_body_background_color":"#fff","checkout_input_background_color_mode":"white","checkout_sidebar_background_color":"#fafafa","checkout_accent_color":"#a17c5e","checkout_button_color":"#454545","sections":{"sidebar-menu":{"type":"sidebar-menu","settings":{"primary_menu":"main-menu","show_social_media":true}},"announcement":{"type":"announcement","settings":{"background":"#f1e4d8","text_color":"#343434","content":"Announce something here"}},"header":{"type":"header","settings":{"use_sticky_header":true,"logo_max_width":140,"navigation_menu":"main-menu","navigation_style":"inline","enable_transparent_header":true,"transparent_text_color":"#ffffff"}},"footer":{"type":"footer","blocks":{"footer-0":{"type":"text","settings":{"title":"About the shop","content":"<p>Use this text area to tell your customers about your brand and vision. You can change it in the theme settings.<\/p>","show_social_media":true}},"footer-1":{"type":"links","settings":{"menu":"footer"}},"footer-2":{"type":"newsletter","settings":{"title":"Newsletter","content":"<p>Subscribe to receive updates, access to exclusive deals, and more.<\/p>"}}},"block_order":["footer-0","footer-1","footer-2"],"settings":{"show_payment_methods":true}}}}}}
+{
+  "current": {
+    "heading_color": "#1c1b1b",
+    "text_color": "#1c1b1b",
+    "text_light_color": "#6a6a6a",
+    "link_color": "#6a6a6a",
+    "background": "#ffffff",
+    "light_background": "#ffffff",
+    "product_on_sale_color": "#f94c43",
+    "button_background": "#1c1b1b",
+    "button_text_color": "#ffffff",
+    "header_background": "#ffffff",
+    "header_heading_color": "#1c1b1b",
+    "header_light_color": "#6a6a6a",
+    "footer_background": "#ffffff",
+    "footer_heading_color": "#1c1b1b",
+    "footer_text_color": "#6a6a6a",
+    "navigation_background": "#1c1b1b",
+    "navigation_text_color": "#ffffff",
+    "newsletter_popup_background": "#1c1b1b",
+    "newsletter_popup_text_color": "#ffffff",
+    "secondary_elements_background": "#1c1b1b",
+    "secondary_elements_text_color": "#ffffff",
+    "header_phone": "9057571084",
+    "company_email": "sales@nableather.com",
+    "company_address": "134 Romina Dr, Concord, ON, L4K 4Z7, Canada.",
+    "heading_font": "montserrat_n5",
+    "heading_size": "normal",
+    "uppercase_heading": true,
+    "text_font": "nunito_sans_n4",
+    "base_text_font_size": 16,
+    "currency_code_enabled": true,
+    "annouce_sticky": true,
+    "show_page_transition": false,
+    "search_mode": "product,article",
+    "product_show_price_on_hover": false,
+    "product_show_secondary_image": true,
+    "product_info_alignment": "center",
+    "product_image_size": "natural",
+    "product_list_horizontal_spacing": "medium",
+    "product_list_vertical_spacing": "small",
+    "cart_type": "drawer",
+    "cart_enable_notes": true,
+    "cart_show_free_shipping_threshold": false,
+    "cart_free_shipping_threshold": "100",
+    "social_facebook": "https:\/\/www.facebook.com\/nableather",
+    "social_instagram": "https:\/\/instagram.com\/nableatherhq",
+    "favicon": "shopify:\/\/shop_images\/android-chrome-192x192.png",
+    "checkout_logo_position": "center",
+    "checkout_logo_size": "small",
+    "checkout_body_background_color": "#ffffff",
+    "checkout_input_background_color_mode": "white",
+    "checkout_sidebar_background_color": "#efefef",
+    "checkout_accent_color": "#1c1b1b",
+    "checkout_button_color": "#1c1b1b",
+    "sections": {
+      "sidebar-menu": {
+        "type": "sidebar-menu",
+        "settings": { "primary_menu": "main-menu", "secondary_menu": "", "show_social_media": true }
+      },
+      "announcement": {
+        "type": "announcement",
+        "settings": {
+          "enable_bar": true,
+          "home_page_only": false,
+          "background": "#b70f0f",
+          "text_color": "#ffffff",
+          "content": "HOLIDAY SALE. BUY 1 GET 1 FREE ON LEATHER BELTS  • 30% OFF Everything Else",
+          "link": "shopify:\/\/collections\/mens-full-grain-leather-belts"
+        }
+      },
+      "header": {
+        "type": "header",
+        "settings": {
+          "use_sticky_header": true,
+          "logo_max_width": 140,
+          "mobile_logo_max_width": 90,
+          "show_country_selector": false,
+          "show_locale_selector": true,
+          "navigation_menu": "main-menu",
+          "navigation_style": "center",
+          "show_icons": false,
+          "enable_transparent_header": false,
+          "enable_transparent_header_collection": false,
+          "show_transparent_header_border": true,
+          "transparent_text_color": "#ffffff"
+        }
+      },
+      "footer": {
+        "type": "footer",
+        "blocks": {
+          "footer-2": {
+            "type": "newsletter",
+            "settings": {
+              "title": "STAY CONNECTED",
+              "content": "<p>SUBSCRIBE TO OUR NEWSLETTER AND RECEIVE 10% OFF YOUR NEXT ORDER<\/p>"
+            }
+          },
+          "footer-1": { "type": "links", "settings": { "menu": "products" } },
+          "94997a50-6e1a-40b4-b540-fad574dad295": {
+            "type": "links",
+            "settings": { "menu": "support" }
+          },
+          "4294c3e0-716a-46d9-a330-87bb59a54a31": {
+            "type": "links",
+            "settings": { "menu": "about-us" }
+          }
+        },
+        "block_order": [
+          "footer-2",
+          "footer-1",
+          "94997a50-6e1a-40b4-b540-fad574dad295",
+          "4294c3e0-716a-46d9-a330-87bb59a54a31"
+        ],
+        "settings": {
+          "show_payment_methods": true,
+          "show_country_selector": true,
+          "show_locale_selector": true
+        }
+      },
+      "popup": {
+        "type": "popup",
+        "settings": {
+          "show_popup": false,
+          "show_only_on_index": true,
+          "show_only_for_visitors": true,
+          "show_only_once": true,
+          "title": "Popup",
+          "content": "<p>You can use this popup to display some useful information to your customers.<\/p>",
+          "show_newsletter": true,
+          "apparition_delay": 5
+        }
+      },
+      "home-faq": {
+        "type": "home-faq",
+        "blocks": {
+          "2cfb63eb-0f35-4d6c-96b2-acaacfa6731c": {
+            "type": "question",
+            "settings": {
+              "title": "What is RFID?",
+              "answer": "<p>RFID is the use of radio waves between devices to transfer data that credit cards, payment cards, and driver's licenses all use. Personal information on these cards is vulnerable to theft by pickpockets using RFID scanners unless you have the special linings provided by a RFID blocking wallets.<\/p>"
+            }
+          },
+          "ec8389e4-a08e-4c6a-a2a9-3f11670a37eb": {
+            "type": "question",
+            "settings": {
+              "title": "What are the shipping fees?",
+              "answer": "<p>Our shipping is set at a flat rate of $4.99 for orders under $50.00. For orders above $50.00 shipping is free. For more information, visit our<a href=\"https:\/\/nableather.com\/pages\/shipping-and-delivery\">Shipping and Delivery <\/a>page<\/p>"
+            }
+          },
+          "7c7fdaa8-2cef-414f-8575-d7b6f48911c5": {
+            "type": "question",
+            "settings": {
+              "title": "What is my size?",
+              "answer": "<p>Please refer to our <a href=\"https:\/\/nableather.com\/pages\/sizing\">size chart<\/a>.<\/p>"
+            }
+          },
+          "fe72379e-257a-452c-a31f-7173e8bb259c": {
+            "type": "question",
+            "settings": {
+              "title": "What if I want a different color or size?",
+              "answer": "<p>If you require a different size or would like to request a different color, please do not hesitate to contact us at nableatherco@gmail.com<\/p>"
+            }
+          }
+        },
+        "block_order": [
+          "2cfb63eb-0f35-4d6c-96b2-acaacfa6731c",
+          "ec8389e4-a08e-4c6a-a2a9-3f11670a37eb",
+          "7c7fdaa8-2cef-414f-8575-d7b6f48911c5",
+          "fe72379e-257a-452c-a31f-7173e8bb259c"
+        ],
+        "custom_css": [
+          "[data-section-id=\"home-faq\"] {box-shadow: -4px 18px 30px -3px #0000000a inset; padding: 10px 0;}"
+        ],
+        "settings": { "heading": "FAQs" }
+      },
+      "inner-banner": {
+        "type": "inner-banner",
+        "settings": {
+          "inner-bnr-img_banner": "shopify:\/\/shop_images\/Copy_of_Copy_of.jpg",
+          "inner-bnr-small-title": "Built For The Long Haul",
+          "inner-bnr-main-title": "CRAFTED TO LAST.",
+          "inner-bnr-button-title": "Learn More",
+          "inner-bnr-button-link": "https:\/\/nableather.com\/pages\/our-guarantee"
+        }
+      }
+    },
+    "content_for_index": [],
+    "blocks": {
+      "855628211100114053": {
+        "type": "shopify:\/\/apps\/klaviyo-email-marketing-sms\/blocks\/klaviyo-onsite-embed\/2632fe16-c075-4321-a88b-50b567f42507",
+        "disabled": false,
+        "settings": {}
+      },
+      "10312807297210203588": {
+        "type": "shopify:\/\/apps\/aftersell-post-purchase-upsell\/blocks\/utm-triggers\/509ec35d-0632-4dfc-a105-fa799cd9d149",
+        "disabled": false,
+        "settings": {}
+      },
+      "3720565183479497137": {
+        "type": "shopify:\/\/apps\/globo-product-option\/blocks\/app-embed-block\/fdc9fad5-1a0f-4bd4-9c8a-1af6a6eef6b8",
+        "disabled": false,
+        "settings": {}
+      },
+      "10605408327587305396": {
+        "type": "shopify:\/\/apps\/eg-auto-add-to-cart\/blocks\/app-embed\/0f7d4f74-1e89-4820-aec4-6564d7e535d2",
+        "disabled": false,
+        "settings": { "version": "v3" }
+      },
+      "12608439564960700138": {
+        "type": "shopify:\/\/apps\/sezzle-widget\/blocks\/widget-embed\/f3a53793-e118-4764-a86b-a79bfedb0d5f",
+        "disabled": false,
+        "settings": { "heading": "Sezzle Widget", "font_size": 13, "font_family": "inherit" }
+      },
+      "11468047240823483236": {
+        "type": "shopify:\/\/apps\/sezzle-widget\/blocks\/checkout-embed\/f3a53793-e118-4764-a86b-a79bfedb0d5f",
+        "disabled": false,
+        "settings": {
+          "heading": "Sezzle Checkout Button",
+          "template": "Checkout with %%logo%%",
+          "mode": "light",
+          "padding": 9,
+          "marginTop": 0,
+          "marginRight": 0,
+          "marginBottom": 0,
+          "marginLeft": 0,
+          "width": "auto"
+        }
+      },
+      "2252580038951615382": {
+        "type": "shopify:\/\/apps\/prodvid\/blocks\/app-embed-block\/9b4094ac-d3db-4da2-9d01-8b1d5a0c746a",
+        "disabled": false,
+        "settings": {}
+      },
+      "2858414731233960599": {
+        "type": "shopify:\/\/apps\/deco-product-labels-badges\/blocks\/main\/fd2caeda-48fd-4076-b5f9-8dfada7253f1",
+        "disabled": false,
+        "settings": {}
+      },
+      "10864971697205422121": {
+        "type": "shopify:\/\/apps\/gorgias-live-chat-helpdesk\/blocks\/gorgias\/a66db725-7b96-4e3f-916e-6c8e6f87aaaa",
+        "disabled": false,
+        "settings": {}
+      },
+      "18228966181090706294": {
+        "type": "shopify:\/\/apps\/selleasy\/blocks\/app-embed\/790c1a03-a71f-4bc1-9869-00dad526d3c2",
+        "disabled": false,
+        "settings": { "storefrontAccessToken": "7be87dd4497d243a03ce9d9bb3757d60" }
+      },
+      "14952540001915115444": {
+        "type": "shopify:\/\/apps\/upcart-cart-drawer\/blocks\/app-embed\/af3da5fb-f5f7-40ec-8273-41bf50059d4b",
+        "disabled": false,
+        "settings": {}
+      },
+      "10840395464443086010": {
+        "type": "shopify:\/\/apps\/alia\/blocks\/customer-app-frame\/51f1d398-3e41-44da-b81e-defd5804b292",
+        "disabled": false,
+        "settings": {}
+      },
+      "4173391341582057001": {
+        "type": "shopify:\/\/apps\/restore-ai\/blocks\/custom_events\/0199a734-39c8-7ba5-ad02-985b2156bd53",
+        "disabled": false,
+        "settings": {}
+      }
+    }
+  },
+  "presets": {
+    "Allure": {
+      "heading_color": "#1c1b1b",
+      "text_color": "#1c1b1b",
+      "text_light_color": "#6a6a6a",
+      "link_color": "#6a6a6a",
+      "background": "#efefef",
+      "light_background": "#ffffff",
+      "product_on_sale_color": "#f94c43",
+      "button_background": "#1c1b1b",
+      "button_text_color": "#ffffff",
+      "header_background": "#ffffff",
+      "header_heading_color": "#1c1b1b",
+      "header_light_color": "#6a6a6a",
+      "footer_background": "#ffffff",
+      "footer_heading_color": "#1c1b1b",
+      "footer_text_color": "#6a6a6a",
+      "newsletter_popup_background": "#1c1b1b",
+      "newsletter_popup_text_color": "#ffffff",
+      "secondary_elements_background": "#1c1b1b",
+      "secondary_elements_text_color": "#ffffff",
+      "navigation_background": "#1c1b1b",
+      "navigation_text_color": "#ffffff",
+      "heading_font": "montserrat_n5",
+      "heading_size": "small",
+      "uppercase_heading": true,
+      "text_font": "nunito_sans_n4",
+      "base_text_font_size": 14,
+      "show_page_transition": false,
+      "search_mode": "product,article",
+      "product_show_price_on_hover": false,
+      "product_show_secondary_image": false,
+      "product_info_alignment": "center",
+      "product_image_size": "natural",
+      "product_list_horizontal_spacing": "medium",
+      "product_list_vertical_spacing": "small",
+      "cart_type": "drawer",
+      "cart_enable_notes": true,
+      "cart_show_free_shipping_threshold": false,
+      "cart_free_shipping_threshold": "50",
+      "checkout_logo_position": "center",
+      "checkout_logo_size": "small",
+      "checkout_body_background_color": "#ffffff",
+      "checkout_input_background_color_mode": "white",
+      "checkout_sidebar_background_color": "#efefef",
+      "checkout_accent_color": "#1c1b1b",
+      "checkout_button_color": "#1c1b1b",
+      "sections": {
+        "sidebar-menu": {
+          "type": "sidebar-menu",
+          "settings": { "primary_menu": "main-menu", "show_social_media": true }
+        },
+        "announcement": {
+          "type": "announcement",
+          "settings": {
+            "background": "#000000",
+            "text_color": "#ffffff",
+            "content": "Announce something here"
+          }
+        },
+        "header": {
+          "type": "header",
+          "settings": {
+            "use_sticky_header": true,
+            "logo_max_width": 140,
+            "navigation_menu": "main-menu",
+            "navigation_style": "inline",
+            "enable_transparent_header": true,
+            "transparent_text_color": "#ffffff"
+          }
+        },
+        "footer": {
+          "type": "footer",
+          "blocks": {
+            "footer-0": {
+              "type": "text",
+              "settings": {
+                "title": "About the shop",
+                "content": "<p>Use this text area to tell your customers about your brand and vision. You can change it in the theme settings.<\/p>",
+                "show_social_media": true
+              }
+            },
+            "footer-1": { "type": "links", "settings": { "menu": "footer" } },
+            "footer-2": {
+              "type": "newsletter",
+              "settings": {
+                "title": "Newsletter",
+                "content": "<p>Subscribe to receive updates, access to exclusive deals, and more.<\/p>"
+              }
+            }
+          },
+          "block_order": ["footer-0", "footer-1", "footer-2"],
+          "settings": { "show_payment_methods": true }
+        }
+      }
+    },
+    "Couture": {
+      "heading_color": "#5c5c5c",
+      "text_color": "#5c5c5c",
+      "text_light_color": "#939393",
+      "link_color": "#323232",
+      "background": "#ffffff",
+      "light_background": "#ffffff",
+      "product_on_sale_color": "#f94c43",
+      "button_background": "#5c5c5c",
+      "button_text_color": "#ffffff",
+      "header_background": "#ffffff",
+      "header_heading_color": "#5c5c5c",
+      "header_light_color": "#939393",
+      "footer_background": "#ffffff",
+      "footer_heading_color": "#5c5c5c",
+      "footer_text_color": "#939393",
+      "newsletter_popup_background": "#ffffff",
+      "newsletter_popup_text_color": "#1c1b1b",
+      "secondary_elements_background": "#5c5c5c",
+      "secondary_elements_text_color": "#ffffff",
+      "navigation_background": "#ffffff",
+      "navigation_text_color": "#5c5c5c",
+      "heading_font": "futura_n4",
+      "heading_size": "large",
+      "uppercase_heading": false,
+      "text_font": "century_gothic_n4",
+      "base_text_font_size": 15,
+      "show_page_transition": false,
+      "search_mode": "product,article",
+      "product_show_price_on_hover": true,
+      "product_show_secondary_image": false,
+      "product_info_alignment": "left",
+      "product_image_size": "natural",
+      "product_list_horizontal_spacing": "small",
+      "product_list_vertical_spacing": "small",
+      "cart_type": "drawer",
+      "cart_enable_notes": true,
+      "cart_show_free_shipping_threshold": false,
+      "cart_free_shipping_threshold": "50",
+      "checkout_logo_position": "center",
+      "checkout_logo_size": "small",
+      "checkout_body_background_color": "#fff",
+      "checkout_input_background_color_mode": "white",
+      "checkout_sidebar_background_color": "#fafafa",
+      "checkout_accent_color": "#323232",
+      "checkout_button_color": "#5c5c5c",
+      "sections": {
+        "sidebar-menu": {
+          "type": "sidebar-menu",
+          "settings": { "primary_menu": "main-menu", "show_social_media": true }
+        },
+        "announcement": {
+          "type": "announcement",
+          "settings": {
+            "background": "#f3f3f3",
+            "text_color": "#5c5c5c",
+            "content": "Announce something here"
+          }
+        },
+        "header": {
+          "type": "header",
+          "settings": {
+            "use_sticky_header": true,
+            "logo_max_width": 140,
+            "navigation_menu": "main-menu",
+            "navigation_style": "center",
+            "enable_transparent_header": true,
+            "transparent_text_color": "#ffffff"
+          }
+        },
+        "footer": {
+          "type": "footer",
+          "blocks": {
+            "footer-0": {
+              "type": "text",
+              "settings": {
+                "title": "About the shop",
+                "content": "<p>Use this text area to tell your customers about your brand and vision. You can change it in the theme settings.<\/p>",
+                "show_social_media": true
+              }
+            },
+            "footer-1": { "type": "links", "settings": { "menu": "footer" } },
+            "footer-2": {
+              "type": "newsletter",
+              "settings": {
+                "title": "Newsletter",
+                "content": "<p>Subscribe to receive updates, access to exclusive deals, and more.<\/p>"
+              }
+            }
+          },
+          "block_order": ["footer-0", "footer-1", "footer-2"],
+          "settings": { "show_payment_methods": true }
+        }
+      }
+    },
+    "Vogue": {
+      "heading_color": "#303030",
+      "text_color": "#303030",
+      "text_light_color": "#595959",
+      "link_color": "#000000",
+      "background": "#ffffff",
+      "light_background": "#ffffff",
+      "product_on_sale_color": "#f94c43",
+      "button_background": "#f5db8b",
+      "button_text_color": "#303030",
+      "header_background": "#ffffff",
+      "header_heading_color": "#303030",
+      "header_light_color": "#595959",
+      "footer_background": "#ffffff",
+      "footer_heading_color": "#303030",
+      "footer_text_color": "#595959",
+      "navigation_background": "#ffffff",
+      "navigation_text_color": "#303030",
+      "newsletter_popup_background": "#ffffff",
+      "newsletter_popup_text_color": "#303030",
+      "secondary_elements_background": "#fce7a8",
+      "secondary_elements_text_color": "#303030",
+      "heading_font": "din_neuzeit_grotesk_n3",
+      "heading_size": "small",
+      "uppercase_heading": true,
+      "text_font": "futura_n4",
+      "base_text_font_size": 14,
+      "show_page_transition": false,
+      "show_element_staggering": false,
+      "search_mode": "product,article",
+      "product_show_price_on_hover": true,
+      "product_show_secondary_image": false,
+      "product_info_alignment": "center",
+      "product_image_size": "natural",
+      "product_list_horizontal_spacing": "medium",
+      "product_list_vertical_spacing": "small",
+      "cart_type": "drawer",
+      "cart_enable_notes": true,
+      "cart_show_free_shipping_threshold": false,
+      "cart_free_shipping_threshold": "50",
+      "checkout_logo_position": "left",
+      "checkout_logo_size": "medium",
+      "checkout_body_background_color": "#fff",
+      "checkout_input_background_color_mode": "white",
+      "checkout_sidebar_background_color": "#fafafa",
+      "checkout_accent_color": "#a17c5e",
+      "checkout_button_color": "#454545",
+      "sections": {
+        "sidebar-menu": {
+          "type": "sidebar-menu",
+          "settings": { "primary_menu": "main-menu", "show_social_media": true }
+        },
+        "announcement": {
+          "type": "announcement",
+          "settings": {
+            "background": "#f1e4d8",
+            "text_color": "#343434",
+            "content": "Announce something here"
+          }
+        },
+        "header": {
+          "type": "header",
+          "settings": {
+            "use_sticky_header": true,
+            "logo_max_width": 140,
+            "navigation_menu": "main-menu",
+            "navigation_style": "inline",
+            "enable_transparent_header": true,
+            "transparent_text_color": "#ffffff"
+          }
+        },
+        "footer": {
+          "type": "footer",
+          "blocks": {
+            "footer-0": {
+              "type": "text",
+              "settings": {
+                "title": "About the shop",
+                "content": "<p>Use this text area to tell your customers about your brand and vision. You can change it in the theme settings.<\/p>",
+                "show_social_media": true
+              }
+            },
+            "footer-1": { "type": "links", "settings": { "menu": "footer" } },
+            "footer-2": {
+              "type": "newsletter",
+              "settings": {
+                "title": "Newsletter",
+                "content": "<p>Subscribe to receive updates, access to exclusive deals, and more.<\/p>"
+              }
+            }
+          },
+          "block_order": ["footer-0", "footer-1", "footer-2"],
+          "settings": { "show_payment_methods": true }
+        }
+      }
+    }
+  }
+}

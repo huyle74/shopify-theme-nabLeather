@@ -5408,7 +5408,6 @@ if((typeof Shopify.getCart) === 'undefined'){
         this._setupSlideshowMobileNav();
       }
 
-      this.productWrapperElement = this.element.querySelector('.Product__Wrapper');
       this.productInfoElement = this.element.querySelector('.Product__Info');
       this.productAsideElement = this.element.querySelector('.Product__Aside');
       this.productGalleryElement = this.element.querySelector('.Product__Gallery');
@@ -5818,7 +5817,6 @@ if((typeof Shopify.getCart) === 'undefined'){
           var calculateMinHeight = function calculateMinHeight() {
             if (_this4.productAsideElement) {
               _this4.productAsideElement.style.minHeight = "".concat(_this4.productInfoElement.scrollHeight - productInfoPadding - productGalleryHeight, "px");
-              _this4.productInfoElement.closest('.Product__InfoWrapper').style.maxHeight = _this4.productAsideElement.offsetTop + _this4.productInfoElement.scrollHeight - productInfoPadding + 'px';
             } else {
               _this4.productWrapperElement.style.minHeight = "".concat(_this4.productInfoElement.scrollHeight - parseInt(productInfoStyles.paddingTop), "px");
             }

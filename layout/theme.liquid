@@ -1,13 +1,17 @@
 <!doctype html>
 <html class="no-js" lang="{{ request.locale.iso_code }}">
   <head>
-    <meta charset="utf-8"> 
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, height=device-height, minimum-scale=1.0, maximum-scale=1.0">
     <meta name="theme-color" content="{{ settings.accent_color }}">
-    
+
     <title>
-      {{ page_title }}{% if current_tags %}{% assign meta_tags = current_tags | join: ', ' %} {% endif %}{% if current_page != 1 %} {% endif %}
+      {{ page_title }}{% if current_tags %}
+        {% assign meta_tags = current_tags | join: ', ' %}
+      {% endif %}
+      {% if current_page != 1 %}
+      {% endif %}
     </title>
 
     {%- if page_description -%}
@@ -17,7 +21,10 @@
     {% comment %} <link rel="canonical" href="{{ canonical_url }}"> {% endcomment %}
 
     {%- if settings.favicon -%}
-      <link rel="shortcut icon" href="{{ settings.favicon | img_url: '96x' }}" type="image/png">
+      <link
+        rel="shortcut icon"
+        href="{{ settings.favicon | img_url: '96x' }}"
+        type="image/png">
     {%- endif -%}
 
     {% render 'social-meta-tags' %}
@@ -25,51 +32,50 @@
 
     {{ 'quickview.css' | asset_url | stylesheet_tag }}
     <link rel="stylesheet" href="{{ 'theme.css' | asset_url }}">
-    <link rel="stylesheet" href="{{ 'custom.css' | asset_url }}">
-  
-  {% comment %} {% if collection and collection.handle == 'mens-full-grain-leather-belts' %}
-  <link rel="canonical" href="https://nableather.com/collections/mens-full-grain-leather-belts">
-{% else %}
-  <link rel="canonical" href="{{ canonical_url }}">
-{% endif %} {% endcomment %}
+    <link rel="stylesheet" href="{{ 'customs.css' | asset_url }}">
+
+    {% comment %} {% if collection and collection.handle == 'mens-full-grain-leather-belts' %}
+              <link rel="canonical" href="https://nableather.com/collections/mens-full-grain-leather-belts">
+            {% else %}
+              <link rel="canonical" href="{{ canonical_url }}">
+        {% endif %} {% endcomment %}
 
 
-{% if collection and collection.handle == 'womens-leather-belts' %}
-  <link rel="canonical" href="https://nableather.com/collections/womens-leather-belts">
-{% elsif collection and collection.handle == 'mens-wallets' %}
-  <link rel="canonical" href="https://nableather.com/collections/mens-wallets">
-{% elsif collection and collection.handle == 'mens-full-grain-leather-belts' %}
-  <link rel="canonical" href="https://nableather.com/collections/mens-full-grain-leather-belts">
-{% elsif collection and collection.handle == 'leather-dress-belts' %}
-  <link rel="canonical" href="https://nableather.com/collections/leather-dress-belts">
-{% elsif collection and collection.handle == 'holiday-gift-sets' %}
-  <link rel="canonical" href="https://nableather.com/collections/holiday-gift-sets">
-{% elsif collection and collection.handle == 'gift-sets' %}
-  <link rel="canonical" href="https://nableather.com/collections/gift-sets">
-{% elsif collection and collection.handle == 'fathersday-gift-sets' %}
-  <link rel="canonical" href="https://nableather.com/collections/gift-sets">
-{% elsif collection and collection.handle == 'dog-collars-and-leashes' %}
-  <link rel="canonical" href="https://nableather.com/collections/dog-collars-and-leashes">
-{% elsif collection and collection.handle == 'clearance' %}
-  <link rel="canonical" href="https://nableather.com/collections/clearance">
-{% elsif collection and collection.handle == 'best-sellers' %}
-  <link rel="canonical" href="https://nableather.com/collections/best-sellers">
-{% elsif collection and collection.handle == 'all' %}
-  <link rel="canonical" href="https://nableather.com/collections/">  
-{% elsif template contains 'blog' and blog.handle == 'all-about-leather' %}
-  <link rel="canonical" href="https://nableather.com/blogs/all-about-leather">  
-{% else %}
-  <link rel="canonical" href="{{ canonical_url }}">
-{% endif %}
+    {% if collection and collection.handle == 'womens-leather-belts' %}
+      <link rel="canonical" href="https://nableather.com/collections/womens-leather-belts">
+    {% elsif collection and collection.handle == 'mens-wallets' %}
+      <link rel="canonical" href="https://nableather.com/collections/mens-wallets">
+    {% elsif collection and collection.handle == 'mens-full-grain-leather-belts' %}
+      <link rel="canonical" href="https://nableather.com/collections/mens-full-grain-leather-belts">
+    {% elsif collection and collection.handle == 'leather-dress-belts' %}
+      <link rel="canonical" href="https://nableather.com/collections/leather-dress-belts">
+    {% elsif collection and collection.handle == 'holiday-gift-sets' %}
+      <link rel="canonical" href="https://nableather.com/collections/holiday-gift-sets">
+    {% elsif collection and collection.handle == 'gift-sets' %}
+      <link rel="canonical" href="https://nableather.com/collections/gift-sets">
+    {% elsif collection and collection.handle == 'fathersday-gift-sets' %}
+      <link rel="canonical" href="https://nableather.com/collections/gift-sets">
+    {% elsif collection and collection.handle == 'dog-collars-and-leashes' %}
+      <link rel="canonical" href="https://nableather.com/collections/dog-collars-and-leashes">
+    {% elsif collection and collection.handle == 'clearance' %}
+      <link rel="canonical" href="https://nableather.com/collections/clearance">
+    {% elsif collection and collection.handle == 'best-sellers' %}
+      <link rel="canonical" href="https://nableather.com/collections/best-sellers">
+    {% elsif collection and collection.handle == 'all' %}
+      <link rel="canonical" href="https://nableather.com/collections/">
+    {% elsif template contains 'blog' and blog.handle == 'all-about-leather' %}
+      <link rel="canonical" href="https://nableather.com/blogs/all-about-leather">
+    {% else %}
+      <link rel="canonical" href="{{ canonical_url }}">
+    {% endif %}
 
 
-{% if request.path == '/pages/privacy-policy' %}
-  <meta name="robots" content="noindex, nofollow">
-{% endif %}
-{% if request.path == '/pages/refunds-and-returns' %}
-  <meta name="robots" content="noindex, nofollow">
-{% endif %}
-
+    {% if request.path == '/pages/privacy-policy' %}
+      <meta name="robots" content="noindex, nofollow">
+    {% endif %}
+    {% if request.path == '/pages/refunds-and-returns' %}
+      <meta name="robots" content="noindex, nofollow">
+    {% endif %}
 
 
     <script>
@@ -140,59 +146,67 @@
         }, 250)
       {% endif %}
     </script>
-  <script type="application/ld+json">
-    {         
-      "@context": "https://schema.org/",         
-      "@type": "Organization",         
-      "@id": "#Organization",         
-      "url": "http://www.nableather.com/",         
-      "name": "NAB Leather",         
-      "description": "Canadian made leather goods with a commitment to supporting local craftsman, using the finest materials and processes, and ethically sourced full-grain leathers. Proudly Canadian. Handcrafted leather belts, wallets, bags, and accessories. Premium, ethically made leather goods. Built to last a lifetime.",         
-      "image": "https://nableather.com/cdn/shop/files/Made_in_Canada_1400x.jpg?v=1706830628",         
-      "logo": "",         
-      "telephone": "+1 647-574-1084",         
-      "email": "sales@nableather.com",         
-      "address": {             
-        "@type": "PostalAddress",             
-        "streetAddress": "134 Romina Drive Unit 2, Concord, Ontario, L4K4Z7",             
-        "addressLocality": "Concord",             
-        "addressRegion": "Ontario",             
-        "addressCountry": "Canada",             
-        "postalCode": "L4K4Z7"        
-      },         
-      "sameAs": [            
-        "https://www.facebook.com/nableather",             
-        "https://www.instagram.com/nableatherhq/",             
-        "https://www.linkedin.com/company/nab-leather/"      
-      ] 
-  } 
-</script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org/",
+        "@type": "Organization",
+        "@id": "#Organization",
+        "url": "http://www.nableather.com/",
+        "name": "NAB Leather",
+        "description": "Canadian made leather goods with a commitment to supporting local craftsman, using the finest materials and processes, and ethically sourced full-grain leathers. Proudly Canadian. Handcrafted leather belts, wallets, bags, and accessories. Premium, ethically made leather goods. Built to last a lifetime.",
+        "image": "https://nableather.com/cdn/shop/files/Made_in_Canada_1400x.jpg?v=1706830628",
+        "logo": "",
+        "telephone": "+1 647-574-1084",
+        "email": "sales@nableather.com",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "134 Romina Drive Unit 2, Concord, Ontario, L4K4Z7",
+          "addressLocality": "Concord",
+          "addressRegion": "Ontario",
+          "addressCountry": "Canada",
+          "postalCode": "L4K4Z7"
+        },
+        "sameAs": ["https://www.facebook.com/nableather", "https://www.instagram.com/nableatherhq/", "https://www.linkedin.com/company/nab-leather/"]
+      }
+    </script>
 
     <script src="{{ 'lazysizes.min.js' | asset_url }}" async></script>
 
 
     <script src="{{ 'libs.min.js' | asset_url }}" defer></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-  
+
     <script src="{{ 'theme.js' | asset_url }}" defer></script>
-<link rel="preload" href="https://quickstart-41d588e3.myshopify.com/cdn/shop/t/3/assets/mobileLY.js" as="script"><script src="https://quickstart-41d588e3.myshopify.com/cdn/shop/t/3/assets/mobileLY.js"></script><script src="https://quickstart-41d588e3.myshopify.com/cdn/shop/t/3/assets/material-1.0.57.js"></script>
+    <link
+      rel="preload"
+      href="https://quickstart-41d588e3.myshopify.com/cdn/shop/t/3/assets/mobileLY.js"
+      as="script"><script src="https://quickstart-41d588e3.myshopify.com/cdn/shop/t/3/assets/mobileLY.js"></script>
+    <script src="https://quickstart-41d588e3.myshopify.com/cdn/shop/t/3/assets/material-1.0.57.js"></script>
 
     <!-- Begin: Northbeam pixel -->
-    <script>var r;(e=r=r||{}).A="identify",e.B="trackPageView",e.C="fireEmailCaptureEvent",e.D="fireCustomGoal",e.E="firePurchaseEvent";var e="//j.northbeam.io/ota-sp/422a586d-0ec4-4ade-b8dd-f3382e765b2c.js";function t(e){for(var n=[],r=1;r<arguments.length;r++)n[r-1]=arguments[r];a.push({fnName:e,args:n})}var a=[],n=((n={_q:a})[r.A]=function(e,n){return t(r.A,e,n)},n[r.B]=function(){return t(r.B)},n[r.C]=function(e,n){return t(r.C,e,n)},n[r.D]=function(e,n){return t(r.D,e,n)},n[r.E]=function(e){return t(r.E,e)},window.Northbeam=n,document.createElement("script"));n.async=!0,n.src=e,document.head.appendChild(n);</script>
-    <!-- End: Northbeam pixel --> 
- 
+    <script>
+      var r;(e=r=r||{}).A="identify",e.B="trackPageView",e.C="fireEmailCaptureEvent",e.D="fireCustomGoal",e.E="firePurchaseEvent";var e="//j.northbeam.io/ota-sp/422a586d-0ec4-4ade-b8dd-f3382e765b2c.js";function t(e){for(var n=[],r=1;r<arguments.length;r++)n[r-1]=arguments[r];a.push({fnName:e,args:n})}var a=[],n=((n={_q:a})[r.A]=function(e,n){return t(r.A,e,n)},n[r.B]=function(){return t(r.B)},n[r.C]=function(e,n){return t(r.C,e,n)},n[r.D]=function(e,n){return t(r.D,e,n)},n[r.E]=function(e){return t(r.E,e)},window.Northbeam=n,document.createElement("script"));n.async=!0,n.src=e,document.head.appendChild(n);
+  </script>
+    <!-- End: Northbeam pixel -->
+
     {% include 'data-layer' %}
     {% render 'analyzify-product-datalayer.liquid' %}
 
-    <style>.async-hide { opacity: 0 !important}</style>
-    <script>(function(a,s,y,n,c,h,i,d,e){s.className+=' '+y;h.start=1*new Date;
-    h.end=i=function(){s.className=s.className.replace(RegExp(' ?'+y),'')};
-    (a[n]=a[n]||[]).hide=h;setTimeout(function(){i();h.end=null},c);h.timeout=c;
-    })(window,document.documentElement,'async-hide','dataLayer',500,
-    {'GTM-XXXXXX':true});</script>
-   
+    <style>
+      .async-hide {
+        opacity: 0 !important
+      }
+    </style>
+    <script>
+      (function(a,s,y,n,c,h,i,d,e){s.className+=' '+y;h.start=1*new Date;
+          h.end=i=function(){s.className=s.className.replace(RegExp(' ?'+y),'')};
+          (a[n]=a[n]||[]).hide=h;setTimeout(function(){i();h.end=null},c);h.timeout=c;
+          })(window,document.documentElement,'async-hide','dataLayer',500,
+          {'GTM-XXXXXX':true});
+    </script>
+
     <script src="{{ 'custom.js' | asset_url }}" defer></script>
-    
+
     <script>
       (function () {
         window.onpageshow = function() {
@@ -220,38 +234,39 @@
 
 
     {% comment %}
-    {{ 'quickview.js' | asset_url | script_tag }}
+      {{ 'quickview.js' | asset_url | script_tag }}
     {% endcomment %}
     <script>
-    {% capture content %}{% include 'quickview' %}{% endcapture %}
-    var content = {{ content | json }};
+          {% capture content %}{% include 'quickview' %}{% endcapture %}
+          var content = {{ content | json }};
     </script>
-  
-    {% render 'microdata-schema' %}
-  
-	{{ shop.metafields.loox["global_html_head"] }}
-{% include 'sca.freegifts' %}
 
-  <script type="text/javascript">
-    (function(c,l,a,r,i,t,y){
+    {% render 'microdata-schema' %}
+
+    {{ shop.metafields.loox["global_html_head"] }}
+    {% include 'sca.freegifts' %}
+
+    <script type="text/javascript">
+          (function(c,l,a,r,i,t,y){
         c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
         t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
         y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-    })(window, document, "clarity", "script", "j2615ghayu");
-</script>
+          })(window, document, "clarity", "script", "j2615ghayu");
+    </script>
 
-<!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-MHMRLC5');</script>
-<!-- End Google Tag Manager -->  
+    <!-- Google Tag Manager -->
+    <script>
+      (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-MHMRLC5');
+    </script>
+  <!-- End Google Tag Manager -->
 
-</head>
+  </head>
 
   {%- capture classes -%}features--heading-{{ settings.heading_size }}{%- endcapture -%}
-
   {%- if settings.uppercase_heading -%}
     {%- assign classes = classes | append: ' features--heading-uppercase' -%}
   {%- endif -%}
@@ -285,11 +300,16 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       </linearGradient>
     </svg>
 
-<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MHMRLC5"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
-          
+    <!-- Google Tag Manager (noscript) -->
+    <noscript>
+      <iframe
+        src="https://www.googletagmanager.com/ns.html?id=GTM-MHMRLC5"
+        height="0"
+        width="0"
+        style="display:none;visibility:hidden"></iframe>
+    </noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
     <a class="PageSkipLink u-visually-hidden" href="#main">{{ 'header.navigation.skip_to_content' | t }}</a>
     <span class="LoadingBar"></span>
     <div class="PageOverlay"></div>
@@ -309,36 +329,36 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       {% section 'announcement' %}
       {% section 'header' %}
       {% comment %}{%- if template != 'index' -%}
-      	 {% if page.handle != 'thank-you' and template != '404' and template != "collection" and template != "product" %}
-           
-      	{% section 'inner-banner' %}
-      	 {%- endif -%}
-      {%- endif -%} {% endcomment %}
+                      	 {% if page.handle != 'thank-you' and template != '404' and template != "collection" and template != "product" %}
+               
+                      	{% section 'inner-banner' %}
+                      	 {%- endif -%}
+                  {%- endif -%} {% endcomment %}
       <main id="main" role="main">
         {{ content_for_layout }}
       </main>
-       {% section 'home-faq' %} 
+      {% section 'home-faq' %}
       {% section 'footer' %}
     </div>
     {{ shop.metafields.loox["global_html_body"] | replace: " src=", " data-src=" }}
-  <style>
-    html.no-scroll{
-      overflow:unset;
-    }
-  </style>
-  {% if settings.annouce_sticky %}
     <style>
-      #shopify-section-announcement {
-      position: sticky;
-      top: 0px;
-      z-index: 51;
-      width: 100%;
-    }
-    #shopify-section-header{
-      z-index:51;
-    }
+      html.no-scroll {
+        overflow: unset;
+      }
     </style>
-    <script>
+    {% if settings.annouce_sticky %}
+      <style>
+        #shopify-section-announcement {
+          position: sticky;
+          top: 0;
+          z-index: 51;
+          width: 100%;
+        }
+        #shopify-section-header {
+          z-index: 51;
+        }
+      </style>
+      <script>
         function adjustHeaderOffset() {
           const announcementBar = document.getElementById('shopify-section-announcement');
           const header = document.getElementById('shopify-section-header');
@@ -353,7 +373,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         }
         window.addEventListener('load', adjustHeaderOffset);
         window.addEventListener('resize', adjustHeaderOffset);
-    </script>
-  {% endif %}       
-</body>
+      </script>
+    {% endif %}
+  </body>
 </html>

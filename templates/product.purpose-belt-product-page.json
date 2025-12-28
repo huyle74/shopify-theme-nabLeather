@@ -1,7 +1,7 @@
 {
   "sections": {
     "main": {
-      "type": "main-product",
+      "type": "main-product-omniverse-customize",
       "blocks": {
         "product_meta": {
           "type": "product_meta",

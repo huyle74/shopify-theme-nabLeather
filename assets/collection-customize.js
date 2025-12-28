@@ -15,86 +15,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const html = await res.text();
     const doc = new DOMParser().parseFromString(html, "text/html");
     const newProducts = doc.querySelector("#productsArea");
-    if (!newProducts)
-      throw new Error("Could not find products container in fetched page");
+    if (!newProducts) throw new Error("Could not find products container in fetched page");
     productsArea.innerHTML = newProducts.innerHTML;
   }
-
-  // function clickArrow() {
-  //   const productItems = document.querySelectorAll(".collection-product-item");
-
-  //   productItems.forEach((item) => {
-  //     const backBtn = item.querySelector(".icon--back"); // button
-  //     const forwardBtn = item.querySelector(".icon--forward"); // button
-  //     const dotContainer = item.querySelector(".dot-container");
-
-  //     if (!dotContainer || !backBtn || !forwardBtn) return;
-
-  //     const STEP = 60;
-  //     const EPS = 1;
-  //     function maxScroll() {
-  //       return Math.max(0, dotContainer.scrollWidth - dotContainer.clientWidth);
-  //     }
-  //     function atStart() {
-  //       return dotContainer.scrollLeft <= EPS;
-  //     }
-
-  //     function atEnd() {
-  //       return dotContainer.scrollLeft >= maxScroll() - EPS;
-  //     }
-
-  //     const arrowState = updateArrowState();
-
-  //     function scrollByClamped(delta) {
-  //       if (delta < 0 && atStart()) return;
-  //       if (delta > 0 && atEnd()) return;
-  //       const max = maxScroll();
-  //       const target = dotContainer.scrollLeft + delta;
-  //       const clamped = Math.max(0, Math.min(target, max));
-
-  //       dotContainer.scrollTo({ left: clamped, behavior: "smooth" });
-  //       setTimeout(arrowState, 300);
-  //     }
-
-  //     function updateArrowState() {
-  //       const max = maxScroll();
-  //       // Back arrow
-  //       if (dotContainer.scrollLeft > 0) {
-  //         backBtn.classList.add("active");
-  //       } else {
-  //         backBtn.classList.remove("active");
-  //       }
-
-  //       // Forward arrow
-  //       if (dotContainer.scrollLeft < max) {
-  //         forwardBtn.classList.add("active");
-  //       } else {
-  //         forwardBtn.classList.remove("active");
-  //       }
-  //     }
-  //     const wrapper = item.querySelector(".dots-and-arrows-container");
-  //     // ✅ Bind clicks ONCE
-  //     backBtn.addEventListener("click", (e) => {
-  //       scrollByClamped(-STEP);
-  //       updateArrowState();
-  //     });
-  //     forwardBtn.addEventListener("click", () => {
-  //       scrollByClamped(STEP);
-  //       updateArrowState();
-  //     });
-
-  //     // ✅ Show/hide buttons (no click binding here)
-  //     wrapper.addEventListener("mouseenter", () => {
-  //       if (dotContainer.scrollWidth > item.clientWidth) {
-  //         updateArrowState();
-  //       }
-  //     });
-  //     wrapper.addEventListener("mouseleave", () => {
-  //       backBtn.classList.remove("active");
-  //       forwardBtn.classList.remove("active");
-  //     });
-  //   });
-  // }
 
   function clickArrow() {
     const STEP = 60;
@@ -112,10 +35,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       const max = maxScroll(dotContainer);
       backBtn.classList.toggle("active", dotContainer.scrollLeft > 0);
-      forwardBtn.classList.toggle(
-        "active",
-        dotContainer.scrollLeft < max - EPS
-      );
+      forwardBtn.classList.toggle("active", dotContainer.scrollLeft < max - EPS);
     }
 
     document.addEventListener("click", (e) => {
@@ -160,7 +80,7 @@ document.addEventListener("DOMContentLoaded", function () {
           updateArrowState(item);
         }
       },
-      true
+      true,
     );
 
     document.addEventListener(
@@ -180,7 +100,7 @@ document.addEventListener("DOMContentLoaded", function () {
         backBtn.classList.remove("active");
         forwardBtn.classList.remove("active");
       },
-      true
+      true,
     );
   }
 
@@ -206,10 +126,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const c = container.getBoundingClientRect();
         const e = el.getBoundingClientRect();
         const target =
-          container.scrollLeft +
-          (e.left - c.left) -
-          container.clientWidth / 2 +
-          el.clientWidth / 2;
+          container.scrollLeft + (e.left - c.left) - container.clientWidth / 2 + el.clientWidth / 2;
 
         const max = container.scrollWidth - container.clientWidth;
         const clamped = Math.max(0, Math.min(target, max));
