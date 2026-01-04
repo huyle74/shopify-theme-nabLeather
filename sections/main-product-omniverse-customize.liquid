@@ -65,7 +65,7 @@
 {% endfor %}
 {% endcapture %}
 <section
-  class="Product Product--{{ section.settings.image_size }}"
+  class="Product-omniverse"
   data-section-id="{{ section.id }}"
   data-section-type="product"
   data-section-settings='{{ section_settings }}'>
@@ -97,56 +97,82 @@
         </div>
       {%- endif -%}
     {%- endcapture -%}
-    {%- comment -%} 
-                  --------------------------------------------------------------------------------------------------------------------
-                  PRODUCT GALLERY
-                  -------------------------------------------------------------------------------------------------------------------- 
-            {%- endcomment -%}
+
+    <div class="desktop-hide Container mobile-product-information">
+      {{ title_and_price_mobile }}
+    </div>
+    <div
+      hook-widget-count="{{ product.id }}"
+      class="sold-count-widget"
+      data-counter="{{ product.metafields['app--71373979649--soldcount'].counter }}"
+      data-resent="{{ product.metafields['app--71373979649--soldcount'].customer }}"></div>
+        {%- comment -%} 
+          --------------------------------------------------------------------------------------------------------------------
+          PRODUCT GALLERY
+          -------------------------------------------------------------------------------------------------------------------- 
+        {%- endcomment -%}
     <div class="product-gallery-info-container">
+     
       <div class="product-gallery-container">
         <div class="side-product-media-container">
-          {% for media in product.media %}
-            {{ media
-   | image_url: width: 200, height: 200, crop: 'center'
-   | image_tag:
-   loading: 'eager',
-   alt: media,
-   class: 'product-media',
-   data-url: media,
-   data_index: forloop.index0
-            }}
+          {% for image in product.images %}
+            {% capture variant_ids %}
+              {% for v in image.variants %}
+                {{ v.id }}{% unless forloop.last %},{% endunless %}
+              {% endfor %}
+            {% endcapture %}
+                {% assign image_src = image | image_url: width: 200, height: 200, crop: 'center' %}
+            {% assign alt_text = image.alt | default: product.title %}
+
+            <img
+              src="{{ image_src }}"
+              loading="eager"
+              alt="{{ alt_text | escape }}"
+              class="product-media"
+              width="200"
+              height="200"
+              data-url="{{ image_src }}"
+              data-index="{{ forloop.index0 }}"
+              data-media-id="{{ image.id }}"
+              data-variant-id="{{ variant_ids }}"
+            >
           {% endfor %}
         </div>
+
         <div id="product-media-container-for-scroll">
           <div class="product-media-container">
-            {% for media in product.media %}
-              {{ media
-     | image_url: width: 1000, height: 1000, crop: 'center'
-     | image_tag:
-     loading: 'eager',
-     alt: media,
-     class: 'product-media',
-     data-url: media,
-     data_index: forloop.index0
-              }}
+            {% for image in product.images %}
+              <div class="product-media-wrapper">
+                {{ image
+   | image_url: width: 1600, height: 1600, crop: 'center'
+   | image_tag:
+   loading: 'eager',
+   alt: image,
+   class: 'product-media',
+   data-url: image,
+   data_index: forloop.index0,
+   data_media_id: image.id 
+                }}
+              </div>
             {% endfor %}
-            </div>
-            </div>
-            <div class="dots-container">
-              <div class="arrow gallery-left-arrow">{% render 'icon' with 'arrow-left' %}</div>
-              {% for media in product.media  limit:7 %}
-                <div class="dot" data-index="{{forloop.index0}}"></div>
-              {% endfor %}
-              <div class="arrow gallery-right-arrow">{% render 'icon' with 'arrow-right' %}</div>
-            </div>
-      </div>
-          {% comment %} PRODUCT INFO {% endcomment %}
+          </div>
+        </div>
+        <div class="dots-container">
+          <div class="arrow gallery-left-arrow">{% render 'icon' with 'arrow-left' %}</div>
+          {% for image in product.images limit: 10 %}
+            <div class="dot" data-index="{{ forloop.index0 }}"></div>
+          {% endfor %}
+          <div class="arrow gallery-right-arrow">{% render 'icon' with 'arrow-right' %}</div>
+        </div>
+    </div>
+      {% comment %} PRODUCT INFO {% endcomment %}
       {% render 'product-info' %}
+
+
     </div>
 
 
-
-  {%- capture product_aside -%}
+    {%- capture product_aside -%}
       {%- comment -%}
       --------------------------------------------------------------------------------------------------------------------
       PRODUCT TABS
@@ -165,9 +191,9 @@
     {%- endcapture -%}
 
 
-  <script id="ProductJson-{{ product.id }}" type="application/json">
-    {{ product | json }}
-  </script>
+    <script id="ProductJson-{{ product.id }}" type="application/json">
+      {{ product | json }}
+    </script>
 
     {%- if product_aside != blank -%}
       <div class="Product__Aside">
@@ -182,11 +208,11 @@
 </section>
 
 {%- comment -%} 
-      --------------------------------------------------------------------------------------------------------------------
-      PHOTO SWIPE
-     
-      This is the root container for the zoom functionality. Must not be removed, as order element is important.
-      -------------------------------------------------------------------------------------------------------------------- 
+            --------------------------------------------------------------------------------------------------------------------
+            PHOTO SWIPE
+           
+            This is the root container for the zoom functionality. Must not be removed, as order element is important.
+            -------------------------------------------------------------------------------------------------------------------- 
 {%- endcomment -%}
 
 {%- if section.settings.enable_image_zoom -%}
@@ -208,21 +234,8 @@
         <div class="pswp__item"></div>
       </div>
 
-      <!-- Main UI bar - MUST KEEP -->
-      <div class="pswp__ui pswp__ui--hidden">
-        <button
-          class="pswp__button pswp__button--prev RoundButton"
-          data-animate-left
-          title="{{ 'product.slideshow.previous' | t }}">{% render 'icon' with 'arrow-left' %}</button>
-        <button
-          class="pswp__button pswp__button--close RoundButton RoundButton--large"
-          data-animate-bottom
-          title="{{ 'product.slideshow.close' | t }}">{% render 'icon' with 'close' %}</button>
-        <button
-          class="pswp__button pswp__button--next RoundButton"
-          data-animate-right
-          title="{{ 'product.slideshow.next' | t }}">{% render 'icon' with 'arrow-right' %}</button>
-      </div>
+    <!-- Main UI bar - MUST KEEP -->
+
     </div>
   </div>
 {%- endif -%}

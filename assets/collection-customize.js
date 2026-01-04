@@ -6,6 +6,27 @@ document.addEventListener("DOMContentLoaded", function () {
   const linkCollection = document.getElementById("collection-url");
   const firstCollectionUrl = linkCollection.dataset.url;
 
+  // Lazy load products
+  function lazyLoad() {
+    const productsArea = document.getElementById("productsArea");
+    const lazyProducts = productsArea.querySelectorAll(".lazy-product");
+    const observer = new IntersectionObserver(
+      (entries, observer) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        rootMargin: "100px",
+      },
+    );
+
+    lazyProducts.forEach((product) => observer.observe(product));
+  }
+
   async function loadCollectionProducts(url) {
     // Fetch the collection page HTML
     const res = await fetch(url, { credentials: "same-origin" });
@@ -86,7 +107,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.addEventListener(
       "mouseleave",
       (e) => {
-        const wrapper = e.target.closest(".dots-and-arrows-container");
+        const wrapper = e.target?.closest(".dots-and-arrows-container");
         if (!wrapper) return;
         if (wrapper.contains(e.relatedTarget)) return;
 
@@ -135,7 +156,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
 
       function activateDot(dotToActivate, url) {
-        if (!dotToActivate) return;
+        // if (!dotToActivate) return;
 
         if (url && image) {
           image.src = url;
@@ -143,7 +164,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         removeDotsActiveClasses();
-        dotToActivate.classList.add("active");
+        if (dotToActivate) dotToActivate.classList.add("active");
       }
 
       layers.forEach((layer) => {
@@ -169,6 +190,7 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     });
   }
+
   circleElements.forEach((circle) => {
     const xSymbol = circle.querySelector(".collection-grid-x-symbols");
     const circleImage = circle.querySelector(".collection-featured-image");
@@ -192,6 +214,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       try {
         await loadCollectionProducts(url);
+        lazyLoad();
       } catch (e) {
         console.error(e);
       }
@@ -199,17 +222,18 @@ document.addEventListener("DOMContentLoaded", function () {
       clickArrow();
     });
     if (xSymbol) {
-      xSymbol.addEventListener("click", function (e) {
+      xSymbol.addEventListener("click", async function (e) {
         e.stopPropagation();
         circle.classList.remove("active");
         xSymbol.classList.remove("active");
         circleImage.classList.remove("active");
-        loadCollectionProducts(firstCollectionUrl);
+        await loadCollectionProducts(firstCollectionUrl);
+        lazyLoad();
+        hoverEffect();
       });
     }
-
-    // Remove Filter
   });
+  lazyLoad();
   hoverEffect();
   clickArrow();
 });

@@ -1,43 +1,62 @@
 document.addEventListener("DOMContentLoaded", function () {
   const variants = this.querySelector(".variants-container");
-  const colorContainer = variants.querySelector(".color-size-variant-container") || null;
-  const sizeContainer = variants.querySelector(".variant-size") || null;
+  const colorContainer = variants?.querySelector(".color-size-variant-container") || null;
+  const sizeContainer = variants?.querySelector(".variant-size") || null;
   const inputVariant = this.querySelector('input[name="id"]');
+  const cartButton = this.querySelector("button[data-action='add-to-cart']");
 
-  //  Add active class to first color and size option by default
-  if (colorContainer) {
-    const firstColor = colorContainer.querySelector(".variant-image");
-    if (firstColor) {
-      firstColor.classList.add("active");
-    }
-  }
-  if (sizeContainer) {
-    const firstSize = sizeContainer.querySelector(".title-size");
-    if (firstSize) {
-      firstSize.classList.add("active");
-    }
+  // CHECK IF ONLY COLOR OR SIZE EXISTS
+  const have2Options = this.getElementById("2-variant-existed") || null;
+  const doNotHaveOption = this.getElementById("do-not-have-variant") || null;
+  if (doNotHaveOption) {
+    cartButton.removeAttribute("disabled");
+    cartButton.setAttribute("aria-disabled", "false");
   }
 
+  // Add active class to first color and size option by default
   // DATA variant mapping
   const productJsonEl = document.querySelector('[id^="ProductJson-"]');
   if (!productJsonEl) return;
   const productData = JSON.parse(productJsonEl.textContent);
-  // console.log(productData);
-  const colorArray = [];
+
+  // product don not have variants
+  if (productData.variants.length <= 1) {
+    inputVariant.value = productData.variants[0].id;
+    inputVariant.dispatchEvent(new Event("change", { bubbles: true }));
+    inputVariant.dispatchEvent(new Event("input", { bubbles: true }));
+  }
+
+  const variantArray = [];
   productData.variants.forEach((variant) => {
     const color = variant.options[0];
-    if (!colorArray.includes(color)) {
-      colorArray.push(color);
+    if (!variantArray.includes(color)) {
+      variantArray.push(color);
     }
   });
-  const colorVariantData = {};
-  colorArray.forEach((color) => {
-    colorVariantData[color] = productData.variants.filter(
-      (variant) => variant.options[0] === color,
-    );
+  const variantData = {};
+  variantArray.forEach((color) => {
+    variantData[color] = productData.variants.filter((variant) => variant.options[0] === color);
   });
-  // console.log(colorVariantData);
+  // console.log(productData.variants);
   // ////////////////////////////////////////////////
+
+  // set gallery image based on color selection
+  const sideMediaContainer = this.querySelector(".side-product-media-container");
+  function setGalleryByVariantId(variantId) {
+    const allSideMedias = sideMediaContainer.querySelectorAll(".product-media");
+    const idStr = String(variantId);
+
+    allSideMedias.forEach((item) => {
+      const ids = item.dataset.variantId.split(",").map((id) => id.trim()); // Convert to array of strings
+      // console.log(ids);
+
+      const show = ids.includes(idStr);
+      item.style.display = show ? "" : "none";
+      item.classList.toggle("is-active", show);
+    });
+  }
+
+  // Set input value based on selected options
   function setInputValue() {
     // if (!optionType) return null;
     const selectedColor = colorContainer
@@ -52,6 +71,12 @@ document.addEventListener("DOMContentLoaded", function () {
     const sizeValue = selectedSize ? selectedSize.getAttribute("data-option-value") : null;
     // console.log(sizeValue);
 
+    if (!have2Options) {
+      if (!colorValue && !sizeValue) return null;
+    } else {
+      if (!colorValue || !sizeValue) return null;
+    }
+
     const variantId = productData.variants.find((variant) => {
       let sizeMatch = false;
       let colorMatch = false;
@@ -62,59 +87,180 @@ document.addEventListener("DOMContentLoaded", function () {
       }
       return colorMatch && sizeMatch;
     });
-    // console.log(variantId);
-    if (!variantId) return null;
 
-    return (inputVariant.value = variantId.id);
+    if (!variantId) {
+      return null;
+    }
+
+    // Set the variant id to input
+    inputVariant.value = variantId.id;
+
+    inputVariant.dispatchEvent(new Event("change", { bubbles: true }));
+    inputVariant.dispatchEvent(new Event("input", { bubbles: true }));
   }
   setInputValue();
 
   // DOM Manipulation for size and color selection
+  const productMediaContainer = this.querySelector(".product-gallery-info-container");
+  const mainMedia = this.getElementById("product-media-container-for-scroll");
+  const slides = mainMedia.querySelectorAll(".product-media");
+  const dotsContainer = this.querySelector(".dots-container");
+  const dots = dotsContainer.querySelectorAll(".dot");
+  const wrappers = document.querySelectorAll(".product-media-wrapper");
+
+  // ZOOM FUNCTIONALITY
+  if (mainMedia) {
+    const wrappers = document.querySelectorAll(".product-media-wrapper");
+    wrappers.forEach((wrapper) => {
+      let clicked = false;
+      const slide = wrapper.querySelector(".product-media");
+      wrapper.addEventListener("pointerdown", (e) => e.stopPropagation());
+
+      slide.addEventListener("click", (e) => {
+        e.stopPropagation();
+
+        slide.style.transform = "translate3d(0,0,0) scale(1.6)";
+        document.querySelectorAll(".product-media.zoomed").forEach((img) => {
+          if (img !== slide) img.classList.remove("zoomed");
+        });
+        slide.classList.toggle("zoomed");
+
+        if (clicked) {
+          slide.classList.remove("zoomed");
+          slide.style.transform = "translate3d(0,0,0) scale(1)";
+        }
+        clicked = !clicked;
+      });
+      // max move in px (increase for stronger effect)
+      const maxMove = 60;
+      const intensity = 3;
+      function onMove(e) {
+        const rect = wrapper.getBoundingClientRect();
+
+        // mouse position inside element: 0..1
+        const x = (e.clientX - rect.left) / rect.width;
+        const y = (e.clientY - rect.top) / rect.height;
+
+        // convert to -1..1 (center = 0)
+        const dx = (x - 0.5) * 2;
+        const dy = (y - 0.5) * 2;
+
+        // REVERSE direction: negate
+        const tx = -dx * maxMove * intensity;
+        const ty = -dy * maxMove * intensity;
+
+        slide.style.transform = `translate3d(${tx}px, ${ty}px, 0) scale(1.6)`;
+      }
+
+      function onLeave() {
+        slide.style.transform = "translate3d(0,0,0) scale(1)";
+        clicked = false;
+        slide.classList.remove("zoomed");
+      }
+
+      wrapper.addEventListener("mousemove", (e) => {
+        if (!slide.classList.contains("zoomed")) return;
+        console.log("moving");
+
+        onMove(e);
+      });
+      wrapper.addEventListener("mouseleave", onLeave);
+    });
+  }
+
+  function getAllSizesByColor(color) {
+    if (!variantData[color]) return [];
+    // console.log(variantData);
+    const sizes = variantData[color].map((variant) => {
+      const results = { size: variant.options[1], available: variant.available };
+      return results;
+    });
+    return sizes;
+  }
+
+  function renderSizeOptions(sizes) {
+    const wrap = document.querySelector(".variant-size");
+    if (!wrap) return;
+
+    // reset selected size text
+    const selectedSize = document.getElementById("option-value-size");
+    selectedSize.textContent = "";
+
+    // 1) remove old sizes
+    wrap.innerHTML = "";
+
+    const map = new Map();
+    sizes.forEach(({ size, available }) => {
+      map.set(size, map.has(size) ? map.get(size) || available : available);
+    });
+
+    [...map.entries()].forEach(([size, available]) => {
+      const el = document.createElement("div");
+      el.className = "title-size" + (available ? "" : " not-available");
+      el.dataset.size = size;
+      el.dataset.optionValue = size;
+      el.textContent = size;
+      wrap.appendChild(el);
+    });
+    selectedSizeHandler();
+    inputVariant.value = "";
+    inputVariant.dispatchEvent(new Event("change", { bubbles: true }));
+    inputVariant.dispatchEvent(new Event("input", { bubbles: true }));
+  }
+
   // color selection
   if (colorContainer) {
+    const selectedColor = this.getElementById("option-value-color");
     const colorBtn = colorContainer.querySelector(".variant-image-container-color");
     if (!colorBtn) return;
     const images = colorContainer.querySelectorAll(".variant-image");
     images.forEach((img) => {
       img.addEventListener("click", (e) => {
-         e.stopPropagation();
+        const variantId = img.getAttribute("data_id");
+        const optionValue = img.getAttribute("data_option_value");
+        const allSizes = getAllSizesByColor(optionValue);
+
+        renderSizeOptions(allSizes);
+        setGalleryByVariantId(variantId);
+
+        e.stopPropagation();
         images.forEach((i) => i.classList.remove("active"));
         img.classList.add("active");
-        setInputValue();
+        selectedColor.textContent = `${optionValue}`;
+
+        // inputVariant.value = "";
       });
     });
   }
   // size selection
-  if (sizeContainer) {
-    const sizeBtn = sizeContainer.querySelectorAll(".title-size");
+  function selectedSizeHandler() {
+    if (sizeContainer) {
+      const sizeBtn = sizeContainer.querySelectorAll(".title-size");
+      const selectedSize = document.getElementById("option-value-size");
 
-    const selectedSize = this.getElementById("after-select-size");
-    if (!sizeBtn) return;
-    sizeBtn.forEach((size) => {
-      size.addEventListener("click", (e) => {
-        // console.log("clicked");
-         e.stopPropagation();
-        sizeBtn.forEach((i) => i.classList.remove("active"));
-        size.classList.add("active");
-        selectedSize.style.display = "block";
-        selectedSize.textContent = `Size: ${size.textContent}`;
-        setInputValue();
+      if (!sizeBtn) return;
+      sizeBtn.forEach((size) => {
+        size.addEventListener("click", (e) => {
+          // console.log("clicked");
+          e.stopPropagation();
+          sizeBtn.forEach((i) => i.classList.remove("active"));
+          size.classList.add("active");
+          selectedSize.style.display = "block";
+          selectedSize.textContent = `${size.textContent}`;
+          setInputValue();
+        });
       });
-    });
+    }
   }
+  selectedSizeHandler();
+
   // PRODUCT GALLERY
-  const productMediaContainer = this.querySelector(".product-gallery-info-container");
-  const mainMedia = this.getElementById("product-media-container-for-scroll");
-  const slides = mainMedia.querySelectorAll(".product-media");
-  const dotsContainer = this.querySelector(".dots-container");
-  const sideMediaContainer = this.querySelector(".side-product-media-container");
-  const dots = dotsContainer.querySelectorAll(".dot");
   let currentIndex = 0;
 
   function scrollToIndex(index) {
-    if (!slides[index]) return;
+    if (!wrappers[index]) return;
 
-    const slide = slides[index];
+    const slide = wrappers[index];
     // DOt active class
     const dot = dots[index];
     if (dot) {
@@ -205,4 +351,32 @@ document.addEventListener("DOMContentLoaded", function () {
       scrollToIndex(currentIndex);
     });
   }
+  // Enable Disable Add to cart button based on variant availability
+  const cartForm = document.getElementById("js-add-to-cart");
+  let variantInputSelect = cartForm.querySelector('input[name="id"]');
+  const updateAddToCartState = () => {
+    const addToCartBtn = cartForm.querySelector("button[data-action='add-to-cart']");
+    // console.log(variantInputSelect);
+    variantInputSelect = cartForm.querySelector('input[name="id"]');
+
+    if (!addToCartBtn || !variantInputSelect) return;
+
+    const selectedVariant = productData.variants.find(
+      (variant) => variant.id.toString() === variantInputSelect.value,
+    );
+    if (selectedVariant && selectedVariant.available) {
+      addToCartBtn.removeAttribute("disabled");
+      addToCartBtn.setAttribute("aria-disabled", "false");
+    } else {
+      addToCartBtn.setAttribute("disabled", "disabled");
+      addToCartBtn.setAttribute("aria-disabled", "true");
+    }
+  };
+  // Initial state
+  // updateAddToCartState();
+  // On variant change
+  variantInputSelect.addEventListener("input", (e) => {
+    console.log(e.target.value);
+    updateAddToCartState();
+  });
 });
