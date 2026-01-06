@@ -2,6 +2,8 @@ document.addEventListener("DOMContentLoaded", function () {
   const variants = this.querySelector(".variants-container");
   const colorContainer = variants?.querySelector(".color-size-variant-container") || null;
   const sizeContainer = variants?.querySelector(".variant-size") || null;
+  const colorContainer = variants?.querySelector(".color-size-variant-container") || null;
+  const sizeContainer = variants?.querySelector(".variant-size") || null;
   const inputVariant = this.querySelector('input[name="id"]');
   const cartButton = this.querySelector("button[data-action='add-to-cart']");
 
@@ -51,12 +53,18 @@ document.addEventListener("DOMContentLoaded", function () {
     const color = variant.options[0];
     if (!variantArray.includes(color)) {
       variantArray.push(color);
+    if (!variantArray.includes(color)) {
+      variantArray.push(color);
     }
   });
   const variantData = {};
   variantArray.forEach((color) => {
     variantData[color] = productData.variants.filter((variant) => variant.options[0] === color);
+  const variantData = {};
+  variantArray.forEach((color) => {
+    variantData[color] = productData.variants.filter((variant) => variant.options[0] === color);
   });
+  // console.log(productData.variants);
   // console.log(productData.variants);
   // ////////////////////////////////////////////////
 
@@ -338,6 +346,10 @@ document.addEventListener("DOMContentLoaded", function () {
     if (sizeContainer) {
       const sizeBtn = sizeContainer.querySelectorAll(".title-size");
       const selectedSize = document.getElementById("option-value-size");
+  function selectedSizeHandler() {
+    if (sizeContainer) {
+      const sizeBtn = sizeContainer.querySelectorAll(".title-size");
+      const selectedSize = document.getElementById("option-value-size");
 
       if (!sizeBtn) return;
       sizeBtn.forEach((size) => {
@@ -361,6 +373,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const wrappers = document.querySelectorAll(".product-media-wrapper");
     if (!wrappers[index]) return;
 
+    const slide = wrappers[index];
     const slide = wrappers[index];
     // DOt active class
     const dots = dotsContainer.querySelectorAll(".dot");

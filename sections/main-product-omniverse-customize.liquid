@@ -66,6 +66,7 @@
 {% endcapture %}
 <section
   class="Product-omniverse"
+  class="Product-omniverse"
   data-section-id="{{ section.id }}"
   data-section-type="product"
   data-section-settings='{{ section_settings }}'>
@@ -220,6 +221,9 @@
     <script id="ProductJson-{{ product.id }}" type="application/json">
       {{ product | json }}
     </script>
+    <script id="ProductJson-{{ product.id }}" type="application/json">
+      {{ product | json }}
+    </script>
 
     {%- if product_aside != blank -%}
       <div class="Product__Aside">
@@ -259,6 +263,8 @@
         <div class="pswp__item"></div>
         <div class="pswp__item"></div>
       </div>
+
+    <!-- Main UI bar - MUST KEEP -->
 
     <!-- Main UI bar - MUST KEEP -->
 

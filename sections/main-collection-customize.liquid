@@ -43,6 +43,8 @@
           <div class="collection-grid-x-symbols">X</div>
         </div>
       {% endif %}
+        </div>
+      {% endif %}
     {% endfor %}
   </div>
   {% comment %} Products {% endcomment %}
@@ -99,6 +101,22 @@
       </section>
       <div id="productsArea">
         {% for product in collection.products %}
+          <div class="collection-product-item lazy-product" data-loaded="false">
+            <a href="{{ product.url }}" class="link-product">
+              {% assign metaField = product.metafields.custom %}
+              <div class="product-info">
+                <div class="collection-product-title">
+                  {{ product.title | truncate: 35 }}
+                </div>
+                {% if product.metafields.custom %}
+                  <div class="product-description">
+                    {{ product.metafields.custom.heading | truncate: 60 }}
+                  </div>
+                {% endif %}
+                <div class="product-price">
+                  {{ product.price | money_with_currency }}
+                </div>
+              </div>
           <div class="collection-product-item lazy-product" data-loaded="false">
             <a href="{{ product.url }}" class="link-product">
               {% assign metaField = product.metafields.custom %}
@@ -274,6 +292,64 @@
     </div>
   </div>
 </div>
+
+{% schema %}
+  {
+    "name": "Editable Banner",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Banner Title"
+      },
+      {
+        "type": "color",
+        "id": "text_title_color",
+        "label": "Text Title Color",
+        "default": "#ffffff"
+      },
+      {
+        "type": "text",
+        "id": "subtitle",
+        "label": "Banner Subtitle"
+      },
+      {
+        "type": "color",
+        "id": "text_subtitle_color",
+        "label": "Text Subtitle Color",
+        "default": "#ffffff"
+      }, {
+        "type": "text",
+        "id": "button_text",
+        "label": "Button Text",
+        "default": "Shop Now"
+      }, {
+        "type": "color",
+        "id": "button_bg_color",
+        "label": "Button Background Color",
+        "default": "#000000"
+      }, {
+        "type": "color",
+        "id": "button_text_color",
+        "label": "Button Text Color",
+        "default": "#0069f0"
+      }, {
+        "type": "url",
+        "id": "button_link",
+        "label": "Button Link"
+      }, {
+        "type": "image_picker",
+        "id": "background_image",
+        "label": "Background Image"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Editable Banner"
+      }
+    ]
+  }
+{% endschema %}
 
 {% schema %}
   {

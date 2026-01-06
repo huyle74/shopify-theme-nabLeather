@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "c79510ec-9239-4df9-9fd2-4810f2bc69b5": {
@@ -32,35 +41,9 @@
         "button_background": "#ffffff"
       }
     },
-
     "main": {
       "type": "main-collection-customize",
-      "settings": {
-        "show_collection_info": true,
-        "show_collection_image": false,
-        "apply_overlay": true,
-        "show_color_swatch": false,
-        "show_vendor": false,
-        "collection_image_visibility": "first",
-        "collection_image_size": "normal",
-        "show_sort_by": true,
-        "show_layout_switch": false,
-        "toolbar_position": "bottom",
-        "show_filters": true,
-        "show_filter_color_swatch": false,
-        "expand_filters": false,
-        "filter_position": "drawer",
-        "filter_menu": "",
-        "grid_items_per_page": 16,
-        "grid_mobile_items_per_row": "2",
-        "grid_desktop_items_per_row": 4,
-        "image_height": "default-height",
-        "text_color": "#ffffff",
-        "overlay_color": "#000000",
-        "overlay_opacity": 30,
-        "banner_button_label": "",
-        "banner_button_link": ""
-      }
+      "settings": {}
     },
     "recently-viewed-products": {
       "type": "recently-viewed-products",
