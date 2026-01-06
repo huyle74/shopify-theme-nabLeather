@@ -26,49 +26,95 @@
   {% comment %} collection {% endcomment %}
   <div class="collection-grid-container">
     {% for collection in collections limit: 10 %}
-      <div class="collection-grid" data-url="{{ collection.url }}">
-        {% if collection.featured_image and collection.all_products_count != 0 %}
-          {{ collection.featured_image
- | image_url: width: 100, height: 100, crop: 'center'
+      {% if collection.featured_image != blank and collection.all_products_count > 0 %}
+        <div class="collection-grid" data-url="{{ collection.url }}">
+          <div class="collection-featured-image">
+            {{ collection.featured_image
+ | image_url: width: 200, height: 200, crop: 'center'
  | image_tag:
  loading: 'lazy',
  alt: collection.title,
- class: 'collection-featured-image'
-          }}
+ class: ''
+            }}
+          </div>
           <div class="collection-grid-title">
             {{ collection.title }}
           </div>
           <div class="collection-grid-x-symbols">X</div>
-        {% endif %}
-      </div>
+        </div>
+      {% endif %}
     {% endfor %}
   </div>
   {% comment %} Products {% endcomment %}
   <div class="collection-products-section">
     <div class="collection-products-container">
-      {{ collection.featured_image
- | image_url: width: 500, height: 500, crop: 'center'
- | image_tag:
- loading: 'eager',
- alt: collection.title,
- class: 'banner-image',
- data-url: collection.featured_image
-      }}
+      <section>
+
+        {% comment %} CHECK if have content {% endcomment %}
+        {% assign contentExisted = false %}
+        {% assign buttonExist = false %}
+        {% if section.settings.title != blank
+ or section.settings.subtitle != blank
+ or section.settings.button_text != blank and section.settings.button_link != blank %}
+          {% assign contentExisted = true %}
+          {% assign buttonExist = true %}
+        {% endif %}
+        <div
+          class="banner-container {% if contentExisted %}existed{% endif %}"
+          {% if section.settings.background_image != blank %}
+          style="background-image: url('{{ section.settings.background_image | image_url: width: 2000 }}');"
+          {% elsif collection.featured_image %}
+          style="background-image: url('{{ collection.featured_image | image_url: width: 2000 }}');"
+          {% endif %}>
+
+          {% if contentExisted %}
+            <div id="existed-content"></div>
+          {% endif %}
+
+          <div class="banner-content">
+            <a href="{{ section.settings.button_link }}">
+
+              {% if section.settings.title != blank %}
+                <h1 class="banner-title" style="color: {{ section.settings.text_title_color }};">{{ section.settings.title }}</h1>
+              {% endif %}
+
+              {% if section.settings.subtitle != blank %}
+                <p class="banner-subtitle" style="color: {{ section.settings.text_subtitle_color }};">{{ section.settings.subtitle }}</p>
+              {% endif %}
+
+              {% if section.settings.button_text != blank and section.settings.button_link != blank %}
+                <a
+                  href="{{ section.settings.button_link }}"
+                  class="banner-button"
+                  style="background-color: {{ section.settings.button_bg_color }};color: {{ section.settings.button_text_color }};">
+                  {{ section.settings.button_text }}
+
+                </a>
+              {% endif %}
+            </a>
+          </div>
+
+
+        </div>
+      </section>
       <div id="productsArea">
         {% for product in collection.products %}
-          <div class="collection-product-item">
-            <div class="product-info">
-              <div class="collection-product-title">
-                {{ product.title | truncate: 35 }}
+          <div class="collection-product-item lazy-product" data-loaded="false">
+            <a href="{{ product.url }}" class="link-product">
+              {% assign metaField = product.metafields.custom %}
+              <div class="product-info">
+                <div class="collection-product-title">
+                  {{ product.title | truncate: 35 }}
+                </div>
+                {% if product.metafields.custom %}
+                  <div class="product-description">
+                    {{ product.metafields.custom.heading | truncate: 60 }}
+                  </div>
+                {% endif %}
+                <div class="product-price">
+                  {{ product.price | money_with_currency }}
+                </div>
               </div>
-              <div class="product-description">
-                {{ product.description | strip_html | truncatewords: 7 }}
-              </div>
-              <div class="product-price">
-                {{ product.price | money_with_currency }}
-              </div>
-            </div>
-            <a href="{{ product.url }}">
               {% if product.featured_image %}
                 <div class="product-images-container">
                   {{ product.featured_image
@@ -112,19 +158,84 @@
             </a>
             <div class="dots-and-arrows-container">
               <div class="dot-container">
-                {% for p in product.media %}
-                  <img
-                    width="50"
-                    height="50"
-                    src={{ p | image_url: width: 200, height: 200, crop: 'center' }}
-                    alt="{{ p.alt }}"
-                    class="image-dot"
-                    id="{{ p.id }}"
-                    loading="eager"
-                    data-url="{{ p | image_url: width: 500, height: 500, crop: 'center' }}"
-                    ,
-                    data-id="{{ p.id }}">
-                {% endfor %}
+
+                {% assign swatch_variants = nil %}
+                {% if product.options.size > 1 %}
+                  {% assign options = product.options_with_values[0] %}
+
+                  <script>
+                    // console.log({{ options |  json }});
+                  </script>
+                  {% for option in options.values %}
+                    {% assign media = nil %}
+                    {% for variant in product.variants %}
+                      {% if variant.option1 == option %}
+                        {% assign swatch_variants = variant %}
+                        <script>
+                          //  console.log({{ swatch_variants | json }});
+                        </script>
+                        {% break %}
+                      {% endif %}
+                    {% endfor %}
+                    {% comment %} assign media for swatch variant {% endcomment %}
+                    {% if swatch_variants and swatch_variants.featured_media %}
+                      {% assign media = swatch_variants.featured_media %}
+                    {% endif %}
+                    {% if media %}
+                      <img
+                        width="50"
+                        height="50"
+                        src={{ media | image_url: width: 200, height: 200, crop: 'center' }}
+                        alt="{{ media.alt }}"
+                        class="image-dot"
+                        id="{{ media.id }}"
+                        loading="eager"
+                        data-url="{{ media | image_url: width: 500, height: 500, crop: 'center' }}"
+                        data-id="{{ media.id }}">
+                    {% endif %}
+                  {% endfor %}
+
+                  {% assign media = product.featured_image %}
+
+                {% else %}
+                  {% assign options = product.options_with_values[0] %}
+                  <script>
+                      console.log('1 or 0 option', {{ options | json }});
+                  </script>
+                  {% assign swatch_variants = product.variants %}
+                  {% assign media = swatch_variants.featured_media %}
+
+                  {% if swatch_variants and media %}
+                    {% for option in options.values %}
+                      <script>
+                        // console.log(options);
+                      </script>
+                      <img
+                        width="50"
+                        height="50"
+                        src={{ media | image_url: width: 200, height: 200, crop: 'center' }}
+                        alt="{{ media.alt }}"
+                        class="image-dot"
+                        id="{{ media.id }}"
+                        loading="eager"
+                        data-url="{{ media | image_url: width: 500, height: 500, crop: 'center' }}"
+                        data-id="{{ media.id }}">
+                    {% endfor %}
+
+                  {% else %}
+                    {% assign media = product.featured_media %}
+                    <img
+                      width="50"
+                      height="50"
+                      src={{ media | image_url: width: 200, height: 200, crop: 'center' }}
+                      alt="{{ media.alt }}"
+                      class="image-dot"
+                      id="{{ media.id }}"
+                      loading="eager"
+                      data-url="{{ media | image_url: width: 500, height: 500, crop: 'center' }}"
+                      data-id="{{ media.id }}">
+                  {% endif %}
+                {% endif %}
               </div>
               <div class="arrow-buttons-container">
                 <button class="arrow-btn icon--back" aria-label="Previous">
@@ -163,3 +274,61 @@
     </div>
   </div>
 </div>
+
+{% schema %}
+  {
+    "name": "Editable Banner",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Banner Title"
+      },
+      {
+        "type": "color",
+        "id": "text_title_color",
+        "label": "Text Title Color",
+        "default": "#ffffff"
+      },
+      {
+        "type": "text",
+        "id": "subtitle",
+        "label": "Banner Subtitle"
+      },
+      {
+        "type": "color",
+        "id": "text_subtitle_color",
+        "label": "Text Subtitle Color",
+        "default": "#ffffff"
+      }, {
+        "type": "text",
+        "id": "button_text",
+        "label": "Button Text",
+        "default": "Shop Now"
+      }, {
+        "type": "color",
+        "id": "button_bg_color",
+        "label": "Button Background Color",
+        "default": "#000000"
+      }, {
+        "type": "color",
+        "id": "button_text_color",
+        "label": "Button Text Color",
+        "default": "#0069f0"
+      }, {
+        "type": "url",
+        "id": "button_link",
+        "label": "Button Link"
+      }, {
+        "type": "image_picker",
+        "id": "background_image",
+        "label": "Background Image"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Editable Banner"
+      }
+    ]
+  }
+{% endschema %}

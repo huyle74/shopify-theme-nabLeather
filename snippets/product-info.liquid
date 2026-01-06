@@ -1,32 +1,56 @@
 {{ 'product-customize.css' | asset_url | stylesheet_tag }}
+{% capture title_and_price %}
+{%- for block in section.blocks -%}
+  {%- case block.type -%}
+    {% when 'product_meta' %}
+    {%- render 'product-meta', form: form, block: block, product: product -%}
+    <div class="desktop-hide">
+      <div class="loox-rating" data-id="{{ product.id }}" data-rating="{{ product.metafields.loox.avg_rating }}" data-raters="{{ product.metafields.loox.num_reviews }}"></div>
+    </div>
+  {% endcase %}
+{% endfor %}
+{% endcapture %}
+{% capture title_and_price_mobile %}
+{%- for block in section.blocks -%}
+  {%- case block.type -%}
+    {% when 'product_meta' %}
+    {%- render 'product-meta-mobile', form: form, block: block, product: product -%}
+    <div class="desktop-hide">
+      <div class="loox-rating" data-id="{{ product.id }}" data-rating="{{ product.metafields.loox.avg_rating }}" data-raters="{{ product.metafields.loox.num_reviews }}"></div>
+    </div>
+  {% endcase %}
+{% endfor %}
+{% endcapture %}
 
 <div class="Product__InfoWrapper">
   <div class="Product__Info">
     <div class="Container">
-      <div id="product-title">{{ product.title }}</div>
       {%- assign has_ouputted_variant_selector = false -%}
 
-      {%- form 'product'
-        , product
-        , class: 'ProductForm' -%}
+        {%- form 'product'
+          , product
+          , class: 'ProductForm'
+          , id: 'js-add-to-cart' -%}
         {%- render 'product-data'
           , product: product -%}
 
+        {% comment %} {% assign app_blocks = section.blocks | where: 'type', '@app' %}
+                                                                                                                                {% assign fit_guide_block = app_blocks[0] %}
+                                                                                                        {% assign second_app_block = app_blocks[1] %} {% endcomment %}
+        <!-- DEBUG APP ID: {{ fit_guide_block.id }} -->
+
         {%- for block in section.blocks -%}
           {%- case block.type -%}
-            {%- when '@app' -%}
-              {%- render block -%}
-
             {%- when 'product_meta' -%}
               <div class="mobile-hide">
                 {{ title_and_price }}
               </div>
+
               <div
                 hook-widget-count="{{ product.id }}"
                 class="sold-count-widget"
                 data-counter="{{ product.metafields['app--71373979649--soldcount'].counter }}"
                 data-resent="{{ product.metafields['app--71373979649--soldcount'].customer }}"></div>
-
 
             {%- when 'share_buttons' -%}
               <div class="ProductMeta__ShareButtons hidden-pocket" {{ block.shopify_attributes }}>
@@ -59,106 +83,216 @@
                 </div>
               </div>
 
-            {%- when 'variant_selector' -%}
-              <div class="variants-container">
-                {% if product.has_only_default_variant != true %}
-                  {% assign color_option = product.options_by_name.Color %}
-                  {% assign size_option = product.options_by_name.Size %}
-                  {% assign neck_size_and_color_width = product.options_by_name['Neck Size and Collar Width'] %}
-                    {% if product.options.size >= 2 %}
-                    <div class="color-size-variant-container">
-                      {% for color_value in color_option.values %}
-                        {%- for variant in product.variants -%}
-                          {%- if variant.option1 == color_value and variant.image -%}
-                            {% assign swatch_image = variant.image %}
-                            {% assign swatch_variant = variant %}
-                            {% break %}
-                          {%- endif -%}
-                        {%- endfor -%}
 
-                        {% if swatch_image %}
-                          <div class="variant-image-container-color" data-product-option>
-                            {{ swatch_image
+            {%- when 'variant_selector' -%}
+              {% assign selected_variant = nil %}
+              {% if product.has_only_default_variant == false %}
+                <div class="variants-container">
+                  {% assign size_option = nil %}
+                  {% assign color_option = product.options_with_values[0] %}
+                  {% assign size_option = product.options_with_values[1] %}
+
+                  {% comment %} 2 variants {% endcomment %}
+                  {% if product.options.size >= 2 %}
+                    <div id="2-variant-existed">
+                      {% assign selected_variant = product.selected_or_first_available_variant %}
+                      {% assign selected_color = nil %}
+                      <div id="after-select-color">{{ product.options_with_values[0].name }}:
+                        <span id="option-value-color">{{ selected_variant.option1 }}</span>
+                      </div>
+                      <div class="color-size-variant-container">
+                        {% for color_value in color_option.values %}
+                          {% assign swatch_image = nil %}
+                          {% assign swatch_variant = nil %}
+
+                          {%- for variant in product.variants -%}
+
+                            {%- if variant.option1 == color_value and variant.image -%}
+                              {% assign swatch_image = variant.featured_media %}
+                              {% assign swatch_variant = variant %}
+                              {% assign variant_gallery = variant.metafields.custom.variant_gallery.value %}
+                              {% capture variant_gallery_json %}
+                                [
+                                  {%- for media in variant_gallery -%}
+                                    {
+                                      "id": {{ media.id | json }},
+                                      "alt": {{ media.alt | json }},
+                                      "src": {{ media | image_url: width: 1600, height: 1600, crop: 'center' | json }}
+                                    }{% unless forloop.last %},{% endunless %}
+                                  {%- endfor -%}
+                                ]
+                              {% endcapture %}
+                              {% break %}
+                            {%- endif -%}
+                          {%- endfor -%}
+
+                          {% if swatch_image %}
+                            {% assign selected_color = selected_variant.option1 %}
+                            {% assign active_class = '' %}
+                            {% if color_value == selected_color %}
+                              {% assign active_class = ' active' %}
+                            {% endif %}
+                            {% assign img_class = 'variant-image' | append: active_class %}
+                            <div class="variant-image-container-color" data-product-option>
+                              {{ swatch_image
  | image_url: width: 200, height: 200, crop: 'center'
  | image_tag:
  loading: 'eager',
  alt: swatch_variant.option1,
- class: 'variant-image',
+ class: img_class,
  data_url: swatch_variant.url,
  data_option_name: product.options[0],
  data_option_value: color_value,
  data_option_position: color_option.position,
- data_id: swatch_variant.id }}
-                            <div class="title">
-                              {{ color_value }}
+ data_id: swatch_variant.id,
+ data_media_id: swatch_image.id,
+ data_variant_gallery: variant_gallery_json }}
+                              <div class="title">
+                                {% comment %} {{ color_value }} {% endcomment %}
+                              </div>
                             </div>
+                          {% endif %}
+                        {% endfor %}
+                      </div>
+
+                      {% comment %} SIZE after select {% endcomment %}
+                      <div id="after-select-size">{{ product.options_with_values[1].name }}:
+                        <span id="option-value-size"></span>
+                        {% if fit_guide_block %}
+                          <div class="fit-guide-slot">
+                            {% render fit_guide_block %}
                           </div>
                         {% endif %}
-                      {% endfor %}
-                    </div>
+                      </div>
 
-                    {% comment %} SIZE after select {% endcomment %}
-                    <div id="after-select-size"></div>
-
-                    <div class="variant-size" data-product-option>
-                      {% for size in size_option.values %}
-                        <div
-                          class="title-size"
-                          data-size="{{ size }}"
-                          data-product-option
-                          data-option-position="{{ size_option.position }}"
-                          data-option-name="{{ product.options[1] }}"
-                          data-option-value="{{ size | escape }}"
-                          data-id="{{ size }}">
-                          {{ size }}
-                        </div>
-                      {% endfor %}
-                    </div>
-
-                  {% else %}
-                    {% if variant.image %}
-                      <div class="color-size-variant-container">
+                      <div class="variant-size" data-product-option>
                         {% for variant in product.variants %}
-                          <div class="variant-image-container-color" data-product-option>
-                            {{ variant.image 
+                          {% if variant.option1 == selected_color %}
+                            {% assign size = variant.option2 %}
+                            {% assign sizeAvailable = variant.available %}
+
+                            <div
+                              class="title-size{% if sizeAvailable == false %} not-available{% endif %}"
+                              data-size="{{ size }}"
+                              data-product-option
+                              data-option-position="{{ size_option.position }}"
+                              data-option-name="{{ product.options[1] }}"
+                              data-option-value="{{ size | escape }}"
+                              data-id="{{ size }}">
+                              {{ size }}
+                            </div>
+                          {% endif %}
+                        {% endfor %}
+                      </div>
+                    </div>
+
+
+                  {% comment %} 1 variant ONLY {% endcomment %}
+                  {% else %}
+                    {% assign variant_image_exist = nil %}
+                    {% for variant in product.variants %}
+                      {% if product.first_available_variant %}
+                        {% assign selected_variant = product.selected_or_first_available_variant %}
+                      {% endif %}
+
+                      {% assign color = variant.option1 %}
+                      {% assign color_option = product.options_with_values[0] %}
+                      {% if variant.featured_media and color_option.name != 'Size' %}
+                        {% assign variant_image_exist = true %}
+                      {% endif %}
+                    {% endfor %}
+
+                    <div id="1-option-only">
+                      {% if variant_image_exist %}
+                        <div id="after-select-size">{{ product.options_with_values[0].name }}:
+                          <span id="option-value-color"></span>
+                          {% if fit_guide_block %}
+                            <div class="fit-guide-slot">
+                              {% render fit_guide_block %}
+                            </div>
+                          {% endif %}
+                        </div>
+                        <div class="color-size-variant-container">
+                          {% for color_value in color_option.values %}
+                            {%- for variant in product.variants -%}
+
+                              {%- if variant.option1 == color_value and variant.image -%}
+                                {% assign swatch_image = variant.featured_media %}
+                                {% assign swatch_variant = variant %}
+                                {% assign variant_gallery = variant.metafields.custom.variant_gallery.value %}
+                                {% capture variant_gallery_json %}
+                                [
+                                  {%- for media in variant_gallery -%}
+                                    {
+                                      "id": {{ media.id | json }},
+                                      "alt": {{ media.alt | json }},
+                                      "src": {{ media | image_url: width: 1600, height: 1600, crop: 'center' | json }}
+                                    }{% unless forloop.last %},{% endunless %}
+                                  {%- endfor -%}
+                                ]
+                              {% endcapture %}
+                                {% break %}
+                              {%- endif -%}
+                            {%- endfor -%}
+                            {% assign media = swatch_image %}
+                            <div class="variant-image-container-color" data-product-option>
+                              {% assign variant_image_classes = 'variant-image' %}
+                              {% for variant in product.variants %}
+                                {% if variant.option1 == color_value and variant.id == swatch_variant.id and variant.available == false %}
+                                  {% assign variant_image_classes = variant_image_classes | append: ' variant-image--sold-out' %}
+                                {% endif %}
+                              {% endfor %}
+                              {{ media
  | image_url: width: 200, height: 200, crop: 'center' 
- | image_tag: loading: 'eager', alt: variant.title, class: 'variant-image', data-url: variant.url,
- data_option_value: variant.title, 
+ | image_tag: loading: 'eager', alt: swatch_variant.title, 
+ class: variant_image_classes,
+ data-url: swatch_variant.url,
+ data_option_value: color_value, 
  data_option_name: product.options[0],
  data_option_position: variant.options_positions[0], 
- data_id: variant.id
-                            }}
-                            <div class="title">
+ data_id: variant.id,
+ data_media_id: media.id, 
+ data_variant_gallery: variant_gallery_json }}
+                            </div>
+                          {% endfor %}
+                        </div>
+
+                      {% else %}
+                        <div id="after-select-size">{{ product.options_with_values[0].name }}:
+                          <span id="option-value-size"></span>
+                          {% if fit_guide_block %}
+                            <div class="fit-guide-slot">
+                              {% render fit_guide_block %}
+                            </div>
+                          {% endif %}
+                        </div>
+                        <div class="variant-size" data-product-option>
+                          {% for variant in product.variants %}
+                            {% assign sizeAvailable = variant.available %}
+                            <div
+                              class="title-size{% if product.options[0] contains 'Color' or product.options[0] contains 'Colour' %} variant-image{% endif %}
+                              {% if sizeAvailable == false %} not-available{% endif %}"
+                              data-option-name="{{ product.options[0] }}"
+                              data-option-value="{{ variant.title }}"
+                              data_id="{{ variant.id }}"
+                              data-product-option>
                               {{ variant.title }}
                             </div>
-                          </div>
-                        {% endfor %}
-                      </div>
-
-                    {% else %}
-                      <div id="after-select-size"></div>
-                      <div class="variant-size" data-product-option>
-                        {% comment %} SIZE after select {% endcomment %}
-                        {% for variant in product.variants %}
-                          <div
-                            class="title-size"
-                            data-option-name="{{ product.options[0] }}"
-                            data-option-value="{{ variant.title }}"
-                            data-product-option>
-                            {{ variant.title }}
-                          </div>
-                        {% endfor %}
-                      </div>
-                    {% endif %}
-
+                          {% endfor %}
+                        </div>
+                      {% endif %}
+                    </div>
                   {% endif %}
 
-                {% endif %}
-                <input
-                  type="hidden"
-                  name="id"
-                  value="{{ product.selected_or_first_available_variant.id }}">
-              </div>
+                  <input type="hidden" name="id">
+                </div>
+              {% else %}
+                <div id="do-not-have-variant"></div>
+                <input type="hidden" name="id">
+              {% endif %}
+
+            {%- when '@app' -%}
+              {% render block %}
 
             {%- when 'quantity_selector' -%}
               <div class="ProductForm__QuantitySelector" {{ block.shopify_attributes }}>
@@ -230,12 +364,12 @@
                 <button
                   type="submit"
                   data-use-primary-button="{% if use_primary_button %}true{% else %}false{% endif %}"
-                  class="ProductForm__AddToCart Button {% if product.selected_or_first_available_variant.available and use_primary_button %}Button--primary{% else %}Button--secondary{% endif %} Button--full"
-                  {% if product.selected_or_first_available_variant.available %}
                   data-action="add-to-cart"
-                  {% else %}
-                  disabled="disabled"
-                  {% endif %}>
+                  class="ProductForm__AddToCart"
+                  aria-disabled="false"
+                  id="add-to-cart-button"
+                  name="add"
+                  disabled>
                   {%- if product.selected_or_first_available_variant.available -%}
                     <span>
                       {% if product.template_suffix == 'pre-order' %}
@@ -249,6 +383,7 @@
                       <span class="Button__SeparatorDot"></span>
                       <span>{{ product.selected_or_first_available_variant.price | money }}</span>
                     {%- endif -%}
+
                   {%- else -%}
                     {{- 'product.form.sold_out' | t -}}
                   {%- endif -%}
