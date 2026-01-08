@@ -2,8 +2,6 @@ document.addEventListener("DOMContentLoaded", function () {
   const variants = this.querySelector(".variants-container");
   const colorContainer = variants?.querySelector(".color-size-variant-container") || null;
   const sizeContainer = variants?.querySelector(".variant-size") || null;
-  const colorContainer = variants?.querySelector(".color-size-variant-container") || null;
-  const sizeContainer = variants?.querySelector(".variant-size") || null;
   const inputVariant = this.querySelector('input[name="id"]');
   const cartButton = this.querySelector("button[data-action='add-to-cart']");
 
@@ -53,18 +51,12 @@ document.addEventListener("DOMContentLoaded", function () {
     const color = variant.options[0];
     if (!variantArray.includes(color)) {
       variantArray.push(color);
-    if (!variantArray.includes(color)) {
-      variantArray.push(color);
     }
   });
   const variantData = {};
   variantArray.forEach((color) => {
     variantData[color] = productData.variants.filter((variant) => variant.options[0] === color);
-  const variantData = {};
-  variantArray.forEach((color) => {
-    variantData[color] = productData.variants.filter((variant) => variant.options[0] === color);
   });
-  // console.log(productData.variants);
   // console.log(productData.variants);
   // ////////////////////////////////////////////////
 
@@ -198,6 +190,47 @@ document.addEventListener("DOMContentLoaded", function () {
   }
   zoomFunctionality();
 
+  let currentIndex = 0;
+
+  function scrollToIndex(index) {
+    const wrappers = document.querySelectorAll(".product-media-wrapper");
+    if (!wrappers[index]) return;
+
+    const slide = wrappers[index];
+    // DOt active class
+    const dots = dotsContainer.querySelectorAll(".dot");
+    const dot = dots[index];
+    if (dot) {
+      dots.forEach((s) => s.classList.remove("active"));
+      dot.classList.add("active");
+    }
+    // side media active class
+    if (sideMediaContainer) {
+      const allSides = sideMediaContainer.querySelectorAll(".product-media");
+      allSides.forEach((item) => item.classList.remove("active"));
+      const sideToActivate = allSides[index];
+      sideToActivate.classList.add("active");
+      ensureThumbVisible(sideToActivate, sideMediaContainer);
+    }
+
+    // center the slide
+    const left = slide.offsetLeft - mainMedia.clientWidth / 2 + slide.clientWidth / 2;
+    mainMedia.scrollTo({
+      left,
+      behavior: "smooth",
+    });
+  }
+
+  function resetDots() {
+    const dots = dotsContainer.querySelectorAll(".dot");
+    dots.forEach((dot) => {
+      dot.classList.remove("active");
+    });
+    const firstDot = dotsContainer.querySelector(".dot");
+    firstDot.classList.add("active");
+    currentIndex = 0;
+  }
+
   // Render size options based on color selection
   function getAllSizesByColor(color) {
     if (!variantData[color]) return [];
@@ -239,11 +272,17 @@ document.addEventListener("DOMContentLoaded", function () {
     inputVariant.dispatchEvent(new Event("input", { bubbles: true }));
   }
 
-  function renderGalleryByColor(color) {
+  function renderGalleryByColor(color, mediaId) {
     if (variantsGallery.length === 0) return;
+    const selectedId = parseInt(mediaId, 10);
+
     const variant = variantsGallery.find((v) => v.color === color);
     if (!variant) return;
-    const gallery = variant.gallery;
+    const gallery = variant.gallery.sort((a, b) => {
+      if (a.id === selectedId) return -1;
+      if (b.id === selectedId) return 1;
+      return 0;
+    });
 
     const sideMediaContainer = document.querySelector(".side-product-media-container");
     const mainMedia = document.getElementById("product-media-container-for-scroll");
@@ -297,7 +336,8 @@ document.addEventListener("DOMContentLoaded", function () {
       dotDiv.dataset.index = index;
       dotsContainer.appendChild(dotDiv);
     });
-    scrollToIndex(0);
+    resetDots();
+    // scrollToIndex(0);
     selectSideMedia();
     zoomFunctionality();
     dotClicked();
@@ -316,8 +356,9 @@ document.addEventListener("DOMContentLoaded", function () {
         if (img.classList.contains("active")) return;
 
         const optionValue = img.getAttribute("data_option_value");
+        const imageId = img.getAttribute("data_media_id");
         const allSizes = getAllSizesByColor(optionValue);
-        renderGalleryByColor(optionValue);
+        renderGalleryByColor(optionValue, imageId);
         renderSizeOptions(allSizes);
 
         e.stopPropagation();
@@ -346,10 +387,6 @@ document.addEventListener("DOMContentLoaded", function () {
     if (sizeContainer) {
       const sizeBtn = sizeContainer.querySelectorAll(".title-size");
       const selectedSize = document.getElementById("option-value-size");
-  function selectedSizeHandler() {
-    if (sizeContainer) {
-      const sizeBtn = sizeContainer.querySelectorAll(".title-size");
-      const selectedSize = document.getElementById("option-value-size");
 
       if (!sizeBtn) return;
       sizeBtn.forEach((size) => {
@@ -367,37 +404,6 @@ document.addEventListener("DOMContentLoaded", function () {
   selectedSizeHandler();
 
   // PRODUCT GALLERY
-  let currentIndex = 0;
-
-  function scrollToIndex(index) {
-    const wrappers = document.querySelectorAll(".product-media-wrapper");
-    if (!wrappers[index]) return;
-
-    const slide = wrappers[index];
-    const slide = wrappers[index];
-    // DOt active class
-    const dots = dotsContainer.querySelectorAll(".dot");
-    const dot = dots[index];
-    if (dot) {
-      dots.forEach((s) => s.classList.remove("active"));
-      dot.classList.add("active");
-    }
-    // side media active class
-    if (sideMediaContainer) {
-      const allSides = sideMediaContainer.querySelectorAll(".product-media");
-      allSides.forEach((item) => item.classList.remove("active"));
-      const sideToActivate = allSides[index];
-      sideToActivate.classList.add("active");
-      ensureThumbVisible(sideToActivate, sideMediaContainer);
-    }
-
-    // center the slide
-    const left = slide.offsetLeft - mainMedia.clientWidth / 2 + slide.clientWidth / 2;
-    mainMedia.scrollTo({
-      left,
-      behavior: "smooth",
-    });
-  }
 
   function ensureThumbVisible(thumb, container) {
     const thumbRect = thumb.getBoundingClientRect();
@@ -418,6 +424,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const dot = e.currentTarget;
     const index = parseInt(dot.getAttribute("data-index"), 10);
     currentIndex = index;
+    console.log("Dot clicked", index);
     scrollToIndex(index);
   }
 
@@ -463,18 +470,30 @@ document.addEventListener("DOMContentLoaded", function () {
     leftArrow?.addEventListener("click", function (e) {
       e.stopPropagation();
 
-      // console.log("left clicked");
       currentIndex = currentIndex === 0 ? slides.length - 1 : currentIndex - 1;
+      // console.log("left Arrow", currentIndex );
       scrollToIndex(currentIndex);
     });
     rightArrow?.addEventListener("click", function (e) {
       e.stopPropagation();
 
-      // console.log("right clicked");
       currentIndex = currentIndex === slides.length - 1 ? 0 : currentIndex + 1;
+      // console.log('Right Arrow', currentIndex);
       scrollToIndex(currentIndex);
     });
   }
+  // Render float mobile cart button title
+  const isMobileScreens = window.matchMedia("(max-width: 768px)").matches;
+  const mobileFloatingCarts = document.getElementById("mobile-floating-cart");
+  const mobileCartBtn = mobileFloatingCarts.querySelector("button");
+  const mobileCartImg = mobileFloatingCarts.querySelector("img");
+  const mobileCartTitle = mobileFloatingCarts.querySelector("span");
+  const mobileBtnOverlay = document.getElementById("float-cart__overlay-button");
+  if (isMobileScreens) {
+    mobileCartTitle.textContent =
+      productData.title.length > 65 ? productData.title.slice(0, 65) + "..." : productData.title;
+  }
+
   // Enable Disable Add to cart button based on variant availability
   const cartForm = document.getElementById("js-add-to-cart");
   let variantInputSelect = cartForm.querySelector('input[name="id"]');
@@ -483,7 +502,7 @@ document.addEventListener("DOMContentLoaded", function () {
     variantInputSelect = cartForm.querySelector('input[name="id"]');
     // console.log(variantInputSelect.value);
     const have2Options = document.getElementById("2-variant-existed") || null;
-    const oneOptionOnly = document.getElementById("1-option-only") || null;
+    const oneOptionOnly = document.getElementById("one-option-only") || null;
 
     if (!addToCartBtn || !variantInputSelect) return;
 
@@ -492,17 +511,16 @@ document.addEventListener("DOMContentLoaded", function () {
     );
 
     // Mobile floating cart button
-    const isMobileScreen = window.matchMedia("(max-width: 768px)").matches;
-    const mobileFloatingCart = document.getElementById("mobile-floating-cart");
-    const mobileCartBtn = mobileFloatingCart.querySelector("button");
-    const mobileCartImg = mobileFloatingCart.querySelector("img");
-    const mobileCartTitle = mobileFloatingCart.querySelector("span");
 
-    if (isMobileScreen && selectedVariant) {
+    if (isMobileScreens && selectedVariant.available) {
       mobileCartImg.src = selectedVariant.featured_image
         ? selectedVariant.featured_image.src
         : productData.images[0];
-      mobileCartTitle.textContent = productData.title;
+      mobileCartBtn.style.color = "white";
+      mobileBtnOverlay.style.display = "none";
+    } else {
+      mobileCartBtn.style.color = "black";
+      mobileBtnOverlay.style.display = "block";
     }
 
     if (selectedVariant && selectedVariant.available) {
@@ -532,10 +550,10 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // Button label update on variant change
+  const addToCartBtn = cartForm.querySelector("button[data-action='add-to-cart']");
   function updateButtonLabel(label) {
     const have2Options = document.getElementById("2-variant-existed") || null;
-    const oneOptionOnly = document.getElementById("1-option-only") || null;
-    const addToCartBtn = cartForm.querySelector("button[data-action='add-to-cart']");
+    const oneOptionOnly = document.getElementById("one-option-only") || null;
     const mobileFloatingCart = document.getElementById("mobile-floating-cart");
     const mobileCartBtn = mobileFloatingCart.querySelector("button");
 
@@ -561,32 +579,52 @@ document.addEventListener("DOMContentLoaded", function () {
   const isMobileScreen = window.matchMedia("(max-width: 768px)").matches;
   const productPageContainer = document.querySelector(".product-gallery-info-container");
   const mobileFloatingCart = document.getElementById("mobile-floating-cart");
-  function onOutOfScreen() {
-    if (isMobileScreen && mobileFloatingCart) {
-      mobileFloatingCart.style.transform = "translateY(0)";
-    }
-  }
+  const productFormEl = document.querySelector(".product-gallery-container");
 
-  function onInScreen() {
-    if (isMobileScreen && mobileFloatingCart) {
+  // track visibility state
+  let isProductFormVisible = false;
+  let isAddToCartBtnVisible = false;
+
+  function updateFloatingCart() {
+    // 🔥 trigger only when BOTH are out of view
+    if (!isMobileScreen || !productData.available) return;
+
+    if (!isProductFormVisible && !isAddToCartBtnVisible) {
+      mobileFloatingCart.style.transform = "translateY(0)";
+    } else {
       mobileFloatingCart.style.transform = "translateY(300%)";
     }
   }
+
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
-        if (!entry.isIntersecting) {
-          onOutOfScreen();
-        } else {
-          onInScreen();
+        if (entry.target === productFormEl) {
+          isProductFormVisible = entry.isIntersecting;
+        }
+        if (entry.target === addToCartBtn) {
+          isAddToCartBtnVisible = entry.isIntersecting;
         }
       });
+
+      updateFloatingCart();
     },
     {
-      root: null, // viewport
-      threshold: 0, // trigger as soon as it leaves/enters
+      root: null,
+      threshold: 0,
     },
   );
+  observer.observe(productFormEl);
+  observer.observe(addToCartBtn);
 
-  observer.observe(productPageContainer);
+  // scroll to size section on mobile floating cart click
+  if (isMobileScreen) {
+    mobileBtnOverlay.addEventListener("click", function () {
+      const variantContainer = document.querySelector(".variants-container");
+
+      if (variantContainer) {
+        variantContainer.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+    });
+  }
 });

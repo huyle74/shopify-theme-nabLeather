@@ -66,7 +66,6 @@
 {% endcapture %}
 <section
   class="Product-omniverse"
-  class="Product-omniverse"
   data-section-id="{{ section.id }}"
   data-section-type="product"
   data-section-settings='{{ section_settings }}'>
@@ -108,11 +107,13 @@
       data-counter="{{ product.metafields['app--71373979649--soldcount'].counter }}"
       data-resent="{{ product.metafields['app--71373979649--soldcount'].customer }}"></div>
     {%- comment -%} 
-                      --------------------------------------------------------------------------------------------------------------------
-                      PRODUCT GALLERY
-                      -------------------------------------------------------------------------------------------------------------------- 
-                {%- endcomment -%}
+                            --------------------------------------------------------------------------------------------------------------------
+                            PRODUCT GALLERY
+                            -------------------------------------------------------------------------------------------------------------------- 
+                    {%- endcomment -%}
+    
     <div class="product-gallery-info-container">
+ 
       {% comment %} VARIANT GALLERY {% endcomment %}
       {% assign gallery = product.images %}
       {% assign selected_variant = product.selected_or_first_available_variant %}
@@ -120,51 +121,54 @@
         {% assign gallery = selected_variant.metafields.custom.variant_gallery.value %}
       {% endif %}
       {% assign selected_color = selected_variant.option1 %}
-
         <div class="product-gallery-container">
-        <div class="side-product-media-container">
-          {% for image in gallery %}
-            {% assign image_src = image | image_url: width: 200, height: 200, crop: 'center' %}
-            {% assign alt_text = image.alt | default: product.title %}
-            {% assign variant_ids = image.variants | map: 'id' | join: ',' %}
 
-            <div
-              class="product-media"
-              data-url="{{ image_src }}"
-              data-index="{{ forloop.index0 }}"
-              data-media-id="{{ image.id }}"
-              data-variant-id="{{ variant_ids }}">
-              <img
-                src="{{ image_src }}"
-                loading="eager"
-                alt="{{ alt_text | escape }}"
-                width="200"
-                height="200">
-            </div>
-          {% endfor %}
-        </div>
-
-        {% comment %} Sold out Badge {% endcomment %}
+          {% comment %} Sold out Badge {% endcomment %}
         <span class="sold-out-badge">Sold Out</span>
 
-        <div id="product-media-container-for-scroll">
-          <div class="product-media-container">
+          <div class="side-product-media-container">
             {% for image in gallery %}
-              <div class="product-media-wrapper">
-                {{ image
- | image_url: width: 1600, height: 1600, crop: 'center'
- | image_tag:
- loading: 'eager',
- alt: image,
- class: 'product-media',
- data-url: image,
- data_index: forloop.index0,
- data_media_id: image.id
-                }}
+              {% assign image_src = image | image_url: width: 200, height: 200, crop: 'center' %}
+              {% assign alt_text = image.alt | default: product.title %}
+              {% assign variant_ids = image.variants | map: 'id' | join: ',' %}
+  
+              <div
+                class="product-media"
+                data-url="{{ image_src }}"
+                data-index="{{ forloop.index0 }}"
+                data-media-id="{{ image.id }}"
+                data-variant-id="{{ variant_ids }}">
+                <img
+                  src="{{ image_src }}"
+                  loading="eager"
+                  alt="{{ alt_text | escape }}"
+                  width="200"
+                  height="200">
               </div>
             {% endfor %}
           </div>
-        </div>
+          <div id="product-media-container-for-scroll">
+            <div class="product-media-container">
+              {% for image in gallery %}
+                <div class="product-media-wrapper">
+                  {{ image
+   | image_url: width: 1600, height: 1600, crop: 'center'
+   | image_tag:
+   loading: 'eager',
+   alt: image,
+   class: 'product-media',
+   data-url: image,
+   data_index: forloop.index0,
+   data_media_id: image.id
+                  }}
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+
+
+   
+
         <div class="dots-container">
           <div class="arrow gallery-left-arrow">{% render 'icon' with 'arrow-left' %}</div>
           <div id="all-dots">
@@ -180,20 +184,27 @@
 
       {% comment %} FLOAT CART FOR MOBILE  {% endcomment %}
       <div id="mobile-floating-cart">
+        {% assign media = selected_variant.featured_media %}
+        {% if selected_variant.featured_media == blank %}
+          {% assign media = selected_variant.product.featured_media %}
+        {% endif %}
         <img
           height="200"
           width="200"
-          src="{{ selected_variant.featured_media | image_url: width: 200, height: 200, crop: 'center' }}"
+          src="{{ media | image_url: width: 200, height: 200, crop: 'center' }}"
           alt="variant image"
           id="mobile-variant-image">
         <span id="cart-title">{{ selected_variant.product.title }}</span>
-        <button 
-          disabled 
-          type="submit" 
-          data-action="add-to-cart"
-          class="ProductForm__AddToCart">
-          Add to Cart
-        </button>
+        <div id="float-cart-button-container">
+          <div id="float-cart__overlay-button"></div>
+          <button
+            disabled
+            type="submit"
+            data-action="add-to-cart"
+            class="ProductForm__AddToCart">
+            Add to Cart
+          </button>
+        </div>
       </div>
 
     </div>
@@ -221,9 +232,6 @@
     <script id="ProductJson-{{ product.id }}" type="application/json">
       {{ product | json }}
     </script>
-    <script id="ProductJson-{{ product.id }}" type="application/json">
-      {{ product | json }}
-    </script>
 
     {%- if product_aside != blank -%}
       <div class="Product__Aside">
@@ -238,11 +246,11 @@
 </section>
 
 {%- comment -%} 
-                --------------------------------------------------------------------------------------------------------------------
-                PHOTO SWIPE
-               
-                This is the root container for the zoom functionality. Must not be removed, as order element is important.
-                -------------------------------------------------------------------------------------------------------------------- 
+                  --------------------------------------------------------------------------------------------------------------------
+                  PHOTO SWIPE
+                 
+                  This is the root container for the zoom functionality. Must not be removed, as order element is important.
+                  -------------------------------------------------------------------------------------------------------------------- 
 {%- endcomment -%}
 
 {%- if section.settings.enable_image_zoom -%}
@@ -263,8 +271,6 @@
         <div class="pswp__item"></div>
         <div class="pswp__item"></div>
       </div>
-
-    <!-- Main UI bar - MUST KEEP -->
 
     <!-- Main UI bar - MUST KEEP -->
 

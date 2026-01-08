@@ -16,6 +16,8 @@
           "type": "image",
           "disabled": true,
           "settings": {
+            "image": "shopify://shop_images/FATHER_S_DAY_30_OFF_4.jpg",
+            "mobile_image": "shopify://shop_images/FATHER_S_DAY_30_OFF_5.jpg",
             "apply_overlay": true,
             "content_position": "bottomLeft",
             "subheading": "Built to Last.",
@@ -30,6 +32,7 @@
           "type": "image",
           "disabled": true,
           "settings": {
+            "image": "shopify://shop_images/baner0_31caa4e1-591f-489a-b368-eed6a7b9592b.jpg",
             "apply_overlay": true,
             "content_position": "middleCenter",
             "subheading": "PASSION,  STYLE, CRAFTSMANSHIP.",
@@ -44,6 +47,7 @@
           "type": "image",
           "disabled": true,
           "settings": {
+            "image": "shopify://shop_images/banner1_734dccc3-d70c-4a94-98f1-d36f3ec1a208.jpg",
             "apply_overlay": true,
             "content_position": "middleCenter",
             "subheading": "We don't compromise with quality.",
@@ -57,7 +61,8 @@
         "f0589a94-42ce-4b54-9548-eb5408327819": {
           "type": "image",
           "settings": {
-            "image": "shopify://shop_images/Sfc26f1a3f14340e98e143b27ed1a613ce.webp",
+            "image": "shopify://shop_images/Home_Page_Banners.jpg",
+            "mobile_image": "shopify://shop_images/Home_Page_Mobile_Banners_2467aa44-2014-4928-a559-9bd293a5854a.jpg",
             "apply_overlay": false,
             "content_position": "middleCenter",
             "subheading": "",
@@ -72,6 +77,8 @@
           "type": "image",
           "disabled": true,
           "settings": {
+            "image": "shopify://shop_images/NEW_YEAR_SALE_2.jpg",
+            "mobile_image": "shopify://shop_images/boxing_1.jpg",
             "apply_overlay": false,
             "content_position": "bottomRight",
             "subheading": "",
@@ -131,6 +138,7 @@
           "type": "collection",
           "settings": {
             "collection": "mens-full-grain-leather-belts",
+            "image": "shopify://shop_images/Brown_Variant_Pic.jpg",
             "image_alignment": "center right",
             "content_position": "bottomLeft",
             "subheading": "",
@@ -144,6 +152,7 @@
           "type": "collection",
           "settings": {
             "collection": "womens-leather-belts",
+            "image": "shopify://shop_images/Copy_of_Untitled_da7a18d1-68d6-4481-9809-f62ea3a3027b.jpg",
             "image_alignment": "center center",
             "content_position": "bottomLeft",
             "subheading": "",
@@ -175,12 +184,13 @@
           "type": "collection",
           "settings": {
             "collection": "mens-full-grain-leather-belts",
+            "image": "shopify://shop_images/Untitled_design_-_2025-11-27T235350.500.jpg",
             "image_alignment": "center center",
             "content_position": "bottomLeft",
             "subheading": "",
             "title": "BUY 1 GET FREE",
             "button_text": "MENS BELTS",
-            "button_link": "shopify://collections/shfiguart",
+            "button_link": "shopify://collections/mens-full-grain-leather-belts",
             "apply_overlay": true
           }
         },
@@ -188,12 +198,13 @@
           "type": "collection",
           "settings": {
             "collection": "womens-leather-belts",
+            "image": "shopify://shop_images/Copy_of_Untitled_da7a18d1-68d6-4481-9809-f62ea3a3027b.jpg",
             "image_alignment": "center center",
             "content_position": "bottomLeft",
             "subheading": "",
             "title": "BUY 1 GET 1 FREE",
             "button_text": "WOMENS BELTS",
-            "button_link": "shopify://collections/frontpage",
+            "button_link": "shopify://collections/womens-leather-belts",
             "apply_overlay": true
           }
         },
@@ -201,6 +212,7 @@
           "type": "collection",
           "settings": {
             "collection": "",
+            "image": "shopify://shop_images/Voyager_Cognac_1.jpg",
             "image_alignment": "center center",
             "content_position": "bottomLeft",
             "subheading": "",
@@ -232,6 +244,7 @@
           "type": "collection",
           "settings": {
             "collection": "mens-wallets",
+            "image": "shopify://shop_images/Untitled_design_-_2025-11-28T001101.861.jpg",
             "image_alignment": "center center",
             "content_position": "bottomLeft",
             "subheading": "",
@@ -245,6 +258,7 @@
           "type": "collection",
           "settings": {
             "collection": "personalize-leather-belt",
+            "image": "shopify://shop_images/matrixbuckle-Photoroom_6_eff10b4b-c84c-4763-9b69-4c78b37e8d4b.jpg",
             "image_alignment": "center right",
             "content_position": "bottomLeft",
             "subheading": "",
@@ -258,6 +272,7 @@
           "type": "collection",
           "settings": {
             "collection": "",
+            "image": "shopify://shop_images/Untitled_design_-_2025-11-28T000705.042.jpg",
             "image_alignment": "center center",
             "content_position": "bottomLeft",
             "subheading": "",
@@ -303,6 +318,7 @@
           "type": "collection",
           "settings": {
             "collection": "mens-wallets",
+            "image": "shopify://shop_images/Untitleddesign_14_-Photoroom_1_7df4eb16-78c8-4665-8705-30113298f656.jpg",
             "image_alignment": "center center",
             "content_position": "bottomLeft",
             "subheading": "",
@@ -316,6 +332,7 @@
           "type": "collection",
           "settings": {
             "collection": "personalize-leather-belt",
+            "image": "shopify://shop_images/matrixbuckle-Photoroom_6_eff10b4b-c84c-4763-9b69-4c78b37e8d4b.jpg",
             "image_alignment": "center center",
             "content_position": "bottomLeft",
             "subheading": "",
@@ -362,6 +379,7 @@
           "type": "collection",
           "settings": {
             "collection": "mens-full-grain-leather-belts",
+            "image": "shopify://shop_images/dsc00051_1000x_1000x_d335f41f-63cc-400d-8f5a-4e7e71ca4fa0.jpg",
             "image_alignment": "center center",
             "content_position": "bottomLeft",
             "subheading": "At NAB Leather, our men’s belts go beyond wardrobe-essentials. From essential wear to subtle style, these premium leather belts combine function and simple elegance. Dress sharp and look the part—a truly modern man.",
@@ -375,6 +393,7 @@
           "type": "collection",
           "settings": {
             "collection": "womens-leather-belts",
+            "image": "shopify://shop_images/Untitled_design_59_1000x_1000x_1000x_f0b73de6-484e-4d9c-8f05-ad0fa9cad2e6.png",
             "image_alignment": "center center",
             "content_position": "bottomLeft",
             "subheading": "It’s true what they say—accessories tie an outfit, and there isn’t a more classic one than a trusty belt. From fit and function to sleek style, find the right belt buckled over classic pants, or opt for a uniquely bold fashion statement when paired with a dress or blazer. Add a little polish to your outfit with a cinched waist and defined figure, and embrace your new signature look.",
@@ -453,6 +472,45 @@
     },
     "1680334848aff77820": {
       "type": "apps",
+      "blocks": {
+        "84615bc8-cfaf-4dfc-ae38-995efbf97a8f": {
+          "type": "shopify://apps/loox-reviews/blocks/loox-agg-section/5c3b337f-fd14-4df5-b1d6-80ec13e6e28e",
+          "settings": {
+            "only_photos": false,
+            "hide_thumbnails": false,
+            "product_handle": "",
+            "aggregated": true,
+            "data-limit": 3,
+            "maxwidth": 1080,
+            "is_sample": true
+          }
+        },
+        "loox_reviews_loox_video_slider_YDAM8Q": {
+          "type": "shopify://apps/loox-reviews/blocks/loox-video-slider/5c3b337f-fd14-4df5-b1d6-80ec13e6e28e",
+          "settings": {
+            "show-by-tag": false,
+            "layout": "spotlight",
+            "shadow": "",
+            "show-rating": true,
+            "show-reviewer-name": true,
+            "hide-arrows-mobile": true,
+            "auto-play": true,
+            "show-border": false,
+            "border-width": 1,
+            "border-radius": 16,
+            "text-color": "",
+            "rating-icon-color": "",
+            "border-color": "",
+            "play-button-color": "",
+            "shadow-color": "",
+            "product-id": ""
+          }
+        }
+      },
+      "block_order": [
+        "84615bc8-cfaf-4dfc-ae38-995efbf97a8f",
+        "loox_reviews_loox_video_slider_YDAM8Q"
+      ],
       "settings": {
         "include_margins": true
       }
@@ -490,6 +548,7 @@
         "template--16318196285571__1e8dcebe-b492-466f-a798-7cc1888e22ed-look-1": {
           "type": "look",
           "settings": {
+            "image": "shopify://shop_images/Untitled_1200_x_1200_px.jpg",
             "dot_style": "light",
             "product_1": "the-shield-duffle-cognac-full-grain-leather-duffle-bag",
             "product_1_horizontal_position": 30,
@@ -519,6 +578,7 @@
         "template--16281995575427__5fbb629d-c229-4523-b299-37cc573db500-1680332446195da855-2": {
           "type": "item",
           "settings": {
+            "image": "shopify://shop_images/Untitled_1200_x_1200_px_1.jpg",
             "apply_overlay": false,
             "title": "Black",
             "subheading": "BLACK (PREMIUM FULL-GRAIN LEATHER)",
@@ -529,6 +589,7 @@
         "template--16281995575427__5fbb629d-c229-4523-b299-37cc573db500-1680332446195da855-1": {
           "type": "item",
           "settings": {
+            "image": "shopify://shop_images/dsc00051_1000x_1000x_1000x_f7895641-c547-4b2c-ab07-1843a4642f5d.jpg",
             "apply_overlay": true,
             "title": "Cognac",
             "subheading": "COGNAC (ONE PIECE LEATHER)",
@@ -539,6 +600,7 @@
         "template--16281995575427__5fbb629d-c229-4523-b299-37cc573db500-1680332446195da855-0": {
           "type": "item",
           "settings": {
+            "image": "shopify://shop_images/Untitled_design_59_1000x_1000x_1000x_f0b73de6-484e-4d9c-8f05-ad0fa9cad2e6.png",
             "apply_overlay": true,
             "title": "Dark Brown",
             "subheading": "DARK BROWN (LIFETIME GUARANTEED)",
@@ -578,6 +640,7 @@
           "type": "collection",
           "settings": {
             "collection": "mens-full-grain-leather-belts",
+            "image": "shopify://shop_images/dsc00051_1000x_1000x_d335f41f-63cc-400d-8f5a-4e7e71ca4fa0.jpg",
             "image_alignment": "center center",
             "content_position": "bottomLeft",
             "subheading": "At NAB Leather, our men’s belts go beyond wardrobe-essentials. From essential wear to subtle style, these premium leather belts combine function and simple elegance. Dress sharp and look the part—a truly modern man.",
@@ -591,6 +654,7 @@
           "type": "collection",
           "settings": {
             "collection": "womens-leather-belts",
+            "image": "shopify://shop_images/Untitled_design_59_1000x_1000x_1000x_f0b73de6-484e-4d9c-8f05-ad0fa9cad2e6.png",
             "image_alignment": "center center",
             "content_position": "bottomLeft",
             "subheading": "It’s true what they say—accessories tie an outfit, and there isn’t a more classic one than a trusty belt. From fit and function to sleek style, find the right belt buckled over classic pants, or opt for a uniquely bold fashion statement when paired with a dress or blazer. Add a little polish to your outfit with a cinched waist and defined figure, and embrace your new signature look.",
@@ -670,6 +734,8 @@
         "template--16281995575427__d40f0b66-d6b7-4283-be49-f4f1ddeea02b-1680333880d0bf6697-0": {
           "type": "image",
           "settings": {
+            "image": "shopify://shop_images/leather_1_2000x_6569d37b-be3f-4146-a80a-b136f95f48e9.jpg",
+            "mobile_image": "shopify://shop_images/Untitled_1400_x_750_px.jpg",
             "apply_overlay": true,
             "content_position": "bottomLeft",
             "subheading": "",
@@ -683,6 +749,7 @@
         "template--16281995575427__d40f0b66-d6b7-4283-be49-f4f1ddeea02b-1680333880d0bf6697-1": {
           "type": "image",
           "settings": {
+            "image": "shopify://shop_images/leather_6ccf67b6-eb4b-43f8-9269-52bfba9b9607.jpg",
             "apply_overlay": true,
             "content_position": "bottomLeft",
             "subheading": "FROM START TO FINISH.",

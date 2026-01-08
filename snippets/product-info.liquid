@@ -21,28 +21,6 @@
   {% endcase %}
 {% endfor %}
 {% endcapture %}
-{% capture title_and_price %}
-{%- for block in section.blocks -%}
-  {%- case block.type -%}
-    {% when 'product_meta' %}
-    {%- render 'product-meta', form: form, block: block, product: product -%}
-    <div class="desktop-hide">
-      <div class="loox-rating" data-id="{{ product.id }}" data-rating="{{ product.metafields.loox.avg_rating }}" data-raters="{{ product.metafields.loox.num_reviews }}"></div>
-    </div>
-  {% endcase %}
-{% endfor %}
-{% endcapture %}
-{% capture title_and_price_mobile %}
-{%- for block in section.blocks -%}
-  {%- case block.type -%}
-    {% when 'product_meta' %}
-    {%- render 'product-meta-mobile', form: form, block: block, product: product -%}
-    <div class="desktop-hide">
-      <div class="loox-rating" data-id="{{ product.id }}" data-rating="{{ product.metafields.loox.avg_rating }}" data-raters="{{ product.metafields.loox.num_reviews }}"></div>
-    </div>
-  {% endcase %}
-{% endfor %}
-{% endcapture %}
 
 <div class="Product__InfoWrapper">
   <div class="Product__Info">
@@ -56,10 +34,11 @@
         {%- render 'product-data'
           , product: product -%}
 
-        {% comment %} {% assign app_blocks = section.blocks | where: 'type', '@app' %}
-                                                                                                                                          {% assign fit_guide_block = app_blocks[0] %}
-                                                                                                                {% assign second_app_block = app_blocks[1] %} {% endcomment %}
+        {% assign app_blocks = section.blocks | where: 'type', '@app' %}
+          {% assign fit_guide_block = app_blocks[0] %}
+          {% assign second_app_block = app_blocks[1] %} 
         <!-- DEBUG APP ID: {{ fit_guide_block.id }} -->
+         <!-- DEBUG APP ID: {{ second_app_block.id }} -->
 
         {%- for block in section.blocks -%}
           {%- case block.type -%}
@@ -67,7 +46,6 @@
               <div class="mobile-hide">
                 {{ title_and_price }}
               </div>
-
 
               <div
                 hook-widget-count="{{ product.id }}"
@@ -106,7 +84,6 @@
                 </div>
               </div>
 
-
             {%- when 'variant_selector' -%}
               {% assign selected_variant = nil %}
               {% if product.has_only_default_variant == false %}
@@ -135,16 +112,16 @@
                               {% assign swatch_variant = variant %}
                               {% assign variant_gallery = variant.metafields.custom.variant_gallery.value %}
                               {% capture variant_gallery_json %}
-                                [
-                                  {%- for media in variant_gallery -%}
-                                    {
-                                      "id": {{ media.id | json }},
-                                      "alt": {{ media.alt | json }},
-                                      "src": {{ media | image_url: width: 1600, height: 1600, crop: 'center' | json }}
-                                    }{% unless forloop.last %},{% endunless %}
-                                  {%- endfor -%}
-                                ]
-                              {% endcapture %}
+                                    [
+                                      {%- for media in variant_gallery -%}
+                                        {
+                                          "id": {{ media.id | json }},
+                                          "alt": {{ media.alt | json }},
+                                          "src": {{ media | image_url: width: 1200, height: 1200, crop: 'center' | json }}
+                                        }{% unless forloop.last %},{% endunless %}
+                                      {%- endfor -%}
+                                    ]
+                                  {% endcapture %}
                               {% break %}
                             {%- endif -%}
                           {%- endfor -%}
@@ -158,20 +135,10 @@
                             {% assign img_class = 'variant-image' | append: active_class %}
                             <div class="variant-image-container-color" data-product-option>
                               {{ swatch_image
- {% if swatch_image %}
-                                                            {% assign selected_color = selected_variant.option1 %}
-                                                            {% assign active_class = '' %}
-                                                            {% if color_value == selected_color %}
-                                                              {% assign active_class = ' active' %}
-                                                            {% endif %}
-                                                            {% assign img_class = 'variant-image' | append: active_class %}
-                                                            <div class="variant-image-container-color" data-product-option>
-                                                              {{ swatch_image
  | image_url: width: 200, height: 200, crop: 'center'
  | image_tag:
  loading: 'eager',
  alt: swatch_variant.option1,
- class: img_class,
  class: img_class,
  data_url: swatch_variant.url,
  data_option_name: product.options[0],
@@ -217,29 +184,8 @@
                           {% endif %}
                         {% endfor %}
                       </div>
-                      <div class="variant-size" data-product-option>
-                        {% for variant in product.variants %}
-                          {% if variant.option1 == selected_color %}
-                            {% assign size = variant.option2 %}
-                            {% assign sizeAvailable = variant.available %}
-
-                            <div
-                              class="title-size{% if sizeAvailable == false %} not-available{% endif %}"
-                              data-size="{{ size }}"
-                              data-product-option
-                              data-option-position="{{ size_option.position }}"
-                              data-option-name="{{ product.options[1] }}"
-                              data-option-value="{{ size | escape }}"
-                              data-id="{{ size }}">
-                              {{ size }}
-                            </div>
-                          {% endif %}
-                        {% endfor %}
-                      </div>
                     </div>
 
-
-                  {% comment %} 1 variant ONLY {% endcomment %}
 
                   {% comment %} 1 variant ONLY {% endcomment %}
                   {% else %}
@@ -256,16 +202,19 @@
                       {% endif %}
                     {% endfor %}
 
-                    <div id="1-option-only">
+                    <div id="one-option-only">
                       {% if variant_image_exist %}
-                        <div id="after-select-size">{{ product.options_with_values[0].name }}:
+                        <div id="after-select-size">
+                          {{ product.options_with_values[0].name }}:
                           <span id="option-value-color"></span>
+
                           {% if fit_guide_block %}
                             <div class="fit-guide-slot">
                               {% render fit_guide_block %}
                             </div>
                           {% endif %}
                         </div>
+
                         <div class="color-size-variant-container">
                           {% for color_value in color_option.values %}
                             {%- for variant in product.variants -%}
@@ -275,16 +224,16 @@
                                 {% assign swatch_variant = variant %}
                                 {% assign variant_gallery = variant.metafields.custom.variant_gallery.value %}
                                 {% capture variant_gallery_json %}
-                                [
-                                  {%- for media in variant_gallery -%}
-                                    {
-                                      "id": {{ media.id | json }},
-                                      "alt": {{ media.alt | json }},
-                                      "src": {{ media | image_url: width: 1600, height: 1600, crop: 'center' | json }}
-                                    }{% unless forloop.last %},{% endunless %}
-                                  {%- endfor -%}
-                                ]
-                              {% endcapture %}
+                                    [
+                                      {%- for media in variant_gallery -%}
+                                        {
+                                          "id": {{ media.id | json }},
+                                          "alt": {{ media.alt | json }},
+                                          "src": {{ media | image_url: width: 1600, height: 1600, crop: 'center' | json }}
+                                        }{% unless forloop.last %},{% endunless %}
+                                      {%- endfor -%}
+                                    ]
+                                  {% endcapture %}
                                 {% break %}
                               {%- endif -%}
                             {%- endfor -%}
@@ -320,12 +269,13 @@
                             </div>
                           {% endif %}
                         </div>
+
                         <div class="variant-size" data-product-option>
                           {% for variant in product.variants %}
                             {% assign sizeAvailable = variant.available %}
                             <div
                               class="title-size{% if product.options[0] contains 'Color' or product.options[0] contains 'Colour' %} variant-image{% endif %}
-                              {% if sizeAvailable == false %} not-available{% endif %}"
+                                  {% if sizeAvailable == false %} not-available{% endif %}"
                               data-option-name="{{ product.options[0] }}"
                               data-option-value="{{ variant.title }}"
                               data_id="{{ variant.id }}"
@@ -346,7 +296,9 @@
               {% endif %}
 
             {%- when '@app' -%}
-              {% render block %}
+              {% if second_app_block.id == "AeVB1cVhBMXBJYmpPM__248761ef-195f-4af1-a06e-335455fc1da2" %}
+                {% render second_app_block %}
+              {% endif %}
 
             {%- when 'quantity_selector' -%}
               <div class="ProductForm__QuantitySelector" {{ block.shopify_attributes }}>
@@ -373,86 +325,80 @@
                     class="QuantitySelector__Button Link Link--secondary"
                     data-action="increase-quantity">{% render 'icon' with 'plus' %}</button>
                 </div>
-              </div>
 
-            {%- when 'inventory' -%}
-              {%- assign hide_inventory_quantity_by_default = false -%}
+              {%- when 'inventory' -%}
+                {%- assign hide_inventory_quantity_by_default = false -%}
 
-              {%- if product.selected_or_first_available_variant.inventory_management == blank or product.selected_or_first_available_variant.inventory_quantity <= 0 -%}
-                {%- assign hide_inventory_quantity_by_default = true -%}
-              {%- endif -%}
-
-              {%- if block.settings.inventory_quantity_threshold != 0 and product.selected_or_first_available_variant.inventory_quantity > block.settings.inventory_quantity_threshold -%}
-                {%- assign hide_inventory_quantity_by_default = true -%}
-              {%- endif -%}
-
-              <p
-                class="ProductForm__Inventory Text--subdued"
-                {% if hide_inventory_quantity_by_default %}
-                style="display: none"
-                {% endif %}
-                {{ block.shopify_attributes }}>
-                {%- if block.settings.inventory_quantity_threshold == 0 -%}
-                  {{- 'product.form.inventory_quantity_count' | t: count: product.selected_or_first_available_variant.inventory_quantity -}}
-                {%- else -%}
-                  {{- 'product.form.low_inventory_quantity_count' | t: count: product.selected_or_first_available_variant.inventory_quantity -}}
-                {%- endif -%}
-              </p>
-
-            {%- when 'buy_buttons' -%}
-              {%- if block.settings.show_payment_button == false or product.selling_plan_groups.size > 0 -%}
-                {%- assign use_primary_button = true -%}
-              {%- else -%}
-                {%- assign use_primary_button = false -%}
-              {%- endif -%}
-
-              <div class="ProductForm__BuyButtons" {{ block.shopify_attributes }}>
-                {%- if block.settings.show_payment_button and product.selected_or_first_available_variant.available == false -%}
-                  <style>
-                    #shopify-section-{{ section.id }} .shopify-payment-button {
-                      display: none;
-                    }
-                  </style>
+                {%- if product.selected_or_first_available_variant.inventory_management == blank or product.selected_or_first_available_variant.inventory_quantity <= 0 -%}
+                  {%- assign hide_inventory_quantity_by_default = true -%}
                 {%- endif -%}
 
-                <button
-                  type="submit"
-                  data-use-primary-button="{% if use_primary_button %}true{% else %}false{% endif %}"
-                  data-action="add-to-cart"
-                  class="ProductForm__AddToCart"
-                  aria-disabled="false"
-                  id="add-to-cart-button"
-                  name="add"
-                  disabled>
-                  class="ProductForm__AddToCart"
- 
-                  aria-disabled="false"
-                  id="add-to-cart-button"
-                  name="add"
-                  disabled>
-                  {%- if product.selected_or_first_available_variant.available -%}
-                    <span>
-                      {% if product.template_suffix == 'pre-order' %}
-                        {{ 'product.form.pre_order' | t }}
-                      {% else %}
-                        {{ 'product.form.add_to_cart' | t }}
-                      {% endif %}
-                    </span>
+                {%- if block.settings.inventory_quantity_threshold != 0 and product.selected_or_first_available_variant.inventory_quantity > block.settings.inventory_quantity_threshold -%}
+                  {%- assign hide_inventory_quantity_by_default = true -%}
+                {%- endif -%}
 
-                    {%- if block.settings.show_price_in_button -%}
-                      <span class="Button__SeparatorDot"></span>
-                      <span>{{ product.selected_or_first_available_variant.price | money }}</span>
-                    {%- endif -%}
-
+                <p
+                  class="ProductForm__Inventory Text--subdued"
+                  {% if hide_inventory_quantity_by_default %}
+                  style="display: none"
+                  {% endif %}
+                  {{ block.shopify_attributes }}>
+                  {%- if block.settings.inventory_quantity_threshold == 0 -%}
+                    {{- 'product.form.inventory_quantity_count' | t: count: product.selected_or_first_available_variant.inventory_quantity -}}
                   {%- else -%}
-                    {{- 'product.form.sold_out' | t -}}
+                    {{- 'product.form.low_inventory_quantity_count' | t: count: product.selected_or_first_available_variant.inventory_quantity -}}
                   {%- endif -%}
-                </button>
+                </p>
 
-                {%- if block.settings.show_payment_button and product.template_suffix != 'pre-order' -%}
-                  {{ form | payment_button }}
+              {%- when 'buy_buttons' -%}
+                {%- if block.settings.show_payment_button == false or product.selling_plan_groups.size > 0 -%}
+                  {%- assign use_primary_button = true -%}
+                {%- else -%}
+                  {%- assign use_primary_button = false -%}
                 {%- endif -%}
-              </div>
+
+                <div class="ProductForm__BuyButtons" {{ block.shopify_attributes }}>
+                  {%- if block.settings.show_payment_button and product.selected_or_first_available_variant.available == false -%}
+                    <style>
+                      #shopify-section-{{ section.id }} .shopify-payment-button {
+                        display: none;
+                      }
+                    </style>
+                  {%- endif -%}
+
+                  <button
+                    type="submit"
+                    data-use-primary-button="{% if use_primary_button %}true{% else %}false{% endif %}"
+                    data-action="add-to-cart"
+                    class="ProductForm__AddToCart"
+                    aria-disabled="false"
+                    id="add-to-cart-button"
+                    name="add"
+                    disabled>
+                    {%- if product.selected_or_first_available_variant.available -%}
+                      <span>
+                        {% if product.template_suffix == 'pre-order' %}
+                          {{ 'product.form.pre_order' | t }}
+                        {% else %}
+                          {{ 'product.form.add_to_cart' | t }}
+                        {% endif %}
+                      </span>
+
+                      {%- if block.settings.show_price_in_button -%}
+                        <span class="Button__SeparatorDot"></span>
+                        <span>{{ product.selected_or_first_available_variant.price | money }}</span>
+                      {%- endif -%}
+
+                    {%- else -%}
+                      {{- 'product.form.sold_out' | t -}}
+                    {%- endif -%}
+                  </button>
+
+                  {%- if block.settings.show_payment_button and product.template_suffix != 'pre-order' -%}
+                    {{ form | payment_button }}
+                  {%- endif -%}
+                </div>
+         
 
             {% comment %} description {% endcomment %}
             {%- when 'description' -%}
