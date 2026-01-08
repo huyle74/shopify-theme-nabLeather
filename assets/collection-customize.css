@@ -1,11 +1,20 @@
 .collection {
   padding-left: 20px;
+  padding-right: 20px;
   overflow-y: scroll;
   max-height: 80vh;
-  /* border: #0069f0 solid 1px; */
+  /* border: #ff4d00 solid 1px; */
+  display: flex;
+  justify-content: center;
 }
 .collection::-webkit-scrollbar {
   display: none;
+}
+.collection__wrapper {
+  margin: auto;
+  /* border: #6200eb solid 5px; */
+  width: 100%;
+  max-width: 1500px;
 }
 .menu-link {
   margin-bottom: 20px;
@@ -129,6 +138,7 @@
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 15px;
   margin-top: 40px;
+  /* border: #0069f0 solid 3px; */
 }
 /*  Banner section */
 .banner-container {

@@ -4,272 +4,275 @@
 {% endif %}
 
 <div class="collection">
-  {% comment %} MENU {% endcomment %}
-  <ul class="menu-link">
-    <li>
-      <a href="/">Home</a>
-    </li>
-    <li>
-      <a
-        href="{% if collection %}{{ collection.url }}{% endif %}"
-        id="collection-url"
-        data-url="{{ collection.url }}">{{ collection.title }}</a>
-    </li>
-  </ul>
+  <div class="collection__wrapper">
 
-  {% comment %} TITLE  {% endcomment %}
-  <div class="title-page">
-    {{ collection.title }}
-  </div>
-  <div id="description">{{ collection.description }}</div>
+    {% comment %} MENU {% endcomment %}
+    <ul class="menu-link">
+      <li>
+        <a href="/">Home</a>
+      </li>
+      <li>
+        <a
+          href="{% if collection %}{{ collection.url }}{% endif %}"
+          id="collection-url"
+          data-url="{{ collection.url }}">{{ collection.title }}</a>
+      </li>
+    </ul>
 
-  {% comment %} collection {% endcomment %}
-  <div class="collection-grid-container">
-    {% for collection in collections limit: 10 %}
-      {% if collection.featured_image != blank and collection.all_products_count > 0 %}
-        <div class="collection-grid" data-url="{{ collection.url }}">
-          <div class="collection-featured-image">
-            {{ collection.featured_image
+    {% comment %} TITLE  {% endcomment %}
+    <div class="title-page">
+      {{ collection.title }}
+    </div>
+    <div id="description">{{ collection.description }}</div>
+
+    {% comment %} collection {% endcomment %}
+    <div class="collection-grid-container">
+      {% for collection in collections limit: 10 %}
+        {% if collection.featured_image != blank and collection.all_products_count > 0 %}
+          <div class="collection-grid" data-url="{{ collection.url }}">
+            <div class="collection-featured-image">
+              {{ collection.featured_image
  | image_url: width: 200, height: 200, crop: 'center'
  | image_tag:
  loading: 'lazy',
  alt: collection.title,
  class: ''
-            }}
+              }}
+            </div>
+            <div class="collection-grid-title">
+              {{ collection.title }}
+            </div>
+            <div class="collection-grid-x-symbols">X</div>
           </div>
-          <div class="collection-grid-title">
-            {{ collection.title }}
-          </div>
-          <div class="collection-grid-x-symbols">X</div>
-        </div>
-      {% endif %}
-    {% endfor %}
-  </div>
-  {% comment %} Products {% endcomment %}
-  <div class="collection-products-section">
-    <div class="collection-products-container">
-      <section>
+        {% endif %}
+      {% endfor %}
+    </div>
+    {% comment %} Products {% endcomment %}
+    <div class="collection-products-section">
+      <div class="collection-products-container">
+        <section>
 
-        {% comment %} CHECK if have content {% endcomment %}
-        {% assign contentExisted = false %}
-        {% assign buttonExist = false %}
-        {% if section.settings.title != blank
+          {% comment %} CHECK if have content {% endcomment %}
+          {% assign contentExisted = false %}
+          {% assign buttonExist = false %}
+          {% if section.settings.title != blank
  or section.settings.subtitle != blank
  or section.settings.button_text != blank and section.settings.button_link != blank %}
-          {% assign contentExisted = true %}
-          {% assign buttonExist = true %}
-        {% endif %}
-        <div
-          class="banner-container {% if contentExisted %}existed{% endif %}"
-          {% if section.settings.background_image != blank %}
-          style="background-image: url('{{ section.settings.background_image | image_url: width: 2000 }}');"
-          {% elsif collection.featured_image %}
-          style="background-image: url('{{ collection.featured_image | image_url: width: 2000 }}');"
-          {% endif %}>
-
-          {% if contentExisted %}
-            <div id="existed-content"></div>
+            {% assign contentExisted = true %}
+            {% assign buttonExist = true %}
           {% endif %}
+          <div
+            class="banner-container {% if contentExisted %}existed{% endif %}"
+            {% if section.settings.background_image != blank %}
+            style="background-image: url('{{ section.settings.background_image | image_url: width: 2000 }}');"
+            {% elsif collection.featured_image %}
+            style="background-image: url('{{ collection.featured_image | image_url: width: 2000 }}');"
+            {% endif %}>
 
-          <div class="banner-content">
-            <a href="{{ section.settings.button_link }}">
+            {% if contentExisted %}
+              <div id="existed-content"></div>
+            {% endif %}
 
-              {% if section.settings.title != blank %}
-                <h1 class="banner-title" style="color: {{ section.settings.text_title_color }};">{{ section.settings.title }}</h1>
-              {% endif %}
+            <div class="banner-content">
+              <a href="{{ section.settings.button_link }}">
 
-              {% if section.settings.subtitle != blank %}
-                <p class="banner-subtitle" style="color: {{ section.settings.text_subtitle_color }};">{{ section.settings.subtitle }}</p>
-              {% endif %}
-
-              {% if section.settings.button_text != blank and section.settings.button_link != blank %}
-                <a
-                  href="{{ section.settings.button_link }}"
-                  class="banner-button"
-                  style="background-color: {{ section.settings.button_bg_color }};color: {{ section.settings.button_text_color }};">
-                  {{ section.settings.button_text }}
-
-                </a>
-              {% endif %}
-            </a>
-          </div>
-
-
-        </div>
-      </section>
-      <div id="productsArea">
-        {% for product in collection.products %}
-          <div class="collection-product-item lazy-product" data-loaded="false">
-            <a href="{{ product.url }}" class="link-product">
-              {% assign metaField = product.metafields.custom %}
-              <div class="product-info">
-                <div class="collection-product-title">
-                  {{ product.title | truncate: 35 }}
-                </div>
-                {% if product.metafields.custom %}
-                  <div class="product-description">
-                    {{ product.metafields.custom.heading | truncate: 60 }}
-                  </div>
+                {% if section.settings.title != blank %}
+                  <h1 class="banner-title" style="color: {{ section.settings.text_title_color }};">{{ section.settings.title }}</h1>
                 {% endif %}
-                <div class="product-price">
-                  {{ product.price | money_with_currency }}
+
+                {% if section.settings.subtitle != blank %}
+                  <p class="banner-subtitle" style="color: {{ section.settings.text_subtitle_color }};">{{ section.settings.subtitle }}</p>
+                {% endif %}
+
+                {% if section.settings.button_text != blank and section.settings.button_link != blank %}
+                  <a
+                    href="{{ section.settings.button_link }}"
+                    class="banner-button"
+                    style="background-color: {{ section.settings.button_bg_color }};color: {{ section.settings.button_text_color }};">
+                    {{ section.settings.button_text }}
+
+                  </a>
+                {% endif %}
+              </a>
+            </div>
+
+
+          </div>
+        </section>
+        <div id="productsArea">
+          {% for product in collection.products %}
+            <div class="collection-product-item lazy-product" data-loaded="false">
+              <a href="{{ product.url }}" class="link-product">
+                {% assign metaField = product.metafields.custom %}
+                <div class="product-info">
+                  <div class="collection-product-title">
+                    {{ product.title | truncate: 35 }}
+                  </div>
+                  {% if product.metafields.custom %}
+                    <div class="product-description">
+                      {{ product.metafields.custom.heading | truncate: 60 }}
+                    </div>
+                  {% endif %}
+                  <div class="product-price">
+                    {{ product.price | money_with_currency }}
+                  </div>
                 </div>
-              </div>
-              {% if product.featured_image %}
-                <div class="product-images-container">
-                  {{ product.featured_image
+                {% if product.featured_image %}
+                  <div class="product-images-container">
+                    {{ product.featured_image
  | image_url: width: 500, height: 500, crop: 'center'
  | image_tag:
  loading: 'lazy',
  alt: product.title,
  class: 'collection-product-image'
-                  }}
-                  <div class="layer-container">
-                    {% for p in product.media %}
-                      <div
-                        id="{{ p.id }}"
-                        class="layer-for-hover"
-                        data-url="{{ p | image_url: width: 500, height: 500, crop: 'center' }}"></div>
-                    {% endfor %}
-                  </div>
-                  <div class="product-badge-container">
-                    {%- comment -%} SALE badge (variant-safe) {%- endcomment -%}
-                    {% assign on_sale = false %}
-                    {% if product.compare_at_price > product.price %}
-                      {% assign on_sale = true %}
-                      <div class="discount-badge">
-                        {% assign discount = product.compare_at_price | minus: product.price %}
-                        {% assign discount_percent = discount | times: 100 | divided_by: product.compare_at_price %}
-                        {{ discount_percent }}% OFF
-                      </div>
-                    {% endif %}
-                    {% if on_sale == false %}
-                      {% assign now_s = 'now' | date: '%s' %}
-                      {% assign pub_s = product.published_at | date: '%s' %}
-                      {% assign days = now_s | minus: pub_s | divided_by: 86400 %}
-                      {% if days <= 30 %}
-                        <div class="new-badge">New</div>
+                    }}
+                    <div class="layer-container">
+                      {% for p in product.media %}
+                        <div
+                          id="{{ p.id }}"
+                          class="layer-for-hover"
+                          data-url="{{ p | image_url: width: 500, height: 500, crop: 'center' }}"></div>
+                      {% endfor %}
+                    </div>
+                    <div class="product-badge-container">
+                      {%- comment -%} SALE badge (variant-safe) {%- endcomment -%}
+                      {% assign on_sale = false %}
+                      {% if product.compare_at_price > product.price %}
+                        {% assign on_sale = true %}
+                        <div class="discount-badge">
+                          {% assign discount = product.compare_at_price | minus: product.price %}
+                          {% assign discount_percent = discount | times: 100 | divided_by: product.compare_at_price %}
+                          {{ discount_percent }}% OFF
+                        </div>
                       {% endif %}
-                    {% endif %}
-                  </div>
-
-                </div>
-              {% endif %}
-            </a>
-            <div class="dots-and-arrows-container">
-              <div class="dot-container">
-
-                {% assign swatch_variants = nil %}
-                {% if product.options.size > 1 %}
-                  {% assign options = product.options_with_values[0] %}
-
-                  <script>
-                    // console.log({{ options |  json }});
-                  </script>
-                  {% for option in options.values %}
-                    {% assign media = nil %}
-                    {% for variant in product.variants %}
-                      {% if variant.option1 == option %}
-                        {% assign swatch_variants = variant %}
-                        <script>
-                          //  console.log({{ swatch_variants | json }});
-                        </script>
-                        {% break %}
+                      {% if on_sale == false %}
+                        {% assign now_s = 'now' | date: '%s' %}
+                        {% assign pub_s = product.published_at | date: '%s' %}
+                        {% assign days = now_s | minus: pub_s | divided_by: 86400 %}
+                        {% if days <= 30 %}
+                          <div class="new-badge">New</div>
+                        {% endif %}
                       {% endif %}
-                    {% endfor %}
-                    {% comment %} assign media for swatch variant {% endcomment %}
-                    {% if swatch_variants and swatch_variants.featured_media %}
-                      {% assign media = swatch_variants.featured_media %}
-                    {% endif %}
-                    {% if media %}
-                      <img
-                        width="50"
-                        height="50"
-                        src={{ media | image_url: width: 200, height: 200, crop: 'center' }}
-                        alt="{{ media.alt }}"
-                        class="image-dot"
-                        id="{{ media.id }}"
-                        loading="eager"
-                        data-url="{{ media | image_url: width: 500, height: 500, crop: 'center' }}"
-                        data-id="{{ media.id }}">
-                    {% endif %}
-                  {% endfor %}
+                    </div>
 
-                  {% assign media = product.featured_image %}
+                  </div>
+                {% endif %}
+              </a>
+              <div class="dots-and-arrows-container">
+                <div class="dot-container">
 
-                {% else %}
-                  {% assign options = product.options_with_values[0] %}
-                  <script>
-                      console.log('1 or 0 option', {{ options | json }});
-                  </script>
-                  {% assign swatch_variants = product.variants %}
-                  {% assign media = swatch_variants.featured_media %}
+                  {% assign swatch_variants = nil %}
+                  {% if product.options.size > 1 %}
+                    {% assign options = product.options_with_values[0] %}
 
-                  {% if swatch_variants and media %}
+                    <script>
+                                          // console.log({{ options |  json }});
+                    </script>
                     {% for option in options.values %}
-                      <script>
-                        // console.log(options);
-                      </script>
-                      <img
-                        width="50"
-                        height="50"
-                        src={{ media | image_url: width: 200, height: 200, crop: 'center' }}
-                        alt="{{ media.alt }}"
-                        class="image-dot"
-                        id="{{ media.id }}"
-                        loading="eager"
-                        data-url="{{ media | image_url: width: 500, height: 500, crop: 'center' }}"
-                        data-id="{{ media.id }}">
+                      {% assign media = nil %}
+                      {% for variant in product.variants %}
+                        {% if variant.option1 == option %}
+                          {% assign swatch_variants = variant %}
+                          <script>
+                                                      //  console.log({{ swatch_variants | json }});
+                          </script>
+                          {% break %}
+                        {% endif %}
+                      {% endfor %}
+                      {% comment %} assign media for swatch variant {% endcomment %}
+                      {% if swatch_variants and swatch_variants.featured_media %}
+                        {% assign media = swatch_variants.featured_media %}
+                      {% endif %}
+                      {% if media %}
+                        <img
+                          width="50"
+                          height="50"
+                          src={{ media | image_url: width: 200, height: 200, crop: 'center' }}
+                          alt="{{ media.alt }}"
+                          class="image-dot"
+                          id="{{ media.id }}"
+                          loading="eager"
+                          data-url="{{ media | image_url: width: 500, height: 500, crop: 'center' }}"
+                          data-id="{{ media.id }}">
+                      {% endif %}
                     {% endfor %}
+
+                    {% assign media = product.featured_image %}
 
                   {% else %}
-                    {% assign media = product.featured_media %}
-                    <img
-                      width="50"
-                      height="50"
-                      src={{ media | image_url: width: 200, height: 200, crop: 'center' }}
-                      alt="{{ media.alt }}"
-                      class="image-dot"
-                      id="{{ media.id }}"
-                      loading="eager"
-                      data-url="{{ media | image_url: width: 500, height: 500, crop: 'center' }}"
-                      data-id="{{ media.id }}">
+                    {% assign options = product.options_with_values[0] %}
+                    <script>
+                      console.log('1 or 0 option', {{ options | json }});
+                    </script>
+                    {% assign swatch_variants = product.variants %}
+                    {% assign media = swatch_variants.featured_media %}
+
+                    {% if swatch_variants and media %}
+                      {% for option in options.values %}
+                        <script>
+                                                  // console.log(options);
+                        </script>
+                        <img
+                          width="50"
+                          height="50"
+                          src={{ media | image_url: width: 200, height: 200, crop: 'center' }}
+                          alt="{{ media.alt }}"
+                          class="image-dot"
+                          id="{{ media.id }}"
+                          loading="eager"
+                          data-url="{{ media | image_url: width: 500, height: 500, crop: 'center' }}"
+                          data-id="{{ media.id }}">
+                      {% endfor %}
+
+                    {% else %}
+                      {% assign media = product.featured_media %}
+                      <img
+                        width="50"
+                        height="50"
+                        src={{ media | image_url: width: 200, height: 200, crop: 'center' }}
+                        alt="{{ media.alt }}"
+                        class="image-dot"
+                        id="{{ media.id }}"
+                        loading="eager"
+                        data-url="{{ media | image_url: width: 500, height: 500, crop: 'center' }}"
+                        data-id="{{ media.id }}">
+                    {% endif %}
                   {% endif %}
-                {% endif %}
-              </div>
-              <div class="arrow-buttons-container">
-                <button class="arrow-btn icon--back" aria-label="Previous">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke-width="1.5"
-                    stroke="currentColor"
-                    class="size-6">
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M6.75 15.75 3 12m0 0 3.75-3.75M3 12h18" />
-                  </svg>
-                </button>
-                <button class="arrow-btn icon--forward" aria-label="Next">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="1.5"
-                    class="size-6">
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M17.25 8.25L21 12M21 12l-3.75 3.75M21 12H3" />
-                  </svg>
-                </button>
+                </div>
+                <div class="arrow-buttons-container">
+                  <button class="arrow-btn icon--back" aria-label="Previous">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      class="size-6">
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M6.75 15.75 3 12m0 0 3.75-3.75M3 12h18" />
+                    </svg>
+                  </button>
+                  <button class="arrow-btn icon--forward" aria-label="Next">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      class="size-6">
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M17.25 8.25L21 12M21 12l-3.75 3.75M21 12H3" />
+                    </svg>
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-        {% endfor %}
+          {% endfor %}
+        </div>
       </div>
     </div>
   </div>
