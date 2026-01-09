@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const sizeContainer = variants?.querySelector(".variant-size") || null;
   const inputVariant = this.querySelector('input[name="id"]');
   const cartButton = this.querySelector("button[data-action='add-to-cart']");
+  const isMobileScreen = window.matchMedia("(max-width: 768px)").matches;
 
   // CHECK IF ONLY COLOR OR SIZE EXISTS
   const have2Options = this.getElementById("2-variant-existed") || null;
@@ -65,7 +66,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Sold out badge functions
   function soldOutBadgeHandler(variant) {
-    const soldOutBadge = document.querySelector(".sold-out-badge");
+    const soldOutBadge = document.getElementById("sold-out-badge_wrapper");
     if (!soldOutBadge) return;
     if (variant && variant.available === false) {
       soldOutBadge.style.opacity = "1";
@@ -241,6 +242,39 @@ document.addEventListener("DOMContentLoaded", function () {
     });
     return sizes;
   }
+
+  function swipeLeftRight() {
+    if (!isMobileScreen) return;
+
+    const swipeArea = document.getElementById("product-media-container-for-scroll");
+    let startX = 0;
+    let endX = 0;
+
+    swipeArea.addEventListener("touchstart", (e) => {
+      startX = e.touches[0].clientX;
+    });
+
+    swipeArea.addEventListener("touchend", (e) => {
+      endX = e.changedTouches[0].clientX;
+      handleSwipe();
+    });
+
+    function handleSwipe() {
+      const swipeThreshold = 50;
+      const swipeDistance = endX - startX;
+      if (Math.abs(swipeDistance) > swipeThreshold) {
+        if (swipeDistance > 0) {
+          // Swipe right
+          currentIndex = currentIndex === 0 ? slides.length - 1 : currentIndex - 1;
+        } else {
+          // Swipe left
+          currentIndex = currentIndex === slides.length - 1 ? 0 : currentIndex + 1;
+        }
+        scrollToIndex(currentIndex);
+      }
+    }
+  }
+  swipeLeftRight();
 
   function renderSizeOptions(sizes) {
     const wrap = document.querySelector(".variant-size");
@@ -424,7 +458,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const dot = e.currentTarget;
     const index = parseInt(dot.getAttribute("data-index"), 10);
     currentIndex = index;
-    console.log("Dot clicked", index);
+    // console.log("Dot clicked", index);
     scrollToIndex(index);
   }
 
@@ -482,6 +516,7 @@ document.addEventListener("DOMContentLoaded", function () {
       scrollToIndex(currentIndex);
     });
   }
+
   // Render float mobile cart button title
   const isMobileScreens = window.matchMedia("(max-width: 768px)").matches;
   const mobileFloatingCarts = document.getElementById("mobile-floating-cart");
@@ -511,8 +546,7 @@ document.addEventListener("DOMContentLoaded", function () {
     );
 
     // Mobile floating cart button
-
-    if (isMobileScreens && selectedVariant.available) {
+    if (isMobileScreens && selectedVariant && selectedVariant.available) {
       mobileCartImg.src = selectedVariant.featured_image
         ? selectedVariant.featured_image.src
         : productData.images[0];
@@ -536,9 +570,7 @@ document.addEventListener("DOMContentLoaded", function () {
       mobileCartBtn.setAttribute("aria-disabled", "true");
 
       if (have2Options) updateButtonLabel("Select Size");
-      if (oneOptionOnly) {
-        updateButtonLabel();
-      }
+      if (oneOptionOnly) updateButtonLabel();
     }
   };
   // Initial state
@@ -558,6 +590,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const mobileCartBtn = mobileFloatingCart.querySelector("button");
 
     if (have2Options) {
+      console.log("2 options");
       addToCartBtn.textContent = label || "Select Size";
       mobileCartBtn.textContent = label || "Select Size";
     }
@@ -576,8 +609,7 @@ document.addEventListener("DOMContentLoaded", function () {
   updateButtonLabel();
 
   // Mobile function
-  const isMobileScreen = window.matchMedia("(max-width: 768px)").matches;
-  const productPageContainer = document.querySelector(".product-gallery-info-container");
+  // const isMobileScreen = window.matchMedia("(max-width: 768px)").matches;
   const mobileFloatingCart = document.getElementById("mobile-floating-cart");
   const productFormEl = document.querySelector(".product-gallery-container");
 

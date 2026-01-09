@@ -22,9 +22,8 @@
 {% endfor %}
 {% endcapture %}
 
-<div class="Product__InfoWrapper">
-  <div class="Product__Info">
-    <div class="Container">
+  <div class="Product__Info_customize">
+    {% comment %} <div class="Container"> {% endcomment %}
       {%- assign has_ouputted_variant_selector = false -%}
 
         {%- form 'product'
@@ -37,8 +36,6 @@
         {% assign app_blocks = section.blocks | where: 'type', '@app' %}
           {% assign fit_guide_block = app_blocks[0] %}
           {% assign second_app_block = app_blocks[1] %} 
-        <!-- DEBUG APP ID: {{ fit_guide_block.id }} -->
-         <!-- DEBUG APP ID: {{ second_app_block.id }} -->
 
         {%- for block in section.blocks -%}
           {%- case block.type -%}
@@ -448,6 +445,5 @@
           </div>
         </div>
       {%- endif -%}
-    </div>
+    {% comment %} </div> {% endcomment %}
   </div>
-</div>

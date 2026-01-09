@@ -164,18 +164,11 @@
                   {% assign swatch_variants = nil %}
                   {% if product.options.size > 1 %}
                     {% assign options = product.options_with_values[0] %}
-
-                    <script>
-                                          // console.log({{ options |  json }});
-                    </script>
-                    {% for option in options.values %}
+                      {% for option in options.values %}
                       {% assign media = nil %}
                       {% for variant in product.variants %}
                         {% if variant.option1 == option %}
                           {% assign swatch_variants = variant %}
-                          <script>
-                                                      //  console.log({{ swatch_variants | json }});
-                          </script>
                           {% break %}
                         {% endif %}
                       {% endfor %}
@@ -201,17 +194,11 @@
 
                   {% else %}
                     {% assign options = product.options_with_values[0] %}
-                    <script>
-                      console.log('1 or 0 option', {{ options | json }});
-                    </script>
                     {% assign swatch_variants = product.variants %}
                     {% assign media = swatch_variants.featured_media %}
 
                     {% if swatch_variants and media %}
                       {% for option in options.values %}
-                        <script>
-                                                  // console.log(options);
-                        </script>
                         <img
                           width="50"
                           height="50"
