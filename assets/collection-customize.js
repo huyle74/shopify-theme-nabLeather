@@ -2,9 +2,55 @@ document.addEventListener("DOMContentLoaded", function () {
   const circleElements = document.querySelectorAll(".collection-grid");
   const xSymbols = document.querySelectorAll(".collection-grid-x-symbols");
   const circleImages = document.querySelectorAll(".collection-featured-image");
-
+  const productsArea = document.getElementById("productsArea");
   const linkCollection = document.getElementById("collection-url");
   const firstCollectionUrl = linkCollection.dataset.url;
+
+  // Skeleton loader removal
+  circleImages.forEach((circle) => {
+    const image = circle.querySelector("img");
+    const skeleton = circle.querySelector(".skeleton");
+
+    if (!image || !skeleton) return;
+    if (image.complete && image.naturalHeight !== 0) {
+      skeleton.remove();
+      return;
+    }
+    image.addEventListener("load", () => {
+      skeleton.remove();
+    });
+
+    image.addEventListener("error", () => {
+      // Optional: remove skeleton even if image fails
+      skeleton.remove();
+    });
+  });
+  const removedSkeletonsProductCards = () => {
+    if (productsArea) {
+      const productCardsMainImages = productsArea.querySelectorAll(".product-images-container");
+      if (productCardsMainImages) {
+        productCardsMainImages.forEach((el) => {
+          const image = el.querySelector(".collection-product-image");
+          const skeleton = el.querySelector(".skeleton");
+
+          if (!image || !skeleton) return;
+          if (image.complete && image.naturalHeight !== 0) {
+            skeleton.remove();
+            return;
+          }
+          image.addEventListener("load", () => {
+            skeleton.remove();
+          });
+
+          image.addEventListener("error", () => {
+            // Optional: remove skeleton even if image fails
+            skeleton.remove();
+          });
+        });
+      }
+    }
+  };
+  removedSkeletonsProductCards();
 
   // Lazy load products
   function lazyLoad() {
@@ -38,6 +84,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const newProducts = doc.querySelector("#productsArea");
     if (!newProducts) throw new Error("Could not find products container in fetched page");
     productsArea.innerHTML = newProducts.innerHTML;
+    removedSkeletonsProductCards();
   }
 
   function clickArrow() {

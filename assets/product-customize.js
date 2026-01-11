@@ -18,12 +18,39 @@ document.addEventListener("DOMContentLoaded", function () {
   let variantsGallery = [];
   if (colorContainer) {
     const colorImages = colorContainer.querySelectorAll(".variant-image");
+
     colorImages.forEach((img) => {
       const variantGalleryData = img.getAttribute("data_variant_gallery");
       const optionsData = img.getAttribute("data_option_value");
       const data = variantGalleryData ? JSON.parse(variantGalleryData) : [];
       if (!data || data.length === 0) return;
       variantsGallery.push({ color: optionsData, gallery: data });
+    });
+
+    const imageContainer = colorContainer.querySelectorAll(".variant-image-container-color");
+    imageContainer.forEach((container) => {
+      const image = container.querySelector("img");
+      const skeleton = container.querySelector(".skeleton");
+
+      if (!image || !skeleton) return;
+      if (image.complete && image.naturalHeight !== 0) {
+        image.style.width = "100%";
+        image.style.height = "100%";
+        skeleton.remove();
+        return;
+      }
+      image.addEventListener("load", () => {
+        image.style.width = "100%";
+        image.style.height = "100%";
+        skeleton.remove();
+      });
+
+      image.addEventListener("error", () => {
+        image.style.width = "100%";
+        image.style.height = "100%";
+        // Optional: remove skeleton even if image fails
+        skeleton.remove();
+      });
     });
   }
   // console.log(variantsGallery);
@@ -70,9 +97,11 @@ document.addEventListener("DOMContentLoaded", function () {
     if (!soldOutBadge) return;
     if (variant && variant.available === false) {
       soldOutBadge.style.opacity = "1";
+      soldOutBadge.style.zIndex = "12";
       return;
     }
     soldOutBadge.style.opacity = "0";
+    soldOutBadge.style.zIndex = "-1";
   }
 
   // Set input value based on selected options
@@ -248,30 +277,93 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const swipeArea = document.getElementById("product-media-container-for-scroll");
     let startX = 0;
+    let startY = 0;
     let endX = 0;
+    let endY = 0;
+    let mode = null; // "h" | "v" | null
 
-    swipeArea.addEventListener("touchstart", (e) => {
-      startX = e.touches[0].clientX;
-    });
+    swipeArea.addEventListener(
+      "touchstart",
+      (e) => {
+        const t = e.touches[0];
+        startX = t.clientX;
+        startY = t.clientY;
+        lastY = t.clientY;
+        dx = 0;
+        dy = 0;
+        mode = null;
+      },
+      { passive: true },
+    );
+    swipeArea.addEventListener(
+      "touchmove",
+      (e) => {
+        const t = e.touches[0];
+        dx = t.clientX - startX;
+        dy = t.clientY - startY;
 
-    swipeArea.addEventListener("touchend", (e) => {
-      endX = e.changedTouches[0].clientX;
-      handleSwipe();
-    });
+        // Decide direction once (small deadzone to avoid jitter)
+        if (mode === null) {
+          const deadzone = 6;
+          if (Math.abs(dx) < deadzone && Math.abs(dy) < deadzone) return;
+          mode = Math.abs(dx) > Math.abs(dy) ? "h" : "v";
+        }
+
+        if (mode === "v") {
+          // Scroll the whole page by the finger delta (same "dimension")
+          const deltaY = t.clientY - lastY;
+          lastY = t.clientY;
+
+          window.scrollBy({
+            top: -deltaY * 20,
+            behavior: "smooth",
+          });
+
+          // Prevent browser from doing weird native handling on the element
+          e.preventDefault();
+        } else {
+          // Horizontal gesture: prevent vertical scroll while swiping gallery
+          e.preventDefault();
+        }
+      },
+      { passive: false },
+    );
+
+    swipeArea.addEventListener(
+      "touchend",
+      (e) => {
+        if (mode !== "h") return;
+        const t = e.changedTouches[0];
+        endX = t.clientX;
+        endY = t.clientY;
+        // console.log(endY);
+
+        handleSwipe();
+      },
+      { passive: true },
+    );
 
     function handleSwipe() {
       const swipeThreshold = 50;
-      const swipeDistance = endX - startX;
-      if (Math.abs(swipeDistance) > swipeThreshold) {
-        if (swipeDistance > 0) {
-          // Swipe right
-          currentIndex = currentIndex === 0 ? slides.length - 1 : currentIndex - 1;
-        } else {
-          // Swipe left
-          currentIndex = currentIndex === slides.length - 1 ? 0 : currentIndex + 1;
-        }
-        scrollToIndex(currentIndex);
+      const ratio = 1.2;
+
+      const dx = endX - startX;
+      const dy = endY - startY;
+      // console.log(dy);
+
+      if (Math.abs(dy) > Math.abs(dx) / ratio) {
       }
+      // If not enough horizontal movement, ignore
+      if (Math.abs(dx) < swipeThreshold) return;
+
+      if (dx > 0) {
+        // Swipe right
+        currentIndex = currentIndex === 0 ? slides.length - 1 : currentIndex - 1;
+      } else {
+        // Swipe left
+        currentIndex = currentIndex === slides.length - 1 ? 0 : currentIndex + 1;
+      }
+      scrollToIndex(currentIndex);
     }
   }
   swipeLeftRight();

@@ -11646,7 +11646,7 @@ header.PageHeader .SectionHeader__Description.Rte p {
 .SectionHeader__Description.Rte p {
   font-size: 20px;
 }
-@media (max-width: 1020px) {
+@media (max-width: 768px) {
   .desktop_product_tabs {
     display: none;
   }
@@ -11654,3 +11654,5 @@ header.PageHeader .SectionHeader__Description.Rte p {
     display: block;
   }
 }
+
+

@@ -131,6 +131,7 @@
                             {% endif %}
                             {% assign img_class = 'variant-image' | append: active_class %}
                             <div class="variant-image-container-color" data-product-option>
+                              <div class="skeleton image"></div>
                               {{ swatch_image
  | image_url: width: 200, height: 200, crop: 'center'
  | image_tag:
@@ -144,9 +145,7 @@
  data_id: swatch_variant.id,
  data_media_id: swatch_image.id,
  data_variant_gallery: variant_gallery_json }}
-                              <div class="title">
-                                {% comment %} {{ color_value }} {% endcomment %}
-                              </div>
+                              
                             </div>
                           {% endif %}
                         {% endfor %}
@@ -242,6 +241,7 @@
                                   {% assign variant_image_classes = variant_image_classes | append: ' variant-image--sold-out' %}
                                 {% endif %}
                               {% endfor %}
+                              <div class="skeleton image"></div>
                               {{ media
  | image_url: width: 200, height: 200, crop: 'center' 
  | image_tag: loading: 'eager', alt: swatch_variant.title, 

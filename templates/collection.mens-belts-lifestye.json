@@ -61,7 +61,7 @@
       }
     },
     "main": {
-      "type": "main-collection",
+      "type": "main-product-omniverse-customize",
       "settings": {
         "show_collection_info": true,
         "show_collection_image": false,
