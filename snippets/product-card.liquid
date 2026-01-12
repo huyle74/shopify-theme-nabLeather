@@ -1,0 +1,160 @@
+{% for product in collection.products %}
+  <div class="collection-product-item lazy-product" data-loaded="false">
+    <a href="{{ product.url }}" class="link-product">
+      {% assign metaField = product.metafields.custom %}
+      <div class="product-info">
+        <div class="collection-product-title">
+          {{ product.title | truncate: 35 }}
+        </div>
+        {% if product.metafields.custom %}
+          <div class="product-description">
+            {{ product.metafields.custom.heading | truncate: 60 }}
+          </div>
+        {% endif %}
+        <div class="product-price">
+          {{ product.price | money_with_currency }}
+        </div>
+      </div>
+      {% if product.featured_image %}
+        <div class="product-images-container">
+          <div class="skeleton image"></div>
+          {{ product.featured_image
+ | image_url: width: 500, height: 500, crop: 'center'
+ | image_tag:
+ loading: 'lazy',
+ alt: product.title,
+ class: 'collection-product-image'
+          }}
+          <div class="layer-container">
+            {% for p in product.media %}
+              <div
+                id="{{ p.id }}"
+                class="layer-for-hover"
+                data-url="{{ p | image_url: width: 500, height: 500, crop: 'center' }}"></div>
+            {% endfor %}
+          </div>
+          <div class="product-badge-container">
+            {%- comment -%} SALE badge (variant-safe) {%- endcomment -%}
+            {% assign on_sale = false %}
+            {% if product.compare_at_price > product.price %}
+              {% assign on_sale = true %}
+              <div class="discount-badge">
+                {% assign discount = product.compare_at_price | minus: product.price %}
+                {% assign discount_percent = discount | times: 100 | divided_by: product.compare_at_price %}
+                {{ discount_percent }}% OFF
+              </div>
+            {% endif %}
+            {% if on_sale == false %}
+              {% assign now_s = 'now' | date: '%s' %}
+              {% assign pub_s = product.published_at | date: '%s' %}
+              {% assign days = now_s | minus: pub_s | divided_by: 86400 %}
+              {% if days <= 30 %}
+                <div class="new-badge">New</div>
+              {% endif %}
+            {% endif %}
+          </div>
+
+        </div>
+      {% endif %}
+    </a>
+    <div class="dots-and-arrows-container">
+      <div class="dot-container">
+
+        {% assign swatch_variants = nil %}
+        {% if product.options.size > 1 %}
+          {% assign options = product.options_with_values[0] %}
+            {% for option in options.values %}
+            {% assign media = nil %}
+            {% for variant in product.variants %}
+              {% if variant.option1 == option %}
+                {% assign swatch_variants = variant %}
+                {% break %}
+              {% endif %}
+            {% endfor %}
+            {% comment %} assign media for swatch variant {% endcomment %}
+            {% if swatch_variants and swatch_variants.featured_media %}
+              {% assign media = swatch_variants.featured_media %}
+            {% endif %}
+            {% if media %}
+              <img
+                width="50"
+                height="50"
+                src={{ media | image_url: width: 200, height: 200, crop: 'center' }}
+                alt="{{ media.alt }}"
+                class="image-dot"
+                id="{{ media.id }}"
+                loading="eager"
+                data-url="{{ media | image_url: width: 500, height: 500, crop: 'center' }}"
+                data-id="{{ media.id }}">
+            {% endif %}
+          {% endfor %}
+
+          {% assign media = product.featured_image %}
+
+        {% else %}
+          {% assign options = product.options_with_values[0] %}
+          {% assign swatch_variants = product.variants %}
+          {% assign media = swatch_variants.featured_media %}
+
+          {% if swatch_variants and media %}
+            {% for option in options.values %}
+              <img
+                width="50"
+                height="50"
+                src={{ media | image_url: width: 200, height: 200, crop: 'center' }}
+                alt="{{ media.alt }}"
+                class="image-dot"
+                id="{{ media.id }}"
+                loading="eager"
+                data-url="{{ media | image_url: width: 500, height: 500, crop: 'center' }}"
+                data-id="{{ media.id }}">
+            {% endfor %}
+
+          {% else %}
+            {% assign media = product.featured_media %}
+            <img
+              width="50"
+              height="50"
+              src={{ media | image_url: width: 200, height: 200, crop: 'center' }}
+              alt="{{ media.alt }}"
+              class="image-dot"
+              id="{{ media.id }}"
+              loading="eager"
+              data-url="{{ media | image_url: width: 500, height: 500, crop: 'center' }}"
+              data-id="{{ media.id }}">
+          {% endif %}
+        {% endif %}
+      </div>
+      <div class="arrow-buttons-container">
+        <button class="arrow-btn icon--back" aria-label="Previous">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="size-6">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M6.75 15.75 3 12m0 0 3.75-3.75M3 12h18" />
+          </svg>
+        </button>
+        <button class="arrow-btn icon--forward" aria-label="Next">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            class="size-6">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M17.25 8.25L21 12M21 12l-3.75 3.75M21 12H3" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+{% endfor %}

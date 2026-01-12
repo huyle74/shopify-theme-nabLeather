@@ -5,7 +5,6 @@
 
 <div class="collection">
   <div class="collection__wrapper">
-
     {% comment %} MENU {% endcomment %}
     <ul class="menu-link">
       <li>
@@ -31,7 +30,9 @@
         {% if collection.featured_image != blank and collection.all_products_count > 0 %}
           <div class="collection-grid" data-url="{{ collection.url }}">
             <div class="collection-featured-image">
-              <div class="skeleton image"></div>
+              {% unless request.design_mode %}
+                <div class="skeleton image"></div>
+              {% endunless %}
               {{ collection.featured_image
  | image_url: width: 200, height: 200, crop: 'center'
  | image_tag:
@@ -48,6 +49,7 @@
         {% endif %}
       {% endfor %}
     </div>
+
     {% comment %} Products {% endcomment %}
     <div class="collection-products-section">
       <div class="collection-products-container">
@@ -76,50 +78,51 @@
             <div class="banner-content">
               <a href="{{ section.settings.button_link }}">
 
-                {% if section.settings.title != blank %}
-                  <h1 class="banner-title" style="color: {{ section.settings.text_title_color }};">{{ section.settings.title }}</h1>
+                {% if section.settings.title_banner != blank %}
+                  <h1 class="banner-title" style="color: {{ section.settings.text_title_color }};">{{ section.settings.title_banner }}</h1>
                 {% endif %}
 
-                {% if section.settings.subtitle != blank %}
-                  <p class="banner-subtitle" style="color: {{ section.settings.text_subtitle_color }};">{{ section.settings.subtitle }}</p>
+                {% if section.settings.subtitle_banner != blank %}
+                  <p class="banner-subtitle" style="color: {{ section.settings.text_subtitle_color }};">{{ section.settings.subtitle_banner }}</p>
                 {% endif %}
 
-                {% if section.settings.button_text != blank and section.settings.button_link != blank %}
+                {% if section.settings.button_text_banner != blank and section.settings.button_link != blank %}
                   <a
                     href="{{ section.settings.button_link }}"
                     class="banner-button"
                     style="background-color: {{ section.settings.button_bg_color }};color: {{ section.settings.button_text_color }};">
-                    {{ section.settings.button_text }}
+                    {{ section.settings.button_text_banner }}
 
                   </a>
                 {% endif %}
               </a>
             </div>
-
-
           </div>
         </section>
+
         <div id="productsArea">
           {% for product in collection.products %}
-            <div class="collection-product-item lazy-product" data-loaded="false">
+            <div class="collection-product-item {% unless request.design_mode %}lazy-product{% endunless %}" data-loaded="false">
               <a href="{{ product.url }}" class="link-product">
                 {% assign metaField = product.metafields.custom %}
                 <div class="product-info">
-                  <div class="collection-product-title">
+                  <div class="collection-product-title" style="color: {{ section.settings.product_title_color }}; font-size: {{ section.settings.product_title_font_size }}px;">
                     {{ product.title | truncate: 35 }}
                   </div>
                   {% if product.metafields.custom %}
-                    <div class="product-description">
+                    <div class="product-description" style="color: {{ section.settings.product_description_color }}; font-size: {{ section.settings.product_description_font_size }}px;">
                       {{ product.metafields.custom.heading | truncate: 60 }}
                     </div>
                   {% endif %}
-                  <div class="product-price">
+                  <div class="product-price" style="color: {{ section.settings.product_price_color }}; font-size: {{ section.settings.product_price_font_size }}px;">
                     {{ product.price | money_with_currency }}
                   </div>
                 </div>
                 {% if product.featured_image %}
                   <div class="product-images-container">
-                    <div class="skeleton image"></div>
+                    {% unless request.design_mode %}
+                      <div class="skeleton image"></div>
+                    {% endunless %}
                     {{ product.featured_image
  | image_url: width: 500, height: 500, crop: 'center'
  | image_tag:
@@ -161,7 +164,6 @@
               </a>
               <div class="dots-and-arrows-container">
                 <div class="dot-container">
-
                   {% assign swatch_variants = nil %}
                   {% if product.options.size > 1 %}
                     {% assign options = product.options_with_values[0] %}
@@ -268,11 +270,11 @@
 
 {% schema %}
   {
-    "name": "Editable Banner",
+    "name": "Collection Banner Product",
     "settings": [
       {
         "type": "text",
-        "id": "title",
+        "id": "title_banner",
         "label": "Banner Title"
       },
       {
@@ -283,7 +285,7 @@
       },
       {
         "type": "text",
-        "id": "subtitle",
+        "id": "subtitle_banner",
         "label": "Banner Subtitle"
       },
       {
@@ -293,7 +295,7 @@
         "default": "#ffffff"
       }, {
         "type": "text",
-        "id": "button_text",
+        "id": "button_text_banner",
         "label": "Button Text",
         "default": "Shop Now"
       }, {
@@ -314,11 +316,54 @@
         "type": "image_picker",
         "id": "background_image",
         "label": "Background Image"
+      }, {
+        "type": "color",
+        "id": "product_title_color",
+        "label": "Product Title Color",
+        "default": "#ffffff"
+      }, {
+        "type": "range",
+        "id": "product_title_font_size",
+        "label": "Product title font size",
+        "min": 12,
+        "max": 40,
+        "step": 1,
+        "unit": "px",
+        "default": 16
+      }, {
+        "type": "color",
+        "id": "product_description_color",
+        "label": "Product Description Color",
+        "default": "#ffffff"
+      }, {
+        "type": "range",
+        "id": "product_description_font_size",
+        "label": "Product description font size",
+        "min": 12,
+        "max": 40,
+        "step": 1,
+        "unit": "px",
+        "default": 13
+      }, {
+        "type": "color",
+        "id": "product_price_color",
+        "label": "Product Price Color",
+        "default": "#ffffff"
+      }, {
+        "type": "range",
+        "id": "product_price_font_size",
+        "label": "Product price font size",
+        "min": 12,
+        "max": 40,
+        "step": 1,
+        "unit": "px",
+        "default": 14
       }
+
     ],
     "presets": [
       {
-        "name": "Editable Banner"
+        "name": "Collection Banner + Products"
       }
     ]
   }

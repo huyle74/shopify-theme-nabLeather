@@ -1,8 +1,6 @@
 .collection {
   padding-left: 20px;
   padding-right: 20px;
-  overflow-y: scroll;
-  max-height: 80vh;
   /* border: #ff4d00 solid 1px; */
   display: flex;
   justify-content: center;
@@ -70,7 +68,7 @@
   user-select: none;
   /* border: #0069f0 solid 1px; */
   position: sticky;
-  top: 0;
+  /* top: 130px; */
   background-color: white;
   z-index: 12;
 }
@@ -316,19 +314,19 @@
   left: 0;
   right: 0;
   z-index: 10;
-  color: #fff;
-  text-shadow:
+  /* color: #fff; */
+  /* text-shadow:
     0 0 2px rgba(255, 255, 255, 0.6),
-    0 0 4px rgba(255, 255, 255, 0.4);
+    0 0 4px rgba(255, 255, 255, 0.4); */
 }
 .collection-product-title {
-  font-size: 15px;
+  /* font-size: 15px; */
   font-weight: 600;
   display: flex;
   align-items: center;
 }
 .product-description {
-  font-size: 13px;
+  /* font-size: 13px; */
 }
 /* HOVER product */
 .dots-and-arrows-container {

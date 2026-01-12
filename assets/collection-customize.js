@@ -1,4 +1,9 @@
 document.addEventListener("DOMContentLoaded", function () {
+  if (window.Shopify && Shopify.designMode) {
+    const productsArea = document.getElementById("productsArea");
+    const lazyProducts = productsArea.querySelectorAll(".lazy-product");
+    lazyProducts.forEach((product) => product.classList.add("is-visible"));
+  }
   const circleElements = document.querySelectorAll(".collection-grid");
   const xSymbols = document.querySelectorAll(".collection-grid-x-symbols");
   const circleImages = document.querySelectorAll(".collection-featured-image");
@@ -52,6 +57,15 @@ document.addEventListener("DOMContentLoaded", function () {
   };
   removedSkeletonsProductCards();
 
+  // Set Sticky Top for Filter Circles
+  const filterCircle = document.querySelector(".collection-grid-container");
+  if (filterCircle) {
+    const announcementBar = document.getElementById("shopify-section-announcement");
+    const header = document.getElementById("shopify-section-header");
+    const totalHeight = announcementBar.offsetHeight + header.offsetHeight;
+    filterCircle.style.top = totalHeight + "px";
+  }
+
   // Lazy load products
   function lazyLoad() {
     const productsArea = document.getElementById("productsArea");
@@ -69,8 +83,11 @@ document.addEventListener("DOMContentLoaded", function () {
         rootMargin: "100px",
       },
     );
-
-    lazyProducts.forEach((product) => observer.observe(product));
+    if (window.Shopify && Shopify.designMode) {
+      return;
+    } else {
+      lazyProducts.forEach((product) => observer.observe(product));
+    }
   }
 
   async function loadCollectionProducts(url) {
@@ -181,7 +198,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const dots = item.querySelectorAll(".image-dot");
       const layerContainer = item.querySelector(".layer-container");
       const dotContainer = item.querySelector(".dot-container");
-      const layers = layerContainer.querySelectorAll(".layer-for-hover");
+      // const layers = layerContainer.querySelectorAll(".layer-for-hover");
 
       function removeDotsActiveClasses() {
         dots.forEach((dot) => dot.classList.remove("active"));
@@ -214,15 +231,15 @@ document.addEventListener("DOMContentLoaded", function () {
         if (dotToActivate) dotToActivate.classList.add("active");
       }
 
-      layers.forEach((layer) => {
-        layer.addEventListener("mouseover", function () {
-          const url = layer.dataset.url;
-          const id = layer.id;
-          const dotToActivate = dotContainer.querySelector(`[data-id="${id}"]`);
-          activateDot(dotToActivate, url);
-          scrollXCenterToEl(dotContainer, dotToActivate);
-        });
-      });
+      // layers.forEach((layer) => {
+      //   layer.addEventListener("mouseover", function () {
+      //     const url = layer.dataset.url;
+      //     const id = layer.id;
+      //     const dotToActivate = dotContainer.querySelector(`[data-id="${id}"]`);
+      //     activateDot(dotToActivate, url);
+      //     scrollXCenterToEl(dotContainer, dotToActivate);
+      //   });
+      // });
 
       dots.forEach((dot) => {
         dot.addEventListener("mouseover", function () {

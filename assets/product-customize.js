@@ -55,6 +55,15 @@ document.addEventListener("DOMContentLoaded", function () {
   }
   // console.log(variantsGallery);
 
+  // Set sticky height for product media container
+  const productMediaInfoContainer = document.querySelector(".product-gallery-container");
+  if (productMediaInfoContainer) {
+    const announcementBar = document.getElementById("shopify-section-announcement");
+    const header = document.getElementById("shopify-section-header");
+    const totalHeight = announcementBar.offsetHeight + header.offsetHeight;
+    productMediaInfoContainer.style.top = totalHeight + "px";
+  }
+
   // Add active class to first color and size option by default
   // DATA variant mapping
   const productJsonEl = document.querySelector('[id^="ProductJson-"]');
