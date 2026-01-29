@@ -70,7 +70,7 @@
   position: sticky;
   /* top: 130px; */
   background-color: white;
-  z-index: 2;
+  z-index: 5;
 }
 .collection-grid {
   margin: 5px;

@@ -243,6 +243,7 @@ document.addEventListener("DOMContentLoaded", function () {
       dots.forEach((s) => s.classList.remove("active"));
       dot.classList.add("active");
     }
+    const sideMediaContainer = document.querySelector(".side-product-media-container");
     // side media active class
     if (sideMediaContainer) {
       const allSides = sideMediaContainer.querySelectorAll(".product-media");
@@ -251,6 +252,8 @@ document.addEventListener("DOMContentLoaded", function () {
       sideToActivate.classList.add("active");
       ensureThumbVisible(sideToActivate, sideMediaContainer);
     }
+
+    const mainMedia = document.getElementById("product-media-container-for-scroll");
 
     // center the slide
     const left = slide.offsetLeft - mainMedia.clientWidth / 2 + slide.clientWidth / 2;
@@ -416,9 +419,8 @@ document.addEventListener("DOMContentLoaded", function () {
   }
   function renderGalleryByColor(color, mediaId) {
     if (variantsGallery.length === 0) return;
+    // console.log(variantsGallery);
     const selectedId = parseInt(mediaId, 10);
-    // currentIndex = 0;
-    // console.log("Render gallery for color:", color, mediaId);
 
     const variant = variantsGallery.find((v) => v.color === color);
     if (!variant) return;
@@ -461,13 +463,9 @@ document.addEventListener("DOMContentLoaded", function () {
       mainMediaImg.alt = media.alt || productData.title;
       mainMediaImg.dataset.index = index;
       mainMediaImg.dataset.mediaId = media.id;
-      mainMediaImg.dataset.variantId = productData.variants;
-      mainMediaImg.height = 1600;
-      mainMediaImg.width = 1600;
-      mainMediaImg.dataset.variantId = productData.variants
-        .filter((v) => v.options[0] === color)
-        .map((v) => v.id)
-        .join(", ");
+      mainMediaImg.height = 900;
+      mainMediaImg.width = 900;
+
       mainMediaImg.loading = "lazy";
       wrapperDiv.appendChild(mainMediaImg);
       mainMediaContainer.appendChild(wrapperDiv);
@@ -477,6 +475,7 @@ document.addEventListener("DOMContentLoaded", function () {
       dotDiv.className = "dot";
       dotDiv.dataset.index = index;
       dotsContainer.appendChild(dotDiv);
+      mainMediaContainer.scrollTo({ left: 0 });
     });
     resetDots();
     selectSideMedia();
@@ -607,7 +606,6 @@ document.addEventListener("DOMContentLoaded", function () {
     firstDot.classList.add("active");
 
     const mainMedia = document.getElementById("product-media-container-for-scroll");
-    const slides = mainMedia.querySelectorAll(".product-media");
 
     const leftArrow = productMediaContainer.querySelector(".gallery-left-arrow");
     const rightArrow = productMediaContainer.querySelector(".gallery-right-arrow");

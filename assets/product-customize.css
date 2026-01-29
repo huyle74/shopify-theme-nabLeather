@@ -8,6 +8,7 @@ body {
   margin-bottom: 40px;
   display: flex;
   position: relative;
+  z-index: -1;
 }
 .Product__Info_customize {
   /* border: #ff7b00 solid 1px; */
@@ -78,7 +79,6 @@ body {
   align-items: center;
   overflow: hidden;
   position: relative;
-  /* aspect-ratio: 1 / 1; */
 
   scroll-snap-align: center;
   /* border: #000000 solid 3px; */
