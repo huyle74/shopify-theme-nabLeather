@@ -48,7 +48,8 @@
                 hook-widget-count="{{ product.id }}"
                 class="sold-count-widget"
                 data-counter="{{ product.metafields['app--71373979649--soldcount'].counter }}"
-                data-resent="{{ product.metafields['app--71373979649--soldcount'].customer }}"></div>
+                data-resent="{{ product.metafields['app--71373979649--soldcount'].customer }}">
+              </div>
 
             {%- when 'share_buttons' -%}
               <div class="ProductMeta__ShareButtons hidden-pocket" {{ block.shopify_attributes }}>

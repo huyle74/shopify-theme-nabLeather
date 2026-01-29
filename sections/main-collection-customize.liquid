@@ -5,7 +5,8 @@
 
 <div class="collection">
   <div class="collection__wrapper">
-    {% comment %} MENU {% endcomment %}
+      {% comment %} MENU {% endcomment %}
+    `
     <ul class="menu-link">
       <li>
         <a href="/">Home</a>
@@ -115,6 +116,7 @@
                     </div>
                   {% endif %}
                   <div class="product-price" style="color: {{ section.settings.product_price_color }}; font-size: {{ section.settings.product_price_font_size }}px;">
+                    <span class="price-max" style="color: {{ section.settings.product_max_price_color }}; font-size: {{ section.settings.product_max_price_font_size }}px;">{{ product.compare_at_price | money_with_currency }}</span>
                     {{ product.price | money_with_currency }}
                   </div>
                 </div>
@@ -358,8 +360,21 @@
         "step": 1,
         "unit": "px",
         "default": 14
+      }, {
+        "type": "color",
+        "id": "product_max_price_color",
+        "label": "Product Max Price Color",
+        "default": "#ffffff"
+      }, {
+        "type": "range",
+        "id": "product_max_price_font_size",
+        "label": "Product Max Price font size",
+        "min": 12,
+        "max": 40,
+        "step": 1,
+        "unit": "px",
+        "default": 14
       }
-
     ],
     "presets": [
       {

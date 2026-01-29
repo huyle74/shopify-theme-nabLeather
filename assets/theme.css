@@ -10354,7 +10354,7 @@ shopify-payment-terms {
 .shopify-payment-button__more-options:hover:not([disabled]) {
   text-decoration: none;
 }
-@charset "UTF-8";
+/* @charset "UTF-8"; */
 /**
  * ----------------------------------------------------------------------------
  * Product reviews (integration with Shopify Reviews free app)

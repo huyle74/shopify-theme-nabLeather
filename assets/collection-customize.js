@@ -62,6 +62,7 @@ document.addEventListener("DOMContentLoaded", function () {
   if (filterCircle) {
     const announcementBar = document.getElementById("shopify-section-announcement");
     const header = document.getElementById("shopify-section-header");
+    if (!announcementBar || !header) return;
     const totalHeight = announcementBar.offsetHeight + header.offsetHeight;
     filterCircle.style.top = totalHeight + "px";
   }

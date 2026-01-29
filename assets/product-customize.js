@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Set sticky height for product media container
   const productMediaInfoContainer = document.querySelector(".product-gallery-container");
-  if (productMediaInfoContainer) {
+  if (!isMobileScreen && productMediaInfoContainer) {
     const announcementBar = document.getElementById("shopify-section-announcement");
     const header = document.getElementById("shopify-section-header");
     const totalHeight = announcementBar.offsetHeight + header.offsetHeight;
@@ -410,6 +410,8 @@ document.addEventListener("DOMContentLoaded", function () {
   function renderGalleryByColor(color, mediaId) {
     if (variantsGallery.length === 0) return;
     const selectedId = parseInt(mediaId, 10);
+    // currentIndex = 0;
+    // console.log("Render gallery for color:", color, mediaId);
 
     const variant = variantsGallery.find((v) => v.color === color);
     if (!variant) return;
@@ -472,7 +474,6 @@ document.addEventListener("DOMContentLoaded", function () {
       dotsContainer.appendChild(dotDiv);
     });
     resetDots();
-    // scrollToIndex(0);
     selectSideMedia();
     zoomFunctionality();
     dotClicked();
@@ -600,20 +601,23 @@ document.addEventListener("DOMContentLoaded", function () {
     const firstDot = dotsContainer.querySelector(".dot");
     firstDot.classList.add("active");
 
+    const mainMedia = document.getElementById("product-media-container-for-scroll");
+    const slides = mainMedia.querySelectorAll(".product-media");
+
     const leftArrow = productMediaContainer.querySelector(".gallery-left-arrow");
     const rightArrow = productMediaContainer.querySelector(".gallery-right-arrow");
     leftArrow?.addEventListener("click", function (e) {
       e.stopPropagation();
+      const slides = mainMedia.querySelectorAll(".product-media");
 
       currentIndex = currentIndex === 0 ? slides.length - 1 : currentIndex - 1;
-      // console.log("left Arrow", currentIndex );
       scrollToIndex(currentIndex);
     });
     rightArrow?.addEventListener("click", function (e) {
       e.stopPropagation();
+      const slides = mainMedia.querySelectorAll(".product-media");
 
       currentIndex = currentIndex === slides.length - 1 ? 0 : currentIndex + 1;
-      // console.log('Right Arrow', currentIndex);
       scrollToIndex(currentIndex);
     });
   }
@@ -691,7 +695,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const mobileCartBtn = mobileFloatingCart.querySelector("button");
 
     if (have2Options) {
-      console.log("2 options");
+      // console.log("2 options");
       addToCartBtn.textContent = label || "Select Size";
       mobileCartBtn.textContent = label || "Select Size";
     }
