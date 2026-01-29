@@ -407,6 +407,13 @@ document.addEventListener("DOMContentLoaded", function () {
     inputVariant.dispatchEvent(new Event("input", { bubbles: true }));
   }
 
+  function sortByIdFirst(gallery, targetId) {
+    const index = gallery.findIndex((item) => item.id === targetId);
+    if (index === -1) {
+      return gallery;
+    }
+    return [gallery[index], ...gallery.slice(0, index), ...gallery.slice(index + 1)];
+  }
   function renderGalleryByColor(color, mediaId) {
     if (variantsGallery.length === 0) return;
     const selectedId = parseInt(mediaId, 10);
@@ -415,11 +422,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const variant = variantsGallery.find((v) => v.color === color);
     if (!variant) return;
-    const gallery = variant.gallery.sort((a, b) => {
-      if (a.id === selectedId) return -1;
-      if (b.id === selectedId) return 1;
-      return 0;
-    });
+
+    const gallery = sortByIdFirst(variant.gallery, selectedId);
+    // console.log(gallery, mediaId);
 
     const sideMediaContainer = document.querySelector(".side-product-media-container");
     const mainMedia = document.getElementById("product-media-container-for-scroll");
