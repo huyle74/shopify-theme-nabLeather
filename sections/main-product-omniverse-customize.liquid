@@ -127,7 +127,7 @@
 
         <div class="side-product-media-container">
           {% for image in gallery %}
-            {% assign image_src = image | image_url: width: 200, height: 200, crop: 'center' %}
+            {% assign image_src = image | image_url: width: 128, height: 128, crop: 'center' %}
             {% assign alt_text = image.alt | default: product.title %}
             {% assign variant_ids = image.variants | map: 'id' | join: ',' %}
 
@@ -141,8 +141,8 @@
                 src="{{ image_src }}"
                 loading="eager"
                 alt="{{ alt_text | escape }}"
-                width="200"
-                height="200">
+                width="128"
+                height="128">
             </div>
           {% endfor %}
         </div>
@@ -199,9 +199,9 @@
           {% assign media = selected_variant.product.featured_media %}
         {% endif %}
         <img
-          height="200"
-          width="200"
-          src="{{ media | image_url: width: 200, height: 200, crop: 'center' }}"
+          height="128"
+          width="128"
+          src="{{ media | image_url: width: 128, height: 128, crop: 'center' }}"
           alt="variant image"
           id="mobile-variant-image">
         <span id="cart-title">{{ selected_variant.product.title }}</span>

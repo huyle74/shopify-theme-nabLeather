@@ -8,7 +8,7 @@ body {
   margin-bottom: 40px;
   display: flex;
   position: relative;
-  z-index: -1;
+  z-index: 10;
 }
 .Product__Info_customize {
   /* border: #ff7b00 solid 1px; */

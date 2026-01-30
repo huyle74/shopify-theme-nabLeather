@@ -24,6 +24,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const optionsData = img.getAttribute("data_option_value");
       const data = variantGalleryData ? JSON.parse(variantGalleryData) : [];
       if (!data || data.length === 0) return;
+      // console.log(data);
       variantsGallery.push({ color: optionsData, gallery: data });
     });
 
@@ -327,8 +328,8 @@ document.addEventListener("DOMContentLoaded", function () {
           lastY = t.clientY;
 
           window.scrollBy({
-            top: -deltaY * 20,
-            behavior: "smooth",
+            top: -deltaY * 2,
+            behavior: "instant",
           });
 
           // Prevent browser from doing weird native handling on the element
@@ -367,7 +368,8 @@ document.addEventListener("DOMContentLoaded", function () {
       }
       // If not enough horizontal movement, ignore
       if (Math.abs(dx) < swipeThreshold) return;
-
+      const mainMedia = document.getElementById("product-media-container-for-scroll");
+      const slides = mainMedia.querySelectorAll(".product-media");
       if (dx > 0) {
         // Swipe right
         currentIndex = currentIndex === 0 ? slides.length - 1 : currentIndex - 1;
@@ -419,7 +421,6 @@ document.addEventListener("DOMContentLoaded", function () {
   }
   function renderGalleryByColor(color, mediaId) {
     if (variantsGallery.length === 0) return;
-    // console.log(variantsGallery);
     const selectedId = parseInt(mediaId, 10);
 
     const variant = variantsGallery.find((v) => v.color === color);
@@ -449,7 +450,12 @@ document.addEventListener("DOMContentLoaded", function () {
         .map((v) => v.id)
         .join(", ");
       const imageEl = document.createElement("img");
-      imageEl.src = media.src;
+      const src = media.src.replace(/([?&](height|width)=)900/g, `$1${128}`);
+      imageEl.src = src;
+      imageEl.loading = "eager";
+      imageEl.alt = media.alt || productData.title;
+      imageEl.height = 128;
+      imageEl.width = 128;
       mediaDiv.appendChild(imageEl);
       sideMediaContainer.appendChild(mediaDiv);
 
@@ -459,14 +465,13 @@ document.addEventListener("DOMContentLoaded", function () {
       const mainMediaImg = document.createElement("img");
 
       mainMediaImg.src = media.src;
+      mainMediaImg.loading = "eager";
       mainMediaImg.className = "product-media";
       mainMediaImg.alt = media.alt || productData.title;
       mainMediaImg.dataset.index = index;
       mainMediaImg.dataset.mediaId = media.id;
       mainMediaImg.height = 900;
       mainMediaImg.width = 900;
-
-      mainMediaImg.loading = "lazy";
       wrapperDiv.appendChild(mainMediaImg);
       mainMediaContainer.appendChild(wrapperDiv);
 

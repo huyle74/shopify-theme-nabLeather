@@ -115,7 +115,7 @@
                                         {
                                           "id": {{ media.id | json }},
                                           "alt": {{ media.alt | json }},
-                                          "src": {{ media | image_url: width: 1200, height: 1200, crop: 'center' | json }}
+                                          "src": {{ media | image_url: width: 900, height: 900, crop: 'center' | json }}
                                         }{% unless forloop.last %},{% endunless %}
                                       {%- endfor -%}
                                     ]
