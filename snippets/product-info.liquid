@@ -30,8 +30,7 @@
           , product
           , class: 'ProductForm'
           , id: 'js-add-to-cart' -%}
-        {%- render 'product-data'
-          , product: product -%}
+        {%- render 'product-data', product: product -%}
 
         {% assign app_blocks = section.blocks | where: 'type', '@app' %}
           {% assign fit_guide_block = app_blocks[0] %}

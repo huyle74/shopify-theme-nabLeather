@@ -4160,20 +4160,20 @@ body:not(.features--show-image-zooming) .Image--lazyLoaded.Image--zoomOut {
 }
 
 .Price--highlight {
-  color: var(--product-sale-price-color);
+  color: #d63462;
+  font-weight: 550;
 }
 
 .Price--compareAt {
   position: relative;
-  margin-left: 10px;
 }
 
 .Price--compareAt::before {
   position: absolute;
   content: "";
   top: 50%;
-  left: -0.4em;
-  width: calc(100% + 0.8em);
+  left: 0;
+  width: calc(100% - 4px);
   height: 1px;
   background: currentColor;
 }
@@ -9765,12 +9765,16 @@ body:not(.features--show-image-zooming) .Image--lazyLoaded.Image--zoomOut {
   margin-bottom: 0;
 }
 
+.ProductMeta__Price {
+  font-weight: 550;
+}
+
 .ProductMeta__PriceList {
   margin-top: 15px;
 }
 
 .ProductMeta__Price.Price--compareAt {
-  margin-left: 30px;
+  margin-right: 5px;
 }
 
 .ProductMeta__UnitPriceMeasurement {
@@ -11655,5 +11659,3 @@ header.PageHeader .SectionHeader__Description.Rte p {
     display: block;
   }
 }
-
-

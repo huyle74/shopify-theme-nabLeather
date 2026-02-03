@@ -116,7 +116,9 @@
                     </div>
                   {% endif %}
                   <div class="product-price" style="color: {{ section.settings.product_price_color }}; font-size: {{ section.settings.product_price_font_size }}px;">
-                    <span class="price-max" style="color: {{ section.settings.product_max_price_color }}; font-size: {{ section.settings.product_max_price_font_size }}px;">{{ product.compare_at_price | money_with_currency }}</span>
+                    <span class="price-max" style="color: {{ section.settings.product_max_price_color }}; font-size: {{ section.settings.product_max_price_font_size }}px;">
+                      {{ product.compare_at_price | money_with_currency }}
+                    </span>
                     {{ product.price | money_with_currency }}
                   </div>
                 </div>
