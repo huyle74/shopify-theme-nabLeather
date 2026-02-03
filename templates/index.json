@@ -119,6 +119,10 @@
         "link_url": ""
       }
     },
+    "banner-video-omniverse": {
+      "type": "banner-video-omniverse",
+      "settings": {}
+    },
     "slideshow_3kDziT": {
       "type": "slideshow",
       "settings": {
@@ -163,10 +167,7 @@
           }
         }
       },
-      "block_order": [
-        "collection_idbbKz",
-        "collection_j6HGUH"
-      ],
+      "block_order": ["collection_idbbKz", "collection_j6HGUH"],
       "disabled": true,
       "settings": {
         "image_size": "normal",
@@ -223,11 +224,7 @@
           }
         }
       },
-      "block_order": [
-        "collection_gqw88j",
-        "collection_bmcGQk",
-        "collection_jfwiNd"
-      ],
+      "block_order": ["collection_gqw88j", "collection_bmcGQk", "collection_jfwiNd"],
       "settings": {
         "image_size": "normal",
         "add_spacing": true,
@@ -283,11 +280,7 @@
           }
         }
       },
-      "block_order": [
-        "collection_F3aJm7",
-        "collection_i99YDE",
-        "collection_BaY8Bk"
-      ],
+      "block_order": ["collection_F3aJm7", "collection_i99YDE", "collection_BaY8Bk"],
       "settings": {
         "image_size": "normal",
         "add_spacing": true,
@@ -343,11 +336,7 @@
           }
         }
       },
-      "block_order": [
-        "collection_yrbtaW",
-        "collection_bfd6Q9",
-        "collection_gFrm3n"
-      ],
+      "block_order": ["collection_yrbtaW", "collection_bfd6Q9", "collection_gFrm3n"],
       "disabled": true,
       "settings": {
         "image_size": "normal",
@@ -444,10 +433,7 @@
           }
         }
       },
-      "block_order": [
-        "featured-collection-0",
-        "6311e767-6d57-4fbc-aacb-209618a4cf84"
-      ],
+      "block_order": ["featured-collection-0", "6311e767-6d57-4fbc-aacb-209618a4cf84"],
       "settings": {
         "title": "",
         "layout_mode": "grid",
@@ -562,9 +548,7 @@
           }
         }
       },
-      "block_order": [
-        "template--16318196285571__1e8dcebe-b492-466f-a798-7cc1888e22ed-look-1"
-      ],
+      "block_order": ["template--16318196285571__1e8dcebe-b492-466f-a798-7cc1888e22ed-look-1"],
       "disabled": true,
       "settings": {
         "subheading": "",
@@ -665,11 +649,7 @@
           }
         }
       },
-      "block_order": [
-        "collection_7EMyaG",
-        "collection_7WhJVx",
-        "collection_AUE9Kg"
-      ],
+      "block_order": ["collection_7EMyaG", "collection_7WhJVx", "collection_AUE9Kg"],
       "disabled": true,
       "settings": {
         "image_size": "normal",
@@ -830,6 +810,7 @@
     }
   },
   "order": [
+    "banner-video-omniverse",
     "slideshow",
     "text_with_image_nR8QpB",
     "slideshow_3kDziT",

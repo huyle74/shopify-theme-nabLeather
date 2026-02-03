@@ -62,32 +62,7 @@
     },
     "main": {
       "type": "main-product-omniverse-customize",
-      "settings": {
-        "show_collection_info": true,
-        "show_collection_image": false,
-        "apply_overlay": true,
-        "show_color_swatch": false,
-        "show_vendor": false,
-        "collection_image_visibility": "third",
-        "collection_image_size": "normal",
-        "show_sort_by": true,
-        "show_layout_switch": false,
-        "toolbar_position": "bottom",
-        "show_filters": true,
-        "show_filter_color_swatch": false,
-        "expand_filters": false,
-        "filter_position": "drawer",
-        "filter_menu": "",
-        "grid_items_per_page": 16,
-        "grid_mobile_items_per_row": "2",
-        "grid_desktop_items_per_row": 4,
-        "image_height": "default-height",
-        "text_color": "#ffffff",
-        "overlay_color": "#000000",
-        "overlay_opacity": 30,
-        "banner_button_label": "",
-        "banner_button_link": ""
-      }
+      "settings": {}
     },
     "recently-viewed-products": {
       "type": "recently-viewed-products",

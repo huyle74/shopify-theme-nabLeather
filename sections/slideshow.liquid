@@ -10,11 +10,12 @@
   "pageDots": {% if section.blocks.size > 1 %}true{% else %}false{% endif %}
 }
 {%- endcapture -%}
-
-<section id="section-{{ section.id }}" data-section-id="{{ section.id }}" data-section-type="slideshow">
+<section
+  id="section-{{ section.id }}"
+  data-section-id="{{ section.id }}"
+  data-section-type="slideshow">
   <div class="Slideshow {% if section.settings.show_fullscreen %}Slideshow--fullscreen{% endif %}">
-    <div class="Slideshow__Carousel {% if section.settings.show_arrow %}Slideshow__Carousel--withScrollButton{% endif %} Carousel Carousel--fadeIn {% if section.settings.show_fullscreen %}Carousel--fixed{% endif %} Carousel--insideDots"
-         data-flickity-config='{{ flickity_options }}'>
+    <div class="Slideshow__Carousel {% if section.settings.show_arrow %}Slideshow__Carousel--withScrollButton{% endif %} Carousel Carousel--fadeIn {% if section.settings.show_fullscreen %}Carousel--fixed{% endif %} Carousel--insideDots" data-flickity-config='{{ flickity_options }}'>
       {%- for block in section.blocks -%}
         {%- capture slide_content -%}
           {%- comment -%}
@@ -100,15 +101,29 @@
             </div>
           {%- endif -%}
         {%- endcapture -%}
-
         {%- comment -%}This code allows to cover a common use case where merchant would like to have a clickable image{%- endcomment -%}
 
         {%- if block.settings.button_1_text == blank and block.settings.button_1_link != blank -%}
-          <a href="{{ block.settings.button_1_link }}" id="Slide{{ block.id }}" class="Slideshow__Slide Carousel__Cell {% if forloop.first %}is-selected{% endif %}" {% if forloop.first %}style="visibility: visible"{% endif %} data-slide-index="{{ forloop.index0 }}" {{ block.shopify_attributes }}>
+          <a
+            href="{{ block.settings.button_1_link }}"
+            id="Slide{{ block.id }}"
+            class="Slideshow__Slide Carousel__Cell {% if forloop.first %}is-selected{% endif %}"
+            {% if forloop.first %}
+            style="visibility: visible"
+            {% endif %}
+            data-slide-index="{{ forloop.index0 }}"
+            {{ block.shopify_attributes }}>
             {{- slide_content -}}
           </a>
         {%- else -%}
-          <div id="Slide{{ block.id }}" class="Slideshow__Slide Carousel__Cell {% if forloop.first %}is-selected{% endif %}" {% if forloop.first %}style="visibility: visible"{% endif %} data-slide-index="{{ forloop.index0 }}" {{ block.shopify_attributes }}>
+          <div
+            id="Slide{{ block.id }}"
+            class="Slideshow__Slide Carousel__Cell {% if forloop.first %}is-selected{% endif %}"
+            {% if forloop.first %}
+            style="visibility: visible"
+            {% endif %}
+            data-slide-index="{{ forloop.index0 }}"
+            {{ block.shopify_attributes }}>
             {{- slide_content -}}
           </div>
         {%- endif -%}
@@ -116,7 +131,11 @@
     </div>
 
     {%- if section.settings.show_arrow -%}
-      <button data-href="#section-{{ section.id }}-end" class="Slideshow__ScrollButton RoundButton RoundButton--medium" aria-label="{{ 'general.accessibility.scroll_to_content' | t }}" data-animate-bottom>
+      <button
+        data-href="#section-{{ section.id }}-end"
+        class="Slideshow__ScrollButton RoundButton RoundButton--medium"
+        aria-label="{{ 'general.accessibility.scroll_to_content' | t }}"
+        data-animate-bottom>
         {%- render 'icon' with 'arrow-bottom' -%}
       </button>
     {%- endif -%}
@@ -126,23 +145,27 @@
 </section>
 
 <style>
-  #section-{{ section.id }} .Heading,
-   #section-{{ section.id }} .flickity-page-dots {
+  #section-{{ section.id }} .Heading
+  , #section-{{ section.id }}
+  .flickity-page-dots {
     color: {{ section.settings.text_color }};
   }
 
-  #section-{{ section.id }} .Button {
+  #section-{{ section.id }}
+  .Button {
     color: {{ section.settings.button_color }};
     border-color: {{ section.settings.button_background }};
   }
 
-  #section-{{ section.id }} .Button::before {
+  #section-{{ section.id }}
+  .Button::before {
     background-color: {{ section.settings.button_background }};
   }
 
   {%- if settings.show_button_transition -%}
-    @media (-moz-touch-enabled: 0), (hover: hover) {
-      #section-{{ section.id }} .Button:hover {
+    @media (-moz-touch-enabled: 0),
+    (hover: hover) {
+      #section-{{ section.id }}.Button:hover {
         color: {{ section.settings.button_background }};
       }
     }
@@ -150,172 +173,158 @@
 </style>
 
 {% schema %}
-{
-  "name": "Slideshow",
-  "class": "shopify-section--slideshow",
-  "max_blocks": 5,
-  "settings": [
-    {
-      "type": "checkbox",
-      "id": "show_fullscreen",
-      "label": "Show full-screen images",
-      "info": "If enabled, images will be resized to fit the entire screen.",
-      "default": false
-    },
-    {
-      "type": "checkbox",
-      "id": "show_arrow",
-      "label": "Show bottom arrow",
-      "default": false
-    },
-    {
-      "type": "checkbox",
-      "id": "autoplay",
-      "label": "Auto rotate between slides",
-      "default": true
-    },
-    {
-      "type": "range",
-      "id": "cycle_speed",
-      "min": 3,
-      "max": 8,
-      "step": 1,
-      "unit": "sec",
-      "label": "Change slides every",
-      "default": 5
-    },
-    {
-      "type": "color",
-      "id": "text_color",
-      "label": "Text",
-      "default": "#ffffff"
-    },
-    {
-      "type": "color",
-      "id": "button_color",
-      "label": "Button text",
-      "default": "#363636"
-    },
-    {
-      "type": "color",
-      "id": "button_background",
-      "label": "Button background",
-      "default": "#ffffff"
-    }
-  ],
-  "blocks": [
-    {
-      "type": "image",
-      "name": "Slide",
-      "settings": [
-        {
-          "type": "image_picker",
-          "id": "image",
-          "label": "Image",
-          "info": "1800 x 800px .jpg recommended"
-        },
-        {
-          "type": "image_picker",
-          "id": "mobile_image",
-          "label": "Mobile image",
-          "info": "750 x 1100px .jpg recommended. If none is set, desktop image will be cropped."
-        },
-        {
-          "type": "checkbox",
-          "id": "apply_overlay",
-          "label": "Apply overlay on image",
-          "info": "This can improve text visibility.",
-          "default": true
-        },
-        {
-          "type": "select",
-          "id": "content_position",
-          "label": "Content position",
-          "options": [
-            {
-              "value": "middleLeft",
-              "label": "Middle left"
-            },
-            {
-              "value": "middleCenter",
-              "label": "Middle center"
-            },
-            {
-              "value": "middleRight",
-              "label": "Middle right"
-            },
-            {
-              "value": "bottomLeft",
-              "label": "Bottom left"
-            },
-            {
-              "value": "bottomCenter",
-              "label": "Bottom center"
-            },
-            {
-              "value": "bottomRight",
-              "label": "Bottom right"
-            }
-          ],
-          "default": "bottomLeft"
-        },
-        {
-          "type": "text",
-          "id": "subheading",
-          "label": "Sub-heading",
-          "default": "Slide title"
-        },
-        {
-          "type": "text",
-          "id": "title",
-          "label": "Heading",
-          "default": "Tell your story"
-        },
-        {
-          "type": "header",
-          "content": "Button 1"
-        },
-        {
-          "type": "text",
-          "id": "button_1_text",
-          "label": "Text"
-        },
-        {
-          "type": "url",
-          "id": "button_1_link",
-          "label": "Link"
-        },
-        {
-          "type": "header",
-          "content": "Button 2"
-        },
-        {
-          "type": "text",
-          "id": "button_2_text",
-          "label": "Text"
-        },
-        {
-          "type": "url",
-          "id": "button_2_link",
-          "label": "Link"
-        }
-      ]
-    }
-  ],
-  "presets": [
-    {
-      "category": "Image",
-      "name": "Slideshow",
-      "settings": {},
-      "blocks": [
-        {
-          "type": "image"
-        },
-        {
-          "type": "image"
-        }
-      ]
-    }
-  ]
-}
+  {
+    "name": "Slideshow",
+    "class": "shopify-section--slideshow",
+    "max_blocks": 5,
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "show_fullscreen",
+        "label": "Show full-screen images",
+        "info": "If enabled, images will be resized to fit the entire screen.",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "show_arrow",
+        "label": "Show bottom arrow",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "autoplay",
+        "label": "Auto rotate between slides",
+        "default": true
+      },
+      {
+        "type": "range",
+        "id": "cycle_speed",
+        "min": 3,
+        "max": 8,
+        "step": 1,
+        "unit": "sec",
+        "label": "Change slides every",
+        "default": 5
+      }, {
+        "type": "color",
+        "id": "text_color",
+        "label": "Text",
+        "default": "#ffffff"
+      }, {
+        "type": "color",
+        "id": "button_color",
+        "label": "Button text",
+        "default": "#363636"
+      }, {
+        "type": "color",
+        "id": "button_background",
+        "label": "Button background",
+        "default": "#ffffff"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "image",
+        "name": "Slide",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image",
+            "info": "1800 x 800px .jpg recommended"
+          },
+          {
+            "type": "image_picker",
+            "id": "mobile_image",
+            "label": "Mobile image",
+            "info": "750 x 1100px .jpg recommended. If none is set, desktop image will be cropped."
+          },
+          {
+            "type": "checkbox",
+            "id": "apply_overlay",
+            "label": "Apply overlay on image",
+            "info": "This can improve text visibility.",
+            "default": true
+          },
+          {
+            "type": "select",
+            "id": "content_position",
+            "label": "Content position",
+            "options": [
+              {
+                "value": "middleLeft",
+                "label": "Middle left"
+              },
+              {
+                "value": "middleCenter",
+                "label": "Middle center"
+              },
+              {
+                "value": "middleRight",
+                "label": "Middle right"
+              },
+              {
+                "value": "bottomLeft",
+                "label": "Bottom left"
+              }, {
+                "value": "bottomCenter",
+                "label": "Bottom center"
+              }, {
+                "value": "bottomRight",
+                "label": "Bottom right"
+              }
+            ],
+            "default": "bottomLeft"
+          }, {
+            "type": "text",
+            "id": "subheading",
+            "label": "Sub-heading",
+            "default": "Slide title"
+          }, {
+            "type": "text",
+            "id": "title",
+            "label": "Heading",
+            "default": "Tell your story"
+          }, {
+            "type": "header",
+            "content": "Button 1"
+          }, {
+            "type": "text",
+            "id": "button_1_text",
+            "label": "Text"
+          }, {
+            "type": "url",
+            "id": "button_1_link",
+            "label": "Link"
+          }, {
+            "type": "header",
+            "content": "Button 2"
+          }, {
+            "type": "text",
+            "id": "button_2_text",
+            "label": "Text"
+          }, {
+            "type": "url",
+            "id": "button_2_link",
+            "label": "Link"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "category": "Image",
+        "name": "Slideshow",
+        "settings": {},
+        "blocks": [
+          {
+            "type": "image"
+          }, {
+            "type": "image"
+          }
+        ]
+      }
+    ]
+  }
 {% endschema %}

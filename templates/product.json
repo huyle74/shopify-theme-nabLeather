@@ -21,6 +21,21 @@
             "show_taxes_included": false
           }
         },
+        "loox_reviews_loox_rating_y76PHR": {
+          "type": "shopify://apps/loox-reviews/blocks/loox-rating/5c3b337f-fd14-4df5-b1d6-80ec13e6e28e",
+          "settings": {
+            "contentSize": 16,
+            "pattern": "",
+            "hideText": false,
+            "alignment": "",
+            "layout": "",
+            "textColor": "",
+            "starColor": "",
+            "showAllReviews": false,
+            "looxOpenFloatingWidget": false,
+            "emptyRatingWidget": false
+          }
+        },
         "pify_size_charts_size_chart_inline_button_VpUxzz": {
           "type": "shopify://apps/pify-size-charts/blocks/size-chart-inline-button/6acea2e6-5389-4b9c-9a1f-ae00732bccb4",
           "settings": {}
@@ -61,10 +76,6 @@
             "shadow-color": "",
             "product-id": ""
           }
-        },
-        "share_buttons": {
-          "type": "share_buttons",
-          "settings": {}
         },
         "variant_selector": {
           "type": "variant_selector",
@@ -107,10 +118,10 @@
       },
       "block_order": [
         "product_meta",
+        "loox_reviews_loox_rating_y76PHR",
         "pify_size_charts_size_chart_inline_button_VpUxzz",
         "248761ef-195f-4af1-a06e-335455fc1da2",
         "loox_reviews_loox_video_slider_BPGyhU",
-        "share_buttons",
         "variant_selector",
         "quantity_selector",
         "buy_buttons",
