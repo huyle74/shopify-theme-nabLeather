@@ -190,6 +190,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // ZOOM FUNCTIONALITY
   function zoomFunctionality() {
+    if (isMobileScreen) return;
     const mainMedia = document.getElementById("product-media-container-for-scroll");
     if (!mainMedia) return;
     const wrappers = mainMedia.querySelectorAll(".product-media-wrapper");
@@ -410,7 +411,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const handleScroll = (e) => {
       e.preventDefault();
-      // e.stopPropagation();
+      e.stopPropagation();
       reviewSection.scrollIntoView({ behavior: "smooth", block: "center" });
     };
 
@@ -811,6 +812,177 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
   }
+
+  // Mobile gallery scroll when clicking on main media
+  const handlePopupGalleryAndScroll = () => {
+    if (!isMobileScreen) return;
+
+    const mainMedia = document.getElementById("product-media-container-for-scroll");
+    if (!mainMedia) return;
+
+    // Create dialog once
+    const dialogEl = document.createElement("dialog");
+    dialogEl.id = "mobile-gallery-dialog";
+    dialogEl.className = "mobile-gallery-dialog";
+
+    // Add close button
+    const closeBtn = document.createElement("button");
+    closeBtn.className = "mobile-gallery-close";
+    closeBtn.innerHTML = `
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <line x1="18" y1="6" x2="6" y2="18"></line>
+      <line x1="6" y1="6" x2="18" y2="18"></line>
+    </svg>
+  `;
+    closeBtn.setAttribute("aria-label", "Close gallery");
+
+    // Add counter
+    const counter = document.createElement("div");
+    counter.className = "mobile-gallery-counter";
+    counter.innerHTML = '<span id="mobile-current">1</span> / <span id="mobile-total">0</span>';
+
+    dialogEl.appendChild(closeBtn);
+    dialogEl.appendChild(counter);
+
+    // Gallery container
+    const galleryContainer = document.createElement("div");
+    galleryContainer.className = "mobile-gallery-container";
+    dialogEl.appendChild(galleryContainer);
+
+    document.body.appendChild(dialogEl);
+
+    // Get current index from main gallery
+    const getCurrentIndex = () => {
+      const dots = document.querySelectorAll(".dot");
+      const activeDot = Array.from(dots).findIndex((dot) => dot.classList.contains("active"));
+      return activeDot !== -1 ? activeDot : 0;
+    };
+
+    // Update counter
+    const updateCounter = (current, total) => {
+      const currentEl = dialogEl.querySelector("#mobile-current");
+      const totalEl = dialogEl.querySelector("#mobile-total");
+      if (currentEl && totalEl) {
+        currentEl.textContent = current + 1;
+        totalEl.textContent = total;
+      }
+    };
+
+    // Scroll to specific image
+    const scrollToImage = (index, immediate = false) => {
+      const images = galleryContainer.querySelectorAll(".mobile-gallery-image");
+      if (images[index]) {
+        const container = galleryContainer;
+        const image = images[index];
+        const scrollLeft = image.offsetLeft - container.clientWidth / 2 + image.clientWidth / 2;
+
+        if (immediate) {
+          // ✅ Instant scroll - no animation
+          container.scrollLeft = scrollLeft;
+        } else {
+          // Smooth scroll
+          container.scrollTo({
+            left: scrollLeft,
+            behavior: "smooth",
+          });
+        }
+
+        updateCounter(index, images.length);
+      }
+    };
+
+    // Track scroll position to update counter
+    let scrollTimeout;
+    const handleScroll = () => {
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        const container = galleryContainer;
+        const scrollLeft = container.scrollLeft;
+        const imageWidth = container.clientWidth;
+        const currentIndex = Math.round(scrollLeft / imageWidth);
+        const totalImages = container.querySelectorAll(".mobile-gallery-image").length;
+        updateCounter(currentIndex, totalImages);
+      }, 100);
+    };
+
+    // Open dialog when clicking main media
+    mainMedia.addEventListener("click", function (e) {
+      // Don't open if clicking on arrows or dots
+      if (e.target.closest(".arrow") || e.target.closest(".dot")) return;
+
+      const allImages = document.querySelectorAll(
+        "#product-media-container-for-scroll .product-media",
+      );
+
+      if (allImages.length === 0) return;
+
+      // Get current index
+      const currentIndex = getCurrentIndex();
+
+      // Populate dialog with images
+      galleryContainer.innerHTML = "";
+
+      allImages.forEach((img, index) => {
+        const imgClone = img.cloneNode(true);
+        imgClone.className = "mobile-gallery-image";
+        imgClone.dataset.index = index;
+        galleryContainer.appendChild(imgClone);
+      });
+
+      // Update total counter
+      updateCounter(currentIndex, allImages.length);
+
+      // Show dialog
+      dialogEl.showModal();
+      document.body.style.overflow = "hidden";
+
+      // Scroll to current image after a small delay (for DOM to render)
+      scrollToImage(currentIndex, true);
+
+      const closeDialog = () => {
+        dialogEl.close();
+        document.body.style.overflow = "";
+        galleryContainer.removeEventListener("scroll", handleScroll);
+      };
+
+      // Add scroll listener
+      galleryContainer.addEventListener("scroll", handleScroll, { passive: true });
+
+      galleryContainer.addEventListener("click", (e) => {
+        console.log("clicked");
+        console.log("target:", e.target);
+        console.log("target tagName:", e.target.tagName);
+
+        // Check if the clicked element is NOT an image
+        if (e.target.tagName !== "IMG" && !e.target.closest(".mobile-gallery-image")) {
+          closeDialog();
+        }
+      });
+    });
+
+    // Close button handler
+    closeBtn.addEventListener("click", () => {
+      dialogEl.close();
+      document.body.style.overflow = "";
+      galleryContainer.removeEventListener("scroll", handleScroll);
+    });
+
+    // Close on backdrop click
+    dialogEl.addEventListener("click", (event) => {
+      if (event.target === dialogEl) {
+        dialogEl.close();
+        document.body.style.overflow = "";
+        galleryContainer.removeEventListener("scroll", handleScroll);
+      }
+    });
+
+    // Close on ESC
+    dialogEl.addEventListener("cancel", () => {
+      document.body.style.overflow = "";
+      galleryContainer.removeEventListener("scroll", handleScroll);
+    });
+  };
+  handlePopupGalleryAndScroll();
 
   // FAQ expand handler
   function _classCallCheck(instance, Constructor) {
