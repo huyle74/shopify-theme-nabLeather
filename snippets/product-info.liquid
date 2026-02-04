@@ -1,20 +1,8 @@
 {{ 'product-customize.css' | asset_url | stylesheet_tag }}
 <div class="product-info-container">
-   {% assign app_blocks = section.blocks | where: 'type', '@app' %}
-    {% assign fit_guide_block = app_blocks[0] %}
-    {% assign review_star_app_block = app_blocks[1] %} 
-    
-  <div id="product-title">{{product.title}}</div>
-  <div id="product-description">{{ product.collections.first.description }}</div>
-  <script>
-    const productMetaFields = {{ product.collections.first.description |  json }};
-    // console.log(productMetaFields);
-  </script>
-
-<div id="product-price">
-  <span id="max-price">{{ product.selected_or_first_available_variant.compare_at_price | money_with_currency }}</span>
-  <span id="current-price">{{ product.selected_or_first_available_variant.price | money_with_currency }}</span>
-</div>
+  <div class="product-info-desktop">
+    {{product_title_price}}
+  </div>
 
     <div class="Product__Info_customize">
       {% comment %} <div class="Container"> {% endcomment %}
@@ -22,16 +10,9 @@
   
           {%- form 'product' , product, class: 'ProductForm', id: 'js-add-to-cart' -%}
           {%- render 'product-data', product: product -%}
-  
-         
-  
           {%- for block in section.blocks -%}
             {%- case block.type -%}
               {%- when 'product_meta' -%}
-                <div class="mobile-hide">
-                  {{ title_and_price }}
-                </div>
-  
                 <div
                   hook-widget-count="{{ product.id }}"
                   class="sold-count-widget"
@@ -251,10 +232,7 @@
                   <input type="hidden" name="id">
                 {% endif %}
   
-              {%- when '@app' -%}
-                {% if review_star_app_block.id == "AeVB1cVhBMXBJYmpPM__248761ef-195f-4af1-a06e-335455fc1da2" %}
-                  {% render review_star_app_block %}
-                {% endif %}
+            
   
               {%- when 'quantity_selector' -%}
                 <div class="ProductForm__QuantitySelector" {{ block.shopify_attributes }}>

@@ -1,14 +1,14 @@
 document.addEventListener("DOMContentLoaded", function () {
-  const variants = this.querySelector(".variants-container");
+  const variants = document.querySelector(".variants-container");
   const colorContainer = variants?.querySelector(".color-size-variant-container") || null;
   const sizeContainer = variants?.querySelector(".variant-size") || null;
-  const inputVariant = this.querySelector('input[name="id"]');
-  const cartButton = this.querySelector("button[data-action='add-to-cart']");
+  const inputVariant = document.querySelector('input[name="id"]');
+  const cartButton = document.querySelector("button[data-action='add-to-cart']");
   const isMobileScreen = window.matchMedia("(max-width: 768px)").matches;
 
   // CHECK IF ONLY COLOR OR SIZE EXISTS
-  const have2Options = this.getElementById("2-variant-existed") || null;
-  const doNotHaveOption = this.getElementById("do-not-have-variant") || null;
+  const have2Options = document.getElementById("2-variant-existed") || null;
+  const doNotHaveOption = document.getElementById("do-not-have-variant") || null;
   if (doNotHaveOption) {
     cartButton.removeAttribute("disabled");
     cartButton.setAttribute("aria-disabled", "false");
@@ -99,7 +99,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // ////////////////////////////////////////////////
 
   // set gallery image based on color selection
-  const sideMediaContainer = this.querySelector(".side-product-media-container");
+  const sideMediaContainer = document.querySelector(".side-product-media-container");
 
   // Sold out badge functions
   function soldOutBadgeHandler(variant) {
@@ -152,6 +152,25 @@ document.addEventListener("DOMContentLoaded", function () {
     if (!variantId) {
       return null;
     }
+    // Change Price when variant changes
+    const priceEls = document.querySelectorAll(".current-price");
+    const rawPrice = variantId.price; // usually something like 1000 for $10.00
+    const currency = window.ShopifyConfig?.moneyWithCurrencyFormat.slice(-3);
+    const newPrice = new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: currency,
+    }).format(rawPrice / 100);
+
+    if (priceEls) {
+      if (isMobileScreen) {
+        priceEls[0].textContent = newPrice;
+      } else {
+        priceEls[1].textContent = newPrice;
+      }
+
+      console.log(window.ShopifyConfig);
+    }
+
     // ADD SOLD OUT BADGE
     soldOutBadgeHandler(variantId);
 
@@ -164,10 +183,10 @@ document.addEventListener("DOMContentLoaded", function () {
   setInputValue();
 
   // DOM Manipulation for size and color selection
-  const productMediaContainer = this.querySelector(".product-gallery-info-container");
-  const mainMedia = this.getElementById("product-media-container-for-scroll");
+  const productMediaContainer = document.querySelector(".product-gallery-info-container");
+  const mainMedia = document.getElementById("product-media-container-for-scroll");
   const slides = mainMedia.querySelectorAll(".product-media");
-  const dotsContainer = this.querySelector(".dots-container");
+  const dotsContainer = document.querySelector(".dots-container");
 
   // ZOOM FUNCTIONALITY
   function zoomFunctionality() {
@@ -177,10 +196,10 @@ document.addEventListener("DOMContentLoaded", function () {
     wrappers.forEach((wrapper) => {
       let clicked = false;
       const slide = wrapper.querySelector(".product-media");
-      wrapper.addEventListener("pointerdown", (e) => e.stopPropagation());
+      // wrapper.addEventListener("pointerdown", (e) => e.stopPropagation());
 
       slide.addEventListener("click", (e) => {
-        e.stopPropagation();
+        // e.stopPropagation();
 
         slide.style.transform = "translate3d(0,0,0) scale(1.6)";
         document.querySelectorAll(".product-media.zoomed").forEach((img) => {
@@ -362,8 +381,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
       const dx = endX - startX;
       const dy = endY - startY;
-      // console.log(dy);
-
       if (Math.abs(dy) > Math.abs(dx) / ratio) {
       }
       // If not enough horizontal movement, ignore
@@ -381,6 +398,28 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
   swipeLeftRight();
+
+  // review star Scroll
+  (() => {
+    const reviewStarBlock = document.querySelectorAll(".review-star");
+    const reviewSection = document.getElementById("looxReviews");
+    if (!reviewStarBlock || !reviewSection) return;
+
+    const lastReviewStar = reviewStarBlock[reviewStarBlock.length - 1];
+    const firstReviewStar = reviewStarBlock[0];
+
+    const handleScroll = (e) => {
+      e.preventDefault();
+      // e.stopPropagation();
+      reviewSection.scrollIntoView({ behavior: "smooth", block: "center" });
+    };
+
+    if (isMobileScreen) {
+      firstReviewStar.addEventListener("touchend", handleScroll, { passive: false });
+    } else {
+      lastReviewStar.addEventListener("click", handleScroll);
+    }
+  })();
 
   function renderSizeOptions(sizes) {
     const wrap = document.querySelector(".variant-size");
@@ -506,7 +545,7 @@ document.addEventListener("DOMContentLoaded", function () {
         renderGalleryByColor(optionValue, imageId);
         renderSizeOptions(allSizes);
 
-        e.stopPropagation();
+        // e.stopPropagation();
         images.forEach((i) => i.classList.remove("active"));
         img.classList.add("active");
         selectedColor.textContent = `${optionValue}`;
@@ -536,7 +575,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (!sizeBtn) return;
       sizeBtn.forEach((size) => {
         size.addEventListener("click", (e) => {
-          e.stopPropagation();
+          // e.stopPropagation();
           sizeBtn.forEach((i) => i.classList.remove("active"));
           size.classList.add("active");
           selectedSize.style.display = "block";
@@ -592,7 +631,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const allSides = sideMediaContainer.querySelectorAll(".product-media");
     allSides.forEach((item) => {
       item.addEventListener("click", function (e) {
-        e.stopPropagation();
+        // e.stopPropagation();
 
         allSides.forEach((i) => i.classList.remove("active"));
         item.classList.add("active");
@@ -615,14 +654,14 @@ document.addEventListener("DOMContentLoaded", function () {
     const leftArrow = productMediaContainer.querySelector(".gallery-left-arrow");
     const rightArrow = productMediaContainer.querySelector(".gallery-right-arrow");
     leftArrow?.addEventListener("click", function (e) {
-      e.stopPropagation();
+      // e.stopPropagation();
       const slides = mainMedia.querySelectorAll(".product-media");
 
       currentIndex = currentIndex === 0 ? slides.length - 1 : currentIndex - 1;
       scrollToIndex(currentIndex);
     });
     rightArrow?.addEventListener("click", function (e) {
-      e.stopPropagation();
+      // e.stopPropagation();
       const slides = mainMedia.querySelectorAll(".product-media");
 
       currentIndex = currentIndex === slides.length - 1 ? 0 : currentIndex + 1;
@@ -772,4 +811,484 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
   }
-});
+
+  // FAQ expand handler
+  function _classCallCheck(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+      throw new TypeError("Cannot call a class as a function");
+    }
+  }
+  function _createClass(Constructor, protoProps, staticProps) {
+    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+    if (staticProps) _defineProperties(Constructor, staticProps);
+    return Constructor;
+  }
+  function _defineProperties(target, props) {
+    for (var i = 0; i < props.length; i++) {
+      var descriptor = props[i];
+      descriptor.enumerable = descriptor.enumerable || false;
+      descriptor.configurable = true;
+      if ("value" in descriptor) descriptor.writable = true;
+      Object.defineProperty(target, descriptor.key, descriptor);
+    }
+  }
+  var Dom = /*#__PURE__*/ (function () {
+    function Dom() {
+      _classCallCheck(this, Dom);
+    }
+
+    _createClass(Dom, null, [
+      {
+        key: "getSiblings",
+        value:
+          /**
+           * Get all the previous and next siblings, optionally filtered by a selector
+           */
+          function getSiblings(element, filter) {
+            var includeSelf =
+              arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+            var siblings = [];
+            var currentElement = element; // Do the previous first
+
+            while ((currentElement = currentElement.previousElementSibling)) {
+              if (!filter || currentElement.matches(filter)) {
+                siblings.push(currentElement);
+              }
+            }
+
+            if (includeSelf) {
+              siblings.push(element);
+            } // Then the next side
+
+            currentElement = element;
+
+            while ((currentElement = currentElement.nextElementSibling)) {
+              if (!filter || currentElement.matches(filter)) {
+                siblings.push(currentElement);
+              }
+            }
+
+            return siblings;
+          },
+      },
+      {
+        key: "nodeListToArray",
+        value: function nodeListToArray(nodeList, filter) {
+          var items = [];
+
+          for (var i = 0; i !== nodeList.length; ++i) {
+            if (!filter || nodeList[i].matches(filter)) {
+              items.push(nodeList[i]);
+            }
+          }
+
+          return items;
+        },
+      },
+      {
+        key: "outerWidthWithMargin",
+        value: function outerWidthWithMargin(element) {
+          var width = element.offsetWidth,
+            style = getComputedStyle(element);
+          width += parseInt(style.marginLeft) + parseInt(style.marginRight);
+          return width;
+        },
+      },
+      {
+        key: "outerHeightWithMargin",
+        value: function outerHeightWithMargin(element) {
+          var height = element.offsetHeight,
+            style = getComputedStyle(element);
+          height += parseInt(style.marginTop) + parseInt(style.marginBottom);
+          return height;
+        },
+      },
+    ]);
+
+    return Dom;
+  })();
+
+  const Animation = (() => {
+    function Animation() {
+      _classCallCheck(this, Animation);
+    }
+
+    _createClass(Animation, null, [
+      {
+        key: "slideUp",
+        value: function slideUp(element) {
+          element.style.height = "".concat(element.scrollHeight, "px");
+          element.offsetHeight; // Force redraw
+          element.style.height = 0;
+        },
+      },
+      {
+        key: "slideDown",
+        value: function slideDown(element) {
+          if (element.style.height === "auto") {
+            return;
+          }
+
+          element.style.height = "".concat(element.firstElementChild.scrollHeight, "px");
+
+          var transitionEnded = function transitionEnded(event) {
+            if (event.propertyName === "height") {
+              element.style.height = "auto"; // Allows the content to grow normally
+
+              element.removeEventListener("transitionend", transitionEnded);
+            }
+          };
+
+          element.addEventListener("transitionend", transitionEnded);
+        },
+      },
+    ]);
+
+    return Animation;
+  })();
+  const faqItems = document.querySelectorAll(".Faq__Item");
+  function _closeItem(item) {
+    const answerWrapper = item.querySelector(".Faq__AnswerWrapper");
+    item.setAttribute("aria-expanded", "false");
+    answerWrapper.setAttribute("aria-hidden", "true");
+    Animation.slideUp(answerWrapper);
+  }
+  function _openItem(item) {
+    const answerWrapper = item.querySelector(".Faq__AnswerWrapper");
+    item.setAttribute("aria-expanded", "true");
+    answerWrapper.setAttribute("aria-hidden", "false");
+    Animation.slideDown(answerWrapper, true);
+    Dom.getSiblings(item, '[aria-expanded="true"]').forEach(function (siblingItem) {
+      const siblingAnswerWrapper = siblingItem.querySelector(".Faq__AnswerWrapper");
+      siblingItem.setAttribute("aria-expanded", "false");
+      siblingAnswerWrapper.setAttribute("aria-hidden", "true");
+      Animation.slideUp(siblingAnswerWrapper);
+    });
+  }
+
+  faqItems.forEach((item) => {
+    const button = item.querySelector(".Faq__Question");
+    if (button) {
+      button.addEventListener("click", function (e) {
+        e.preventDefault(); // Prevent default button behavior
+        if (item.getAttribute("aria-expanded") === "true") {
+          _closeItem(item);
+        } else {
+          _openItem(item);
+        }
+      });
+    }
+  });
+  // Recommend PRODUCT
+  (async () => {
+    const section = document.querySelector('[data-section-type="product-recommendations"]');
+    const settings = JSON.parse(section.getAttribute("data-section-settings"));
+
+    const recommendUrlApi = ""
+      .concat(window.routes.productRecommendationsUrl, "?section_id=")
+      .concat(section.getAttribute("data-section-id"), "&product_id=")
+      .concat(settings["productId"], "&limit=")
+      .concat(settings["recommendationsCount"], "&intent=related");
+    try {
+      const response = await fetch(recommendUrlApi);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const content = await response.text();
+      const container = document.createElement("div");
+      container.innerHTML = content;
+      // Get the elements
+      const newContent = container.querySelector(".ProductRecommendations");
+      const oldContent = section.querySelector(".ProductRecommendations");
+
+      if (newContent && oldContent) {
+        oldContent.innerHTML = newContent.innerHTML;
+
+        // Initialize Flickity carousel
+        const carousel = oldContent.querySelector("[data-flickity-config]");
+
+        if (carousel) {
+          // Check if Flickity is available
+          if (typeof Flickity !== "undefined") {
+            const flickityOptions = JSON.parse(carousel.getAttribute("data-flickity-config"));
+            const flickityInstance = new Flickity(carousel, flickityOptions);
+
+            // Optional: Log carousel info
+          } else {
+            console.error("❌ Flickity library not loaded");
+          }
+        }
+      }
+    } catch (error) {
+      console.error("❌ Error loading product recommendations:", error);
+    }
+  })();
+
+  // Recently viewed products
+  var Carousel = /*#__PURE__*/ (function () {
+    function Carousel(element) {
+      var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+      var overrideSettings = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+
+      _classCallCheck(this, Carousel);
+
+      this.element = element;
+      this.initialConfig = Object.assign(
+        JSON.parse(element.getAttribute("data-flickity-config")),
+        overrideSettings,
+      );
+      this.options = options;
+
+      this._attachListeners();
+
+      this._build();
+    }
+
+    _createClass(Carousel, [
+      {
+        key: "destroy",
+        value: function destroy() {
+          this.flickityInstance.destroy();
+
+          if (this.initialConfig["breakpoints"] !== undefined) {
+            document.removeEventListener("breakpoint:changed", this._onBreakpointChangedListener);
+          }
+        },
+      },
+      {
+        key: "getFlickityInstance",
+        value: function getFlickityInstance() {
+          return this.flickityInstance;
+        },
+      },
+      {
+        key: "selectCell",
+        value: function selectCell(index) {
+          var shouldPause =
+            arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+          var shouldAnimate =
+            arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+
+          if (shouldPause) {
+            this.flickityInstance.pausePlayer();
+          }
+
+          this.flickityInstance.select(index, false, !shouldAnimate);
+        },
+      },
+      {
+        key: "next",
+        value: function next() {
+          this.flickityInstance.next();
+        },
+      },
+      {
+        key: "previous",
+        value: function previous() {
+          this.flickityInstance.previous();
+        },
+      },
+      {
+        key: "pausePlayer",
+        value: function pausePlayer() {
+          this.flickityInstance.pausePlayer();
+        },
+      },
+      {
+        key: "unpausePlayer",
+        value: function unpausePlayer() {
+          this.flickityInstance.unpausePlayer();
+        },
+      },
+      {
+        key: "resize",
+        value: function resize() {
+          this.flickityInstance.resize();
+        },
+      },
+      {
+        key: "getSelectedIndex",
+        value: function getSelectedIndex() {
+          return this.flickityInstance.selectedIndex;
+        },
+      },
+      {
+        key: "getSelectedCell",
+        value: function getSelectedCell() {
+          return this.flickityInstance.selectedCell.element;
+        },
+      },
+      {
+        key: "_attachListeners",
+        value: function _attachListeners() {
+          if (this.initialConfig["breakpoints"] !== undefined) {
+            this._onBreakpointChangedListener = this._onBreakpointChanged.bind(this);
+            document.addEventListener("breakpoint:changed", this._onBreakpointChangedListener);
+          }
+        },
+        /**
+         * Create the carousel instance
+         */
+      },
+      {
+        key: "_build",
+        value: function _build() {
+          var _this = this;
+
+          var config = this._processConfig();
+
+          this.flickityInstance = new Flickity(this.element, config);
+
+          this._validateDraggable();
+
+          this.selectedIndex = this.flickityInstance.selectedIndex;
+          this.flickityInstance.on("resize", this._validateDraggable.bind(this));
+
+          if (this.options["onSelect"]) {
+            this.flickityInstance.on("select", function () {
+              // Flickity will send the "select" event whenever the window resize (even on mobile...), as a consequence we need to check
+              // first if the slide index have changed or not (cf: https://github.com/metafizzy/flickity/issues/529)
+              if (_this.selectedIndex !== _this.flickityInstance.selectedIndex) {
+                _this.options["onSelect"](
+                  _this.flickityInstance.selectedIndex,
+                  _this.flickityInstance.selectedCell.element,
+                );
+
+                _this.selectedIndex = _this.flickityInstance.selectedIndex;
+              }
+            });
+          }
+
+          if (this.options["onSettle"]) {
+            this.flickityInstance.on("settle", function (index) {
+              _this.options["onSettle"](index, _this.flickityInstance.selectedCell.element);
+            });
+          }
+
+          if (this.options["onClick"]) {
+            this.flickityInstance.on("staticClick", function (event, pointer, cell, index) {
+              _this.options["onClick"](cell, index);
+            });
+          }
+        },
+        /**
+         * By default, Flickity does not disable draggable automatically if there is nothing to slide. We therefore manually do the check here by checking
+         * if the displayed elements equals to the amount of elements
+         */
+      },
+      {
+        key: "_validateDraggable",
+        value: function _validateDraggable() {
+          var isActive = this.flickityInstance.isActive || false;
+
+          if (!isActive || !this.flickityInstance.options["draggable"]) {
+            return; // Not draggable, so nothing to do
+          }
+
+          if (
+            undefined === this.flickityInstance.selectedElements ||
+            this.flickityInstance.selectedElements.length === this.flickityInstance.cells.length
+          ) {
+            this.flickityInstance.unbindDrag();
+          } else {
+            this.flickityInstance.bindDrag();
+          }
+        },
+        /**
+         * Flickity is a CSS driven library and hence it is hard to setup some stuff in pure JS
+         */
+      },
+      {
+        key: "_processConfig",
+        value: function _processConfig() {
+          var config = Object.assign({}, this.initialConfig);
+          delete config["breakpoints"];
+
+          if (this.initialConfig["breakpoints"] === undefined) {
+            return config; // No change, we simply return the config as it is
+          }
+
+          var breakpoints = this.initialConfig["breakpoints"];
+          breakpoints.forEach(function (breakpoint) {
+            if (Responsive.matchesBreakpoint(breakpoint["matches"])) {
+              config = Object.assign(config, breakpoint["settings"]);
+            }
+          });
+          return config;
+        },
+        /**
+         * Verify if the breakpoint has changed, and optionally update the carousel
+         */
+      },
+      {
+        key: "_onBreakpointChanged",
+        value: function _onBreakpointChanged() {
+          // The breakpoint may have changed, so we delete the carousel and rebuild it
+          this.flickityInstance.destroy();
+
+          this._build();
+        },
+      },
+    ]);
+
+    return Carousel;
+  })();
+
+  (async () => {
+    const section = document.querySelector('[data-section-type="recently-viewed-products"]');
+    if (!section) return;
+
+    const options = JSON.parse(section.getAttribute("data-section-settings"));
+    const items = JSON.parse(localStorage.getItem("recentlyViewedProducts") || "[]");
+    if (items.includes(options["productId"])) {
+      items.splice(items.indexOf(options["productId"]), 1);
+    }
+    const queryString = items
+      .map((item) => {
+        return "id:".concat(item);
+      })
+      .join(" OR ");
+
+    const url = ""
+      .concat(window.routes.searchUrl, "?section_id=")
+      .concat(section.getAttribute("data-section-id"), "&type=product&q=")
+      .concat(queryString);
+
+    try {
+      const response = await fetch(url, {
+        method: "GET",
+        credentials: "same-origin",
+      });
+      if (!response.ok) {
+        throw new Error("HTTP error! status: ".concat(response.status));
+      }
+      const content = await response.text();
+      const tempElement = document.createElement("div");
+      tempElement.innerHTML = content;
+      const newSection = tempElement.querySelector(".Section");
+
+      if (!newSection || !newSection.innerHTML.trim()) {
+        section.parentNode.style.display = "none";
+        return;
+      }
+      section.innerHTML = newSection.innerHTML;
+      section.parentNode.style.display = "block";
+
+      const carouselElement = section.querySelector("[data-flickity-config]");
+      if (!carouselElement) return;
+
+      try {
+        if (typeof Carousel !== "undefined") {
+          section.carousel = new Carousel(carouselElement);
+        } else if (typeof Flickity !== "undefined") {
+          const config = JSON.parse(carouselElement.getAttribute("data-flickity-config"));
+          section.carousel = new Flickity(carouselElement, config);
+        }
+      } catch (err) {
+        console.error("Carousel error:", err);
+      }
+    } catch (error) {
+      // throw new Error("❌ Error loading recently viewed products:", error);
+    }
+  })();
+})();

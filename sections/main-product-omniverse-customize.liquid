@@ -3,6 +3,10 @@
 {%- assign inventory_block = section.blocks | where: 'type', 'inventory' | first -%}
 {%- assign buy_buttons_block = section.blocks | where: 'type', 'buy_buttons' | first -%}
 
+{% assign app_blocks = section.blocks | where: 'type', '@app' %}
+{% assign fit_guide_block = app_blocks[1] %}
+{% assign review_star_app_block = app_blocks[0] %}
+
 {% if template.name == 'product' %}
   {{ 'product-customize.css' | asset_url | stylesheet_tag }}
   <script src="{{ 'product-customize.js' | asset_url }}" defer></script>
@@ -42,121 +46,88 @@
     }
   })();
 </script>
-{% capture title_and_price %}
-{%- for block in section.blocks -%}
-  {%- case block.type -%}
-    {% when 'product_meta' %}
-    {%- render 'product-meta', form: form, block: block, product: product -%}
-    <div class="desktop-hide">
-      <div class="loox-rating" data-id="{{ product.id }}" data-rating="{{ product.metafields.loox.avg_rating }}" data-raters="{{ product.metafields.loox.num_reviews }}"></div>
-    </div>
-  {% endcase %}
-{% endfor %}
+
+{% capture product_title_price %}
+  <div id="product-title">{{product.title}}</div>
+  {% if product.metafields.custom %}
+    <div id="product-description">{{ product.metafields.custom.heading }}</div>
+  {% endif %}
+  
+  <div class="review-star">
+    {% render review_star_app_block %}
+    <div id="review-star-cover"></div>
+  </div>
+  <div id="product-price">
+    <span id="max-price">{{ product.selected_or_first_available_variant.compare_at_price | money }}</span>
+    <span id="current-price" class="current-price">
+      {{ product.selected_or_first_available_variant.price | money }}
+    </span>
+  </div>
 {% endcapture %}
-{% capture title_and_price_mobile %}
-{%- for block in section.blocks -%}
-  {%- case block.type -%}
-    {% when 'product_meta' %}
-    {%- render 'product-meta-mobile', form: form, block: block, product: product -%}
-    <div class="desktop-hide">
-      <div class="loox-rating" data-id="{{ product.id }}" data-rating="{{ product.metafields.loox.avg_rating }}" data-raters="{{ product.metafields.loox.num_reviews }}"></div>
-    </div>
-  {% endcase %}
-{% endfor %}
-{% endcapture %}
+
 <section
   class="Product-omniverse"
   data-section-id="{{ section.id }}"
   data-section-type="product"
   data-section-settings='{{ section_settings }}'
-  style="z-index: 5;"
-  >
-    {%- capture action_list_items -%}
-      {%- if section.settings.enable_image_zoom -%}
-        <div class="Product__ActionItem hidden-lap-and-up">
-          <button class="RoundButton RoundButton--small RoundButton--flat" aria-label="{{ 'product.slideshow.zoom' | t | escape }}" data-action="open-product-zoom">{% render 'icon' with 'plus' %}</button>
-        </div>
-      {%- endif -%}
+  style="z-index: 5;">
 
-      {%- if share_buttons_block != blank -%}
-        <div class="Product__ActionItem hidden-lap-and-up">
-          <button class="RoundButton RoundButton--small RoundButton--flat" data-action="toggle-social-share" data-animate-bottom aria-expanded="false">
-            <span class="RoundButton__PrimaryState">{% render 'icon' with 'share' %}</span>
-            <span class="RoundButton__SecondaryState">{% render 'icon' with 'close' %}</span>
-          </button>
+   <div
+    hook-widget-count="{{ product.id }}"
+    class="sold-count-widget"
+    data-counter="{{ product.metafields['app--71373979649--soldcount'].counter }}"
+    data-resent="{{ product.metafields['app--71373979649--soldcount'].customer }}"></div>
+  {%- comment -%} 
+                -----------------------------------------------------
+                PRODUCT GALLERY
+                -----------------------------------------------------
+          {%- endcomment -%}
 
-          {%- assign share_url = shop.url | append: product.url -%}
-          {%- assign twitter_text = product.title -%}
-          {%- assign pinterest_description = product.description | strip_html | truncatewords: 15 | url_param_escape -%}
-          {%- assign pinterest_image = product.featured_media | img_url: '1024x' | prepend: 'https:' -%}
+  <div class="product-info-mobile">{{product_title_price}}</div>
 
-          <div class="Product__ShareList" aria-hidden="true">
-            <a class="Product__ShareItem" href="https://www.facebook.com/sharer.php?u={{ share_url }}" target="_blank" rel="noopener">{%- render 'icon' with 'facebook' -%} Facebook</a>
-            <a class="Product__ShareItem" href="https://pinterest.com/pin/create/button/?url={{ share_url }}{% if pinterest_image != blank %}&media={{ pinterest_image }}{% endif %}&description={{ pinterest_description }}" target="_blank" rel="noopener">{%- render 'icon' with 'pinterest' -%} Pinterest</a>
-            <a class="Product__ShareItem" href="https://twitter.com/share?{% if twitter_text != blank %}text={{twitter_text}}&{% endif %}url={{ share_url }}" target="_blank" rel="noopener">{%- render 'icon' with 'twitter' -%} Twitter</a>
+  <div class="product-gallery-info-container">
+
+    {% comment %} VARIANT GALLERY {% endcomment %}
+    {% assign gallery = product.images %}
+    {% assign selected_variant = product.selected_or_first_available_variant %}
+    {% if selected_variant.metafields.custom.variant_gallery %}
+      {% assign gallery = selected_variant.metafields.custom.variant_gallery.value %}
+    {% endif %}
+    {% assign selected_color = selected_variant.option1 %}
+    <div class="product-gallery-container">
+
+      <div class="side-product-media-container">
+        {% for image in gallery %}
+          {% assign image_src = image | image_url: width: 128, height: 128, crop: 'center' %}
+          {% assign alt_text = image.alt | default: product.title %}
+          {% assign variant_ids = image.variants | map: 'id' | join: ',' %}
+
+          <div
+            class="product-media"
+            data-url="{{ image_src }}"
+            data-index="{{ forloop.index0 }}"
+            data-media-id="{{ image.id }}"
+            data-variant-id="{{ variant_ids }}">
+            <img
+              src="{{ image_src }}"
+              loading="eager"
+              alt="{{ alt_text | escape }}"
+              width="128"
+              height="128">
           </div>
-        </div>
-      {%- endif -%}
-    {%- endcapture -%}
-
-    <div class="desktop-hide Container mobile-product-information">
-      {{ title_and_price_mobile }}
-    </div>
-    <div
-      hook-widget-count="{{ product.id }}"
-      class="sold-count-widget"
-      data-counter="{{ product.metafields['app--71373979649--soldcount'].counter }}"
-      data-resent="{{ product.metafields['app--71373979649--soldcount'].customer }}">
+        {% endfor %}
       </div>
-    {%- comment -%} 
-            -----------------------------------------------------
-            PRODUCT GALLERY
-            -----------------------------------------------------
-        {%- endcomment -%}
-
-    <div class="product-gallery-info-container">
-
-      {% comment %} VARIANT GALLERY {% endcomment %}
-      {% assign gallery = product.images %}
-      {% assign selected_variant = product.selected_or_first_available_variant %}
-      {% if selected_variant.metafields.custom.variant_gallery %}
-        {% assign gallery = selected_variant.metafields.custom.variant_gallery.value %}
-      {% endif %}
-      {% assign selected_color = selected_variant.option1 %}
-        <div class="product-gallery-container">
-
-        <div class="side-product-media-container">
-          {% for image in gallery %}
-            {% assign image_src = image | image_url: width: 128, height: 128, crop: 'center' %}
-            {% assign alt_text = image.alt | default: product.title %}
-            {% assign variant_ids = image.variants | map: 'id' | join: ',' %}
-
-            <div
-              class="product-media"
-              data-url="{{ image_src }}"
-              data-index="{{ forloop.index0 }}"
-              data-media-id="{{ image.id }}"
-              data-variant-id="{{ variant_ids }}">
-              <img
-                src="{{ image_src }}"
-                loading="eager"
-                alt="{{ alt_text | escape }}"
-                width="128"
-                height="128">
-            </div>
-          {% endfor %}
-        </div>
-        <div id="product-media-container-for-scroll">
+      <div id="product-media-container-for-scroll">
 
         {% comment %} Sold out Badge {% endcomment %}
-         <div id="sold-out-badge_wrapper">
-           <span class="sold-out-badge">Sold Out</span>
-         </div>
+        <div id="sold-out-badge_wrapper">
+          <span class="sold-out-badge">Sold Out</span>
+        </div>
 
-          <div class="product-media-container">
-            {% for image in gallery %}
-              <div class="product-media-wrapper">
-                {{ image
+        <div class="product-media-container">
+          {% for image in gallery %}
+            <div class="product-media-wrapper">
+              {{ image
  | image_url: width: 900, height: 900, crop: 'center'
  | image_tag:
  loading: 'eager',
@@ -165,60 +136,60 @@
  data-url: image,
  data_index: forloop.index0,
  data_media_id: image.id
-                }}
-              </div>
+              }}
+            </div>
+          {% endfor %}
+        </div>
+
+        <div class="dots-container">
+          <div id="all-dots">
+            {% for image in gallery limit: 10 %}
+              <div class="dot" data-index="{{ forloop.index0 }}"></div>
             {% endfor %}
-          </div>          
-
-            <div class="dots-container">
-              <div id="all-dots">
-                {% for image in gallery limit: 10 %}
-                  <div class="dot" data-index="{{ forloop.index0 }}"></div>
-                {% endfor %}
-              </div>
-            </div>
-
-            <div class="arrow__container">
-              <div class="arrow__inner-container">
-                <div class="arrow gallery-left-arrow">{% render 'icon' with 'arrow-left' %}</div>
-                <div class="arrow gallery-right-arrow">{% render 'icon' with 'arrow-right' %}</div>
-              </div>
-            </div>
-
+          </div>
         </div>
+
+        <div class="arrow__container">
+          <div class="arrow__inner-container">
+            <div class="arrow gallery-left-arrow">{% render 'icon' with 'arrow-left' %}</div>
+            <div class="arrow gallery-right-arrow">{% render 'icon' with 'arrow-right' %}</div>
+          </div>
+        </div>
+
+      </div>
+  </div>
+    {% comment %} PRODUCT INFO {% endcomment %}
+    {% render 'product-info', product_title_price: product_title_price, fit_guide_block: fit_guide_block %}
+
+  </div>
+
+  {% comment %} FLOAT CART FOR MOBILE  {% endcomment %}
+  <div id="mobile-floating-cart">
+    {% assign media = selected_variant.featured_media %}
+    {% if selected_variant.featured_media == blank %}
+      {% assign media = selected_variant.product.featured_media %}
+    {% endif %}
+    <img
+      height="128"
+      width="128"
+      src="{{ media | image_url: width: 128, height: 128, crop: 'center' }}"
+      alt="variant image"
+      id="mobile-variant-image">
+    <span id="cart-title">{{ selected_variant.product.title }}</span>
+    <div id="float-cart-button-container">
+      <div id="float-cart__overlay-button"></div>
+      <button
+        disabled
+        type="submit"
+        data-action="add-to-cart"
+        class="ProductForm__AddToCart">
+        Add to Cart
+      </button>
     </div>
-      {% comment %} PRODUCT INFO {% endcomment %}
-      {% render 'product-info' %}
-
-      </div>
-
-      {% comment %} FLOAT CART FOR MOBILE  {% endcomment %}
-      <div id="mobile-floating-cart">
-        {% assign media = selected_variant.featured_media %}
-        {% if selected_variant.featured_media == blank %}
-          {% assign media = selected_variant.product.featured_media %}
-        {% endif %}
-        <img
-          height="128"
-          width="128"
-          src="{{ media | image_url: width: 128, height: 128, crop: 'center' }}"
-          alt="variant image"
-          id="mobile-variant-image">
-        <span id="cart-title">{{ selected_variant.product.title }}</span>
-        <div id="float-cart-button-container">
-          <div id="float-cart__overlay-button"></div>
-          <button
-            disabled
-            type="submit"
-            data-action="add-to-cart"
-            class="ProductForm__AddToCart">
-            Add to Cart
-          </button>
-        </div>
-      </div>
+  </div>
 
 
-    {%- capture product_aside -%}
+  {%- capture product_aside -%}
       {%- comment -%}
       --------------------------------------------------------------------------------------------------------------------
       PRODUCT TABS
@@ -237,16 +208,16 @@
     {%- endcapture -%}
 
 
-    <script id="ProductJson-{{ product.id }}" type="application/json">
-      {{ product | json }}
-    </script>
+  <script id="ProductJson-{{ product.id }}" type="application/json">
+    {{ product | json }}
+  </script>
 
-    {%- if product_aside != blank -%}
-      <div class="Product__Aside">
-        <span id="ProductAside" class="Anchor"></span>
-        {{- product_aside -}}
-      </div>
-    {%- endif -%}
+  {%- if product_aside != blank -%}
+    <div class="Product__Aside">
+      <span id="ProductAside" class="Anchor"></span>
+      {{- product_aside -}}
+    </div>
+  {%- endif -%}
   <div class="mobile_product_tabs">
     {% include 'dynamic-tabs' %}
   </div>
@@ -280,6 +251,12 @@
 <script>
   window.ShopifyXR=window.ShopifyXR||function(){(ShopifyXR.q=ShopifyXR.q||[]).push(arguments)};
   ShopifyXR('addModels', {{ product.media | where: 'media_type', 'model' | json }});
+
+  window.ShopifyConfig = {
+    moneyFormat: {{ shop.money_format | json }},
+    moneyWithCurrencyFormat: {{ shop.money_with_currency_format | json }},
+    currency: {{ shop.currency | json }}
+  };
 </script>
 {% schema %}
   {

@@ -104,10 +104,6 @@
         "include_margins": true
       }
     },
-    "main": {
-      "type": "main-product-omniverse-customize",
-      "settings": {}
-    },
     "recently-viewed-products": {
       "type": "recently-viewed-products",
       "settings": {
@@ -135,7 +131,6 @@
     "image_with_text_overlay_new_RELe7U",
     "custom_image_with_text_overlay_DePK9A",
     "1733180627899014d9",
-    "main",
     "recently-viewed-products",
     "9fc439df-4ebe-42ba-a63f-58dadb589440"
   ]
