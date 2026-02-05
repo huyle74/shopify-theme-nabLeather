@@ -7,6 +7,7 @@
 {% assign fit_guide_block = app_blocks[1] %}
 {% assign review_star_app_block = app_blocks[0] %}
 
+
 {% if template.name == 'product' %}
   {{ 'product-customize.css' | asset_url | stylesheet_tag }}
   <script src="{{ 'product-customize.js' | asset_url }}" defer></script>
@@ -48,18 +49,41 @@
 </script>
 
 {% capture product_title_price %}
-  <div id="product-title">{{product.title}}</div>
-  {% if product.metafields.custom %}
-    <div id="product-description">{{ product.metafields.custom.heading }}</div>
+  <div id="product-title" 
+  style="font-size: {{ section.settings.product_title_font_size }};
+  font-weight: {{ section.settings.product_title_font_weight }};
+  color: {{ section.settings.product_title_color }};
+  padding: {{ section.settings.product_title_padding }} 0px;">
+    {{product.title}}
+    </div>
+  {% if product.metafields.custom.heading  %}
+    <div id="product-description"
+    style="font-size:{{ section.settings.product_description_font_size }};
+    font-weight: {{ section.settings.product_description_font_weight }};
+    color: {{ section.settings.product_description_color }};
+    padding: {{ section.settings.product_description_padding }} 0px;"
+    >
+      {{ product.metafields.custom.heading }}
+      </div>
   {% endif %}
   
-  <div class="review-star">
+  <div class="review-star" style="padding:{{ section.settings.star_review_padding }} 0px">
     {% render review_star_app_block %}
+    {% render fit_guide_block %}
     <div id="review-star-cover"></div>
   </div>
-  <div id="product-price">
-    <span id="max-price">{{ product.selected_or_first_available_variant.compare_at_price | money }}</span>
-    <span id="current-price" class="current-price">
+
+  <div id="product-price" style="padding: {{ section.settings.product_price_padding }} 0px;">
+    <span id="max-price"
+      style="text-decoration: line-through; 
+      {% if product.selected_or_first_available_variant.compare_at_price <= product.selected_or_first_available_variant.price %}display: none;{% endif %}
+      color: {{ section.settings.product_compare_at_price_color }};
+      font-size: {{ section.settings.product_compare_at_price_font_size }};"
+    >{{ product.selected_or_first_available_variant.compare_at_price | money }}</span>
+    <span id="current-price" class="current-price"
+    style="color:{{ section.settings.product_price_color }};
+    font-size: {{ section.settings.product_price_font_size }};"
+    >
       {{ product.selected_or_first_available_variant.price | money }}
     </span>
   </div>
@@ -72,18 +96,12 @@
   data-section-settings='{{ section_settings }}'
   style="z-index: 5;">
 
-   <div
+  <div
     hook-widget-count="{{ product.id }}"
     class="sold-count-widget"
     data-counter="{{ product.metafields['app--71373979649--soldcount'].counter }}"
     data-resent="{{ product.metafields['app--71373979649--soldcount'].customer }}"></div>
-  {%- comment -%} 
-                -----------------------------------------------------
-                PRODUCT GALLERY
-                -----------------------------------------------------
-          {%- endcomment -%}
-
-  <div class="product-info-mobile">{{product_title_price}}</div>
+  <div class="product-info-mobile">{{ product_title_price }}</div>
 
   <div class="product-gallery-info-container">
 
@@ -118,7 +136,6 @@
         {% endfor %}
       </div>
       <div id="product-media-container-for-scroll">
-
         {% comment %} Sold out Badge {% endcomment %}
         <div id="sold-out-badge_wrapper">
           <span class="sold-out-badge">Sold Out</span>
@@ -159,7 +176,9 @@
       </div>
   </div>
     {% comment %} PRODUCT INFO {% endcomment %}
-    {% render 'product-info', product_title_price: product_title_price, fit_guide_block: fit_guide_block %}
+    {% render 'product-info'
+      , product_title_price: product_title_price
+      , fit_guide_block: fit_guide_block %}
 
   </div>
 
@@ -190,20 +209,7 @@
 
 
   {%- capture product_aside -%}
-      {%- comment -%}
-      --------------------------------------------------------------------------------------------------------------------
-      PRODUCT TABS
-      --------------------------------------------------------------------------------------------------------------------
-      {%- endcomment -%}
-
       {%- render 'product-tabs' -%}
-
-      {%- comment -%}
-      --------------------------------------------------------------------------------------------------------------------
-      COMPLEMENTARY PRODUCTS
-      --------------------------------------------------------------------------------------------------------------------
-      {%- endcomment -%}
-
       {%- assign complementary_products_block = section.blocks | where: 'type', 'complementary_products' | first -%}
     {%- endcapture -%}
 
@@ -251,7 +257,7 @@
 <script>
   window.ShopifyXR=window.ShopifyXR||function(){(ShopifyXR.q=ShopifyXR.q||[]).push(arguments)};
   ShopifyXR('addModels', {{ product.media | where: 'media_type', 'model' | json }});
-
+  
   window.ShopifyConfig = {
     moneyFormat: {{ shop.money_format | json }},
     moneyWithCurrencyFormat: {{ shop.money_with_currency_format | json }},
@@ -530,6 +536,138 @@
         "id": "enable_video_looping",
         "label": "Enable video looping",
         "default": false
+      }, {
+        "type": "header",
+        "content": "Product Title Styling"
+      }, {
+        "type": "text",
+        "id": "product_title_font_size",
+        "label": "Title font size",
+        "default": "24px",
+        "info": "Example: 24px, 1.5rem, 2em"
+      }, {
+        "type": "select",
+        "id": "product_title_font_weight",
+        "label": "Title font weight",
+        "options": [
+          {
+            "value": "300",
+            "label": "Light"
+          },
+          {
+            "value": "400",
+            "label": "Normal"
+          },
+          {
+            "value": "500",
+            "label": "Medium"
+          },
+          {
+            "value": "600",
+            "label": "Semi-bold"
+          }, {
+            "value": "700",
+            "label": "Bold"
+          }
+        ],
+        "default": "600"
+      }, {
+        "type": "color",
+        "id": "product_title_color",
+        "label": "Title color",
+        "default": "#000000"
+      }, {
+        "type": "text",
+        "id": "product_title_padding",
+        "label": "Title padding (top/bottom)",
+        "default": "0px",
+        "info": "Vertical padding in pixels. Example: 10px"
+      }, {
+        "type": "header",
+        "content": "Product Description Styling"
+      }, {
+        "type": "text",
+        "id": "product_description_font_size",
+        "label": "Description font size",
+        "default": "16px",
+        "info": "Example: 16px, 1rem"
+      }, {
+        "type": "select",
+        "id": "product_description_font_weight",
+        "label": "Description font weight",
+        "options": [
+          {
+            "value": "300",
+            "label": "Light"
+          }, {
+            "value": "400",
+            "label": "Normal"
+          }, {
+            "value": "500",
+            "label": "Medium"
+          }, {
+            "value": "600",
+            "label": "Semi-bold"
+          }
+        ],
+        "default": "400"
+      }, {
+        "type": "color",
+        "id": "product_description_color",
+        "label": "Description color",
+        "default": "#666666"
+      }, {
+        "type": "text",
+        "id": "product_description_padding",
+        "label": "Description padding (top/bottom)",
+        "default": "0px",
+        "info": "Vertical padding in pixels. Example: 8px"
+      }, {
+        "type": "header",
+        "content": "Star Review space Styling"
+      }, {
+        "type": "text",
+        "id": "star_review_padding",
+        "label": "Star review padding (top/bottom)",
+        "default": "0px",
+        "info": "Vertical padding in pixels. Example: 8px"
+      }, {
+        "type": "header",
+        "content": "Product Price Styling"
+      }, {
+        "type": "text",
+        "id": "product_price_padding",
+        "label": "Price padding (top/bottom)",
+        "default": "0px",
+        "info": "Vertical padding in pixels. Example: 8px"
+      }, {
+        "type": "text",
+        "id": "product_price_font_size",
+        "label": "Price font size",
+        "default": "20px",
+        "info": "Example: 20px, 1.25rem"
+      }, {
+        "type": "color",
+        "id": "product_price_color",
+        "label": "Price color",
+        "default": "#000000"
+      }, {
+        "type": "text",
+        "id": "product_compare_at_price_font_size",
+        "label": "Compare at price font size",
+        "default": "20px",
+        "info": "Example: 16px, 1rem"
+      }, {
+        "type": "color",
+        "id": "product_compare_at_price_color",
+        "label": "Compare at price color",
+        "default": "rgb(124, 124, 124)"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Product page",
+        "category": "Products"
       }
     ]
   }

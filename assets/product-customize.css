@@ -72,9 +72,10 @@ body {
   -webkit-tap-highlight-color: transparent;
   -webkit-overflow-scrolling: touch;
   max-width: calc(88svh - 130px);
-  touch-action: pan-y;
   /* border: #ff0000 solid 2px; */
+  touch-action: manipulation;
 }
+
 .product-media-wrapper {
   display: flex;
   justify-content: center;
@@ -84,7 +85,6 @@ body {
 
   scroll-snap-align: center;
   /* border: #000000 solid 3px; */
-  touch-action: pan-y;
   flex: 0 0 100%;
 }
 .product-media-container {
@@ -283,27 +283,17 @@ body {
 
 /* product-info */
 .product-info-container {
-  /* flex-direction: column; */
-  /* border: #000000 solid 2px; */
   display: block;
   width: 40%;
 }
-#product-title {
-  font-size: 2.5rem;
-  /* border: black solid 1px; */
+
+.product-description {
+  /* border: #000000 solid 1px; */
 }
-#product-description {
-  font-size: 1.2rem;
-  font-weight: 550;
-  margin-top: 10px;
-}
-#product-price {
-  font-weight: 550;
-  font-size: 1.2rem;
-}
+
 .review-star {
-  margin-top: 15px;
-  margin-bottom: 15px;
+  /* margin-top: 15px;
+  margin-bottom: 15px; */
   /* border: #000000 solid 1px; */
   display: flex;
   width: fit-content;
@@ -324,12 +314,7 @@ body {
 }
 .product-info-desktop {
   /* border: black solid 1px; */
-  margin-bottom: 20px;
-}
-#max-price {
-  /* padding-right: 8px; */
-  text-decoration: line-through;
-  color: rgb(124, 124, 124);
+  /* margin-bottom: 20px; */
 }
 
 /* variant */
@@ -491,6 +476,7 @@ body {
 .fit-guide-slot {
   /* border: #ff0000 solid 1px; */
   margin-right: 10px;
+  /* border: #000000 solid 1px; */
 }
 
 #add-to-cart-button {
@@ -564,11 +550,11 @@ body {
   }
   .product-info-mobile {
     display: block;
-    padding: 13px;
+    margin-top: 20px;
+    margin-left: 13px;
+    /* padding: 13px; */
   }
-  #product-title {
-    font-size: 1.8rem;
-  }
+
   #product-media-container-for-scroll {
     width: 100%;
     margin-left: 0;
@@ -578,10 +564,10 @@ body {
     height: 100%;
     /* border: #000000 solid 1px; */
     margin-bottom: 0px;
-    touch-action: pan-x;
-    touch-action: pan-y;
+    touch-action: manipulation;
     max-width: none;
   }
+
   .product-gallery-container {
     width: 100%;
     flex: 0 0 100%;
@@ -807,6 +793,8 @@ body {
     -webkit-user-drag: none;
     /* border: #000000 solid 1px; */
     margin: auto;
+    /* touch-action: none; */
+    will-change: transform;
   }
 
   /* Animation */

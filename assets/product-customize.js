@@ -167,8 +167,6 @@ document.addEventListener("DOMContentLoaded", function () {
       } else {
         priceEls[1].textContent = newPrice;
       }
-
-      console.log(window.ShopifyConfig);
     }
 
     // ADD SOLD OUT BADGE
@@ -313,49 +311,50 @@ document.addEventListener("DOMContentLoaded", function () {
     let startY = 0;
     let endX = 0;
     let endY = 0;
+    let dx = 0;
+    let dy = 0;
     let mode = null; // "h" | "v" | null
 
     swipeArea.addEventListener(
       "touchstart",
       (e) => {
+        // Ignore multi-touch (pinch-zoom)
+        if (e.touches.length > 1) {
+          mode = "ignore";
+          return;
+        }
+
         const t = e.touches[0];
         startX = t.clientX;
         startY = t.clientY;
-        lastY = t.clientY;
         dx = 0;
         dy = 0;
         mode = null;
       },
       { passive: true },
     );
+
     swipeArea.addEventListener(
       "touchmove",
       (e) => {
+        // Ignore multi-touch (pinch-zoom)
+        if (e.touches.length > 1 || mode === "ignore") {
+          return;
+        }
+
         const t = e.touches[0];
         dx = t.clientX - startX;
         dy = t.clientY - startY;
 
         // Decide direction once (small deadzone to avoid jitter)
         if (mode === null) {
-          const deadzone = 6;
+          const deadzone = 10;
           if (Math.abs(dx) < deadzone && Math.abs(dy) < deadzone) return;
           mode = Math.abs(dx) > Math.abs(dy) ? "h" : "v";
         }
 
-        if (mode === "v") {
-          // Scroll the whole page by the finger delta (same "dimension")
-          const deltaY = t.clientY - lastY;
-          lastY = t.clientY;
-
-          window.scrollBy({
-            top: -deltaY * 2,
-            behavior: "instant",
-          });
-
-          // Prevent browser from doing weird native handling on the element
-          e.preventDefault();
-        } else {
-          // Horizontal gesture: prevent vertical scroll while swiping gallery
+        // Only prevent default for horizontal swipes
+        if (mode === "h") {
           e.preventDefault();
         }
       },
@@ -365,11 +364,12 @@ document.addEventListener("DOMContentLoaded", function () {
     swipeArea.addEventListener(
       "touchend",
       (e) => {
+        // Only handle swipe if it was a horizontal gesture
         if (mode !== "h") return;
+
         const t = e.changedTouches[0];
         endX = t.clientX;
         endY = t.clientY;
-        // console.log(endY);
 
         handleSwipe();
       },
@@ -378,16 +378,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function handleSwipe() {
       const swipeThreshold = 50;
-      const ratio = 1.2;
 
       const dx = endX - startX;
-      const dy = endY - startY;
-      if (Math.abs(dy) > Math.abs(dx) / ratio) {
-      }
+
       // If not enough horizontal movement, ignore
       if (Math.abs(dx) < swipeThreshold) return;
+
       const mainMedia = document.getElementById("product-media-container-for-scroll");
       const slides = mainMedia.querySelectorAll(".product-media");
+
       if (dx > 0) {
         // Swipe right
         currentIndex = currentIndex === 0 ? slides.length - 1 : currentIndex - 1;
@@ -395,11 +394,14 @@ document.addEventListener("DOMContentLoaded", function () {
         // Swipe left
         currentIndex = currentIndex === slides.length - 1 ? 0 : currentIndex + 1;
       }
+
       scrollToIndex(currentIndex);
     }
   }
+
   swipeLeftRight();
 
+  // review star Scroll
   // review star Scroll
   (() => {
     const reviewStarBlock = document.querySelectorAll(".review-star");
@@ -412,7 +414,11 @@ document.addEventListener("DOMContentLoaded", function () {
     const handleScroll = (e) => {
       e.preventDefault();
       e.stopPropagation();
-      reviewSection.scrollIntoView({ behavior: "smooth", block: "center" });
+
+      // ✅ Add 150ms delay before scrolling
+      setTimeout(() => {
+        reviewSection.scrollIntoView({ behavior: "smooth", block: "center" });
+      }, 150);
     };
 
     if (isMobileScreen) {
@@ -816,7 +822,6 @@ document.addEventListener("DOMContentLoaded", function () {
   // Mobile gallery scroll when clicking on main media
   const handlePopupGalleryAndScroll = () => {
     if (!isMobileScreen) return;
-
     const mainMedia = document.getElementById("product-media-container-for-scroll");
     if (!mainMedia) return;
 
@@ -832,8 +837,7 @@ document.addEventListener("DOMContentLoaded", function () {
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
       <line x1="18" y1="6" x2="6" y2="18"></line>
       <line x1="6" y1="6" x2="18" y2="18"></line>
-    </svg>
-  `;
+    </svg>`;
     closeBtn.setAttribute("aria-label", "Close gallery");
 
     // Add counter
@@ -850,6 +854,18 @@ document.addEventListener("DOMContentLoaded", function () {
     dialogEl.appendChild(galleryContainer);
 
     document.body.appendChild(dialogEl);
+
+    // ===================================
+    // PINCH ZOOM VARIABLES
+    // ===================================
+    let currentScale = 1;
+    let lastDistance = 0;
+    let isZooming = false;
+    let currentImageIndex = 0;
+    let translateX = 0;
+    let translateY = 0;
+    let lastTouchX = 0;
+    let lastTouchY = 0;
 
     // Get current index from main gallery
     const getCurrentIndex = () => {
@@ -868,6 +884,196 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     };
 
+    // Get current visible image
+    const getCurrentImage = () => {
+      const images = galleryContainer.querySelectorAll(".mobile-gallery-image");
+      return images[currentImageIndex] || null;
+    };
+
+    // Reset zoom for an image
+    const resetZoom = (image) => {
+      if (!image) return;
+      currentScale = 1;
+      translateX = 0;
+      translateY = 0;
+      image.style.transform = `translate3d(0, 0, 0) scale(1)`;
+      image.style.transition = "transform 0.3s ease";
+      setTimeout(() => {
+        image.style.transition = "";
+      }, 300);
+    };
+
+    // Apply transform to image
+    const applyTransform = (image, scale, x, y) => {
+      if (!image) return;
+      image.style.transform = `translate3d(${x}px, ${y}px, 0) scale(${scale})`;
+    };
+
+    // Calculate distance between two touch points
+    const getDistance = (touch1, touch2) => {
+      const dx = touch1.clientX - touch2.clientX;
+      const dy = touch1.clientY - touch2.clientY;
+      return Math.sqrt(dx * dx + dy * dy);
+    };
+
+    // Get center point between two touches
+    const getCenter = (touch1, touch2) => {
+      return {
+        x: (touch1.clientX + touch2.clientX) / 2,
+        y: (touch1.clientY + touch2.clientY) / 2,
+      };
+    };
+    // ===================================
+    // DOUBLE TAP VARIABLES
+    // ===================================
+    let lastTapTime = 0;
+    let tapTimeout = null;
+    const DOUBLE_TAP_DELAY = 300; // ms
+
+    // ===================================
+    // ZOOM EVENT HANDLERS
+    // ===================================
+    const handleTouchStart = (e) => {
+      const image = getCurrentImage();
+      if (!image) return;
+
+      if (e.touches.length === 2) {
+        // Pinch zoom start
+        e.preventDefault();
+        isZooming = true;
+        lastDistance = getDistance(e.touches[0], e.touches[1]);
+
+        // Disable container scroll while zooming
+        galleryContainer.style.overflowX = "hidden";
+      } else if (e.touches.length === 1 && currentScale > 1) {
+        // Pan start (only if zoomed in)
+        lastTouchX = e.touches[0].clientX;
+        lastTouchY = e.touches[0].clientY;
+      }
+    };
+
+    const handleTouchMove = (e) => {
+      const image = getCurrentImage();
+      if (!image) return;
+
+      if (e.touches.length === 2 && isZooming) {
+        // Pinch zoom
+        e.preventDefault();
+
+        const distance = getDistance(e.touches[0], e.touches[1]);
+
+        if (lastDistance > 0) {
+          const delta = distance - lastDistance;
+          const scaleChange = delta * 0.01;
+
+          currentScale += scaleChange;
+          currentScale = Math.max(1, Math.min(currentScale, 4)); // Limit between 1x and 4x
+
+          applyTransform(image, currentScale, translateX, translateY);
+        }
+
+        lastDistance = distance;
+      } else if (e.touches.length === 1 && currentScale > 1) {
+        // Pan (move zoomed image)
+        e.preventDefault();
+
+        const touch = e.touches[0];
+        const deltaX = touch.clientX - lastTouchX;
+        const deltaY = touch.clientY - lastTouchY;
+
+        // Calculate max pan distance based on scale
+        const maxPanX = (image.offsetWidth * currentScale - image.offsetWidth) / 2;
+        const maxPanY = (image.offsetHeight * currentScale - image.offsetHeight) / 2;
+
+        translateX += deltaX;
+        translateY += deltaY;
+
+        // Constrain pan within image bounds
+        translateX = Math.max(-maxPanX, Math.min(maxPanX, translateX));
+        translateY = Math.max(-maxPanY, Math.min(maxPanY, translateY));
+
+        applyTransform(image, currentScale, translateX, translateY);
+
+        lastTouchX = touch.clientX;
+        lastTouchY = touch.clientY;
+      }
+    };
+
+    // ===================================
+    // DOUBLE TAP HANDLER
+    // ===================================
+    const handleDoubleTap = (e) => {
+      const image = getCurrentImage();
+      if (!image) return;
+
+      const currentTime = new Date().getTime();
+      const tapLength = currentTime - lastTapTime;
+
+      // Clear any existing timeout
+      clearTimeout(tapTimeout);
+
+      if (tapLength < DOUBLE_TAP_DELAY && tapLength > 0) {
+        // Double tap detected
+        e.preventDefault();
+
+        if (currentScale > 1) {
+          // ✅ Zoomed in -> Reset to original
+          resetZoom(image);
+        } else {
+          // ✅ Not zoomed -> Zoom in to 2x at tap location
+          const rect = image.getBoundingClientRect();
+          const touchX = e.changedTouches ? e.changedTouches[0].clientX : e.clientX;
+          const touchY = e.changedTouches ? e.changedTouches[0].clientY : e.clientY;
+
+          // Calculate position relative to image center
+          const centerX = rect.left + rect.width / 2;
+          const centerY = rect.top + rect.height / 2;
+
+          currentScale = 2;
+          translateX = (centerX - touchX) * 0.5;
+          translateY = (centerY - touchY) * 0.5;
+
+          image.style.transition = "transform 0.3s ease";
+          applyTransform(image, currentScale, translateX, translateY);
+
+          setTimeout(() => {
+            image.style.transition = "";
+          }, 300);
+        }
+
+        lastTapTime = 0; // Reset
+      } else {
+        // Single tap - wait to see if there's a second tap
+        lastTapTime = currentTime;
+
+        tapTimeout = setTimeout(() => {
+          // Single tap action (optional)
+        }, DOUBLE_TAP_DELAY);
+      }
+    };
+
+    const handleTouchEnd = (e) => {
+      const image = getCurrentImage();
+      if (!image) return;
+
+      if (e.changedTouches.length === 1 && !isZooming) {
+        handleDoubleTap(e);
+      }
+
+      if (e.touches.length < 2) {
+        isZooming = false;
+        lastDistance = 0;
+
+        // Re-enable container scroll
+        galleryContainer.style.overflowX = "auto";
+
+        // Reset zoom if scale is close to 1
+        if (currentScale < 1.1) {
+          resetZoom(image);
+        }
+      }
+    };
+
     // Scroll to specific image
     const scrollToImage = (index, immediate = false) => {
       const images = galleryContainer.querySelectorAll(".mobile-gallery-image");
@@ -876,11 +1082,16 @@ document.addEventListener("DOMContentLoaded", function () {
         const image = images[index];
         const scrollLeft = image.offsetLeft - container.clientWidth / 2 + image.clientWidth / 2;
 
+        // Reset zoom on previous image when switching
+        if (currentImageIndex !== index) {
+          const prevImage = images[currentImageIndex];
+          if (prevImage) resetZoom(prevImage);
+          currentImageIndex = index;
+        }
+
         if (immediate) {
-          // ✅ Instant scroll - no animation
           container.scrollLeft = scrollLeft;
         } else {
-          // Smooth scroll
           container.scrollTo({
             left: scrollLeft,
             behavior: "smooth",
@@ -899,15 +1110,38 @@ document.addEventListener("DOMContentLoaded", function () {
         const container = galleryContainer;
         const scrollLeft = container.scrollLeft;
         const imageWidth = container.clientWidth;
-        const currentIndex = Math.round(scrollLeft / imageWidth);
+        const newIndex = Math.round(scrollLeft / imageWidth);
         const totalImages = container.querySelectorAll(".mobile-gallery-image").length;
-        updateCounter(currentIndex, totalImages);
+
+        // Reset zoom when changing images
+        if (newIndex !== currentImageIndex) {
+          const images = galleryContainer.querySelectorAll(".mobile-gallery-image");
+          const prevImage = images[currentImageIndex];
+          if (prevImage) resetZoom(prevImage);
+          currentImageIndex = newIndex;
+        }
+
+        updateCounter(newIndex, totalImages);
       }, 100);
+    };
+
+    const closeDialog = () => {
+      // Reset all zoom states
+      const images = galleryContainer.querySelectorAll(".mobile-gallery-image");
+      images.forEach((img) => resetZoom(img));
+
+      currentScale = 1;
+      translateX = 0;
+      translateY = 0;
+      currentImageIndex = 0;
+
+      dialogEl.close();
+      document.body.style.overflow = "";
+      galleryContainer.removeEventListener("scroll", handleScroll);
     };
 
     // Open dialog when clicking main media
     mainMedia.addEventListener("click", function (e) {
-      // Don't open if clicking on arrows or dots
       if (e.target.closest(".arrow") || e.target.closest(".dot")) return;
 
       const allImages = document.querySelectorAll(
@@ -916,8 +1150,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
       if (allImages.length === 0) return;
 
-      // Get current index
       const currentIndex = getCurrentIndex();
+      currentImageIndex = currentIndex;
 
       // Populate dialog with images
       galleryContainer.innerHTML = "";
@@ -926,62 +1160,54 @@ document.addEventListener("DOMContentLoaded", function () {
         const imgClone = img.cloneNode(true);
         imgClone.className = "mobile-gallery-image";
         imgClone.dataset.index = index;
+
+        // ✅ Add touch event listeners for zoom
+        imgClone.addEventListener("touchstart", handleTouchStart, { passive: false });
+        imgClone.addEventListener("touchmove", handleTouchMove, { passive: false });
+        imgClone.addEventListener("touchend", handleTouchEnd, { passive: false });
+
         galleryContainer.appendChild(imgClone);
       });
 
-      // Update total counter
       updateCounter(currentIndex, allImages.length);
 
-      // Show dialog
       dialogEl.showModal();
       document.body.style.overflow = "hidden";
 
-      // Scroll to current image after a small delay (for DOM to render)
       scrollToImage(currentIndex, true);
-
-      const closeDialog = () => {
-        dialogEl.close();
-        document.body.style.overflow = "";
-        galleryContainer.removeEventListener("scroll", handleScroll);
-      };
 
       // Add scroll listener
       galleryContainer.addEventListener("scroll", handleScroll, { passive: true });
 
+      // Close on empty space click (only if not zoomed)
       galleryContainer.addEventListener("click", (e) => {
-        console.log("clicked");
-        console.log("target:", e.target);
-        console.log("target tagName:", e.target.tagName);
-
-        // Check if the clicked element is NOT an image
-        if (e.target.tagName !== "IMG" && !e.target.closest(".mobile-gallery-image")) {
-          closeDialog();
+        if (currentScale <= 1) {
+          if (e.target.tagName !== "IMG" && !e.target.closest(".mobile-gallery-image")) {
+            closeDialog();
+          }
         }
       });
     });
 
     // Close button handler
     closeBtn.addEventListener("click", () => {
-      dialogEl.close();
-      document.body.style.overflow = "";
-      galleryContainer.removeEventListener("scroll", handleScroll);
+      closeDialog();
     });
 
     // Close on backdrop click
     dialogEl.addEventListener("click", (event) => {
-      if (event.target === dialogEl) {
-        dialogEl.close();
-        document.body.style.overflow = "";
-        galleryContainer.removeEventListener("scroll", handleScroll);
+      if (event.target === dialogEl && currentScale <= 1) {
+        closeDialog();
       }
     });
 
     // Close on ESC
     dialogEl.addEventListener("cancel", () => {
-      document.body.style.overflow = "";
-      galleryContainer.removeEventListener("scroll", handleScroll);
+      closeDialog();
     });
   };
+
+  handlePopupGalleryAndScroll();
   handlePopupGalleryAndScroll();
 
   // FAQ expand handler

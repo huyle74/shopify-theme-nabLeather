@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, height=device-height, minimum-scale=1.0, maximum-scale=1.0">
     <meta name="theme-color" content="{{ settings.accent_color }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
 
     <title>
       {{ page_title }}{% if current_tags %}
@@ -35,10 +35,10 @@
     <link rel="stylesheet" href="{{ 'customs.css' | asset_url }}">
 
     {% comment %} {% if collection and collection.handle == 'mens-full-grain-leather-belts' %}
-              <link rel="canonical" href="https://nableather.com/collections/mens-full-grain-leather-belts">
-            {% else %}
-              <link rel="canonical" href="{{ canonical_url }}">
-        {% endif %} {% endcomment %}
+                          <link rel="canonical" href="https://nableather.com/collections/mens-full-grain-leather-belts">
+                        {% else %}
+                          <link rel="canonical" href="{{ canonical_url }}">
+                {% endif %} {% endcomment %}
 
 
     {% if collection and collection.handle == 'womens-leather-belts' %}
@@ -329,11 +329,11 @@
       {% section 'announcement' %}
       {% section 'header' %}
       {% comment %}{%- if template != 'index' -%}
-                      	 {% if page.handle != 'thank-you' and template != '404' and template != "collection" and template != "product" %}
-               
-                      	{% section 'inner-banner' %}
-                      	 {%- endif -%}
-                  {%- endif -%} {% endcomment %}
+                                      	 {% if page.handle != 'thank-you' and template != '404' and template != "collection" and template != "product" %}
+                   
+                                      	{% section 'inner-banner' %}
+                                      	 {%- endif -%}
+                              {%- endif -%} {% endcomment %}
       <main id="main" role="main">
         {{ content_for_layout }}
       </main>
