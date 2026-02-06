@@ -9,104 +9,6 @@
  */
 {
   "sections": {
-    "slideshow": {
-      "type": "slideshow",
-      "blocks": {
-        "43946903-139e-4098-bcc6-32c134f6a863": {
-          "type": "image",
-          "disabled": true,
-          "settings": {
-            "image": "shopify://shop_images/FATHER_S_DAY_30_OFF_4.jpg",
-            "mobile_image": "shopify://shop_images/FATHER_S_DAY_30_OFF_5.jpg",
-            "apply_overlay": true,
-            "content_position": "bottomLeft",
-            "subheading": "Built to Last.",
-            "title": "Full-Grain Leather Belts made the way they used to be.",
-            "button_1_text": "SHOP MEN",
-            "button_1_link": "shopify://collections/mens-full-grain-leather-belts",
-            "button_2_text": "SHOP WOMEN",
-            "button_2_link": "shopify://collections/womens-leather-belts"
-          }
-        },
-        "slide-0": {
-          "type": "image",
-          "disabled": true,
-          "settings": {
-            "image": "shopify://shop_images/baner0_31caa4e1-591f-489a-b368-eed6a7b9592b.jpg",
-            "apply_overlay": true,
-            "content_position": "middleCenter",
-            "subheading": "PASSION,  STYLE, CRAFTSMANSHIP.",
-            "title": "WE KNOW LEATHER.",
-            "button_1_text": "SHOP NOW",
-            "button_1_link": "shopify://collections/mens-full-grain-leather-belts",
-            "button_2_text": "",
-            "button_2_link": ""
-          }
-        },
-        "slide-1": {
-          "type": "image",
-          "disabled": true,
-          "settings": {
-            "image": "shopify://shop_images/banner1_734dccc3-d70c-4a94-98f1-d36f3ec1a208.jpg",
-            "apply_overlay": true,
-            "content_position": "middleCenter",
-            "subheading": "We don't compromise with quality.",
-            "title": "CRAFTED TO LAST.",
-            "button_1_text": "SHOP NOW",
-            "button_1_link": "shopify://collections",
-            "button_2_text": "",
-            "button_2_link": ""
-          }
-        },
-        "f0589a94-42ce-4b54-9548-eb5408327819": {
-          "type": "image",
-          "settings": {
-            "image": "shopify://shop_images/Home_Page_Banners.jpg",
-            "mobile_image": "shopify://shop_images/Home_Page_Mobile_Banners_2467aa44-2014-4928-a559-9bd293a5854a.jpg",
-            "apply_overlay": false,
-            "content_position": "middleCenter",
-            "subheading": "",
-            "title": "",
-            "button_1_text": "",
-            "button_1_link": "shopify://collections/mens-full-grain-leather-belts",
-            "button_2_text": "",
-            "button_2_link": ""
-          }
-        },
-        "727ec7e7-1133-40a3-83dd-bf8deca48965": {
-          "type": "image",
-          "disabled": true,
-          "settings": {
-            "image": "shopify://shop_images/NEW_YEAR_SALE_2.jpg",
-            "mobile_image": "shopify://shop_images/boxing_1.jpg",
-            "apply_overlay": false,
-            "content_position": "bottomRight",
-            "subheading": "",
-            "title": "",
-            "button_1_text": "",
-            "button_1_link": "shopify://collections/mens-full-grain-leather-belts",
-            "button_2_text": "",
-            "button_2_link": ""
-          }
-        }
-      },
-      "block_order": [
-        "43946903-139e-4098-bcc6-32c134f6a863",
-        "slide-0",
-        "slide-1",
-        "f0589a94-42ce-4b54-9548-eb5408327819",
-        "727ec7e7-1133-40a3-83dd-bf8deca48965"
-      ],
-      "settings": {
-        "show_fullscreen": false,
-        "show_arrow": false,
-        "autoplay": true,
-        "cycle_speed": 7,
-        "text_color": "#ffffff",
-        "button_color": "#363636",
-        "button_background": "#ffffff"
-      }
-    },
     "text_with_image_nR8QpB": {
       "type": "text-with-image",
       "name": "Rich text with image",
@@ -122,18 +24,6 @@
     "banner-video-omniverse": {
       "type": "banner-video-omniverse",
       "settings": {}
-    },
-    "slideshow_3kDziT": {
-      "type": "slideshow",
-      "settings": {
-        "show_fullscreen": false,
-        "show_arrow": false,
-        "autoplay": true,
-        "cycle_speed": 5,
-        "text_color": "#ffffff",
-        "button_color": "#363636",
-        "button_background": "#ffffff"
-      }
     },
     "collection_list_jqArdx": {
       "type": "collection-list",
@@ -708,53 +598,6 @@
         "product": "black-classic-100-real-leather-belt-made-in-canada"
       }
     },
-    "d40f0b66-d6b7-4283-be49-f4f1ddeea02b": {
-      "type": "slideshow",
-      "blocks": {
-        "template--16281995575427__d40f0b66-d6b7-4283-be49-f4f1ddeea02b-1680333880d0bf6697-0": {
-          "type": "image",
-          "settings": {
-            "image": "shopify://shop_images/leather_1_2000x_6569d37b-be3f-4146-a80a-b136f95f48e9.jpg",
-            "mobile_image": "shopify://shop_images/Untitled_1400_x_750_px.jpg",
-            "apply_overlay": true,
-            "content_position": "bottomLeft",
-            "subheading": "",
-            "title": "WE ONLY DEAL IN QUALITY GOODS.",
-            "button_1_text": "OUR GUARANTEE",
-            "button_1_link": "https://nableather.com/pages/our-story",
-            "button_2_text": "",
-            "button_2_link": ""
-          }
-        },
-        "template--16281995575427__d40f0b66-d6b7-4283-be49-f4f1ddeea02b-1680333880d0bf6697-1": {
-          "type": "image",
-          "settings": {
-            "image": "shopify://shop_images/leather_6ccf67b6-eb4b-43f8-9269-52bfba9b9607.jpg",
-            "apply_overlay": true,
-            "content_position": "bottomLeft",
-            "subheading": "FROM START TO FINISH.",
-            "title": "We're THERE every step of the way.",
-            "button_1_text": "About us",
-            "button_1_link": "https://nableather.com/pages/our-story",
-            "button_2_text": "",
-            "button_2_link": ""
-          }
-        }
-      },
-      "block_order": [
-        "template--16281995575427__d40f0b66-d6b7-4283-be49-f4f1ddeea02b-1680333880d0bf6697-0",
-        "template--16281995575427__d40f0b66-d6b7-4283-be49-f4f1ddeea02b-1680333880d0bf6697-1"
-      ],
-      "settings": {
-        "show_fullscreen": false,
-        "show_arrow": false,
-        "autoplay": true,
-        "cycle_speed": 5,
-        "text_color": "#ffffff",
-        "button_color": "#363636",
-        "button_background": "#ffffff"
-      }
-    },
     "043ab80b-675d-4015-836f-77a2be65f31d": {
       "type": "home-faq",
       "blocks": {
@@ -811,9 +654,7 @@
   },
   "order": [
     "banner-video-omniverse",
-    "slideshow",
     "text_with_image_nR8QpB",
-    "slideshow_3kDziT",
     "collection_list_jqArdx",
     "collection_list_YKMRJT",
     "collection_list_n3wNL9",
@@ -827,7 +668,6 @@
     "5fbb629d-c229-4523-b299-37cc573db500",
     "collection_list_CLCc7V",
     "775132d0-8e8e-49bb-8a8e-1dd7db9e73f5",
-    "d40f0b66-d6b7-4283-be49-f4f1ddeea02b",
     "043ab80b-675d-4015-836f-77a2be65f31d",
     "custom_liquid_CLCXiN"
   ]

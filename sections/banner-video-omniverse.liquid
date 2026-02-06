@@ -1,14 +1,79 @@
-{%- capture section_settings -%}
-{
-  "videoType": {{ section.settings.video_url.type | json }},
-  "videoId": {{ section.settings.video_url.id | json }},
-  "requestHost": {{ request.host | json }}
-}
-{%- endcapture -%}
+{{ 'banner-video-omniverse.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'banner-video-omniverse.js' | asset_url }}" defer></script>
 
-<section class="Section" id="section-{{ section.id }}" data-section-id="{{ section.id }}" data-section-type="background-video" data-section-settings='{{ section_settings }}'>
-  <div class="ImageHero {% if section.settings.section_size != 'normal' %}ImageHero--{{ section.settings.section_size }}{% endif %}">
-    <div class="ImageHero__VideoHolder"></div>
+{% assign videoURL = "https://cdn.shopify.com/videos/c/o/v/8a19c71560d74afeaaeab15c59a69bb9.webm" %}
+
+<section>
+  <div id="video-banner"
+  style="height: {{ section.settings.video_height }}vh;"
+  >
+    <div id="video-banner-content">
+      <h1 style="color:{{ section.settings.title_color }};
+        font-size:{{ section.settings.title_size}}rem;
+        margin-left: {{ section.settings.title_margin_left}}px;
+        ">
+        {{ section.settings.title }}
+      </h1>
+      <div id="video-banner-subcontent">
+        <span id="video-banner-subtitle"
+          style="color: {{ section.settings.title_color }};
+          font-size: {{ section.settings.subtitle_size}}rem;
+          margin-bottom: {{ section.settings.subtitle_margin_bottom }}px;
+          margin-left: {{ section.settings.subtitle_margin_left}}px;
+          "
+        >
+          {{ section.settings.subtitle }}
+        </span>
+        <div id="video-banner-button-container">
+          <a href={{ section.settings.link_url }} 
+          id="video-banner-button"
+          style="color: {{ section.settings.title_color }};
+          margin-bottom: {{ section.settings.button_margin_bottom }}px;
+          margin-left: {{ section.settings.button_margin_left}}px;
+          font-size: {{ section.settings.button_size}}rem;
+          font-weight: {{ section.settings.button_weight}};
+          text-decoration: {{ section.settings.button_text_decoration }};
+          "
+          >
+            {{ section.settings.button_title }}
+            </a>
+            <button id="play-button"
+            style="margin-right: {{ section.settings.button_margin_left }}px;
+            margin-bottom: {{ section.settings.button_margin_bottom }}px;
+            color: {{ section.settings.title_color }};
+            cursor: pointer;
+            ">
+            <div id="video-play-button">
+              <svg xmlns="http://www.w3.org/2000/svg" 
+              width="{{ section.settings.play_button_size }}" 
+              height="{{ section.settings.play_button_size }}" 
+              viewBox="0 0 24 24" fill="none">
+                <path fill-rule="evenodd" clip-rule="evenodd" 
+                d="M23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12ZM24 12C24 18.6274 18.6274 24 12 24C5.37258 24 0 18.6274 0 12C0 5.37258 5.37258 0 12 0C18.6274 0 24 5.37258 24 12ZM18.5 12.24L7.5 6V18L18.5 12.24Z" fill="currentColor">
+                </path>
+              </svg>
+            </div>
+            <div id="video-pause-button" style="display: none;">
+              <svg xmlns="http://www.w3.org/2000/svg" 
+              width="{{ section.settings.play_button_size }}" 
+              height="{{ section.settings.play_button_size }}" viewBox="0 0 24 24" fill="none">
+                <path fill-rule="evenodd" clip-rule="evenodd" 
+                d="M23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12ZM24 12C24 18.6274 18.6274 24 12 24C5.37258 24 0 18.6274 0 12C0 5.37258 5.37258 0 12 0C18.6274 0 24 5.37258 24 12ZM8 7H10V17H8V7ZM14 7H16V17H14V7Z" fill="currentColor">
+                </path>
+              </svg>
+            </div>
+            </button>
+        </div>
+      </div>
+    </div>
+
+    <video src="{{ videoURL }}" autoplay muted loop width="100%" height="auto" id="video-omniverse"></video>
+    <div id="video-overlay"
+    style="background-color: {{ section.settings.overlay_background_color }}; 
+    opacity: {{ section.settings.overlay_opacity }};"
+    >
+    </div>
+
   </div>
 </section>
 
@@ -19,37 +84,177 @@
     {
       "type": "paragraph",
       "content": "Background videos are automatically muted to allow autoplay. If you require audio, use the \"Featured Video\" section."
+    },{
+      "type": "range",
+      "id": "video_height",
+      "label": "Video height",
+      "min": 20,
+      "max": 100,
+      "step": 10,
+      "default": 70
     },
     {
+      "type": "color",
+      "id": "overlay_background_color",
+      "label": "Overlay background color",
+      "default": "rgba(0, 0, 0)"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Overlay opacity",
+      "min": 0,
+      "max": 1,
+      "step": 0.1,
+      "default": 0.5
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Welcome to NabLeather"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title color",
+      "default": "#ffffff"
+    },{
+      "type": "range",
+      "id": "title_size",
+      "label": "Title size",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "title_margin_left",
+      "label": "Title margin left",
+      "min": 0,
+      "max": 500,
+      "step": 10,
+      "default": 20
+    },{
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Handcrafted leather goods made to last a lifetime."
+    },{
+      "type": "range",
+      "id": "subtitle_size",
+      "label": "Subtitle size",
+      "min": 1,
+      "max": 5,
+      "step": 0.2,
+      "default": 1.2
+    },{
+      "type": "range",
+      "id": "subtitle_margin_bottom",
+      "label": "Subtitle margin bottom",
+      "min": 0,
+      "max": 500,
+      "step": 10,
+      "default": 0
+    },{
+      "type": "range",
+      "id": "subtitle_margin_left",
+      "label": "Subtitle margin left",
+      "min": 0,
+      "max": 500,
+      "step": 10,
+      "default": 20
+    },
+    {
+      "type": "text",
+      "id": "button_title",
+      "label": "Link button text",
+      "default": "Shop Now"
+    },
+    {
+      "type": "url",
+      "id": "link_url",
+      "label": "Link URL",
+      "default": "/collections/all"
+    },{
+      "type": "range",
+      "id": "button_margin_bottom",
+      "label": "Button margin bottom",
+      "min": 0,
+      "max": 500,
+      "step": 10,
+      "default": 20
+    },{
+      "type": "range",
+      "id": "button_margin_left",
+      "label": "Button margin left",
+      "min": 0,
+      "max": 500,
+      "step": 10,
+      "default": 20
+    },{
+      "type": "range",
+      "id": "button_size",
+      "label": "Button size",
+      "min": 0.5,
+      "max": 5,
+      "step": 0.1,
+      "default": 1
+    },{
       "type": "select",
-      "id": "section_size",
-      "label": "Section size",
+      "id": "button_weight",
+      "label": "Button font weight",
       "options": [
-        {
-          "value": "preserveRatio",
-          "label": "Preserve original ratio"
-        },
-        {
-          "value": "small",
-          "label": "Small"
-        },
         {
           "value": "normal",
           "label": "Normal"
         },
         {
-          "value": "large",
-          "label": "Large"
+          "value": "bold",
+          "label": "Bold"
+        },
+        {
+          "value": "bolder",
+          "label": "Bolder"
+        },
+        {
+          "value": "lighter",
+          "label": "Lighter"
         }
       ],
-      "default": "preserveRatio"
-    },
-    {
-      "type": "video_url",
-      "accept": ["youtube", "vimeo"],
-      "id": "video_url",
-      "label": "Video URL",
-      "default": "https://www.youtube.com/watch?v=_9VUPq3SxOc"
+      "default": "bold"
+    },{
+      "type": "select",
+      "id": "button_text_decoration",
+      "label": "Button text decoration",
+      "options": [
+        {
+          "value": "none",
+          "label": "None"
+        },
+        {
+          "value": "underline",
+          "label": "Underline"
+        },
+        {
+          "value": "overline",
+          "label": "Overline"
+        },
+        {
+          "value": "line-through",
+          "label": "Line through"
+        }
+      ],
+      "default": "underline"
+    },{
+      "type": "range",
+      "id": "play_button_size",
+      "label": "Play button size (px)",
+      "min": 20,
+      "max": 50,
+      "step": 1,
+      "default": 24
     }
   ],
   "presets": [

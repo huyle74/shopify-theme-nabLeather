@@ -4,8 +4,12 @@
 {%- assign buy_buttons_block = section.blocks | where: 'type', 'buy_buttons' | first -%}
 
 {% assign app_blocks = section.blocks | where: 'type', '@app' %}
-{% assign fit_guide_block = app_blocks[1] %}
-{% assign review_star_app_block = app_blocks[0] %}
+{%- if app_blocks.size > 1 -%}
+  {% assign fit_guide_block = app_blocks[1] %}
+{%- endif -%}
+{%- if app_blocks.size > 0 -%}
+  {% assign review_star_app_block = app_blocks[0] %}
+{%- endif -%}
 
 
 {% if template.name == 'product' %}
@@ -66,7 +70,7 @@
       {{ product.metafields.custom.heading }}
       </div>
   {% endif %}
-  
+  {% render fit_guide_block %}
   <div class="review-star" style="padding:{{ section.settings.star_review_padding }} 0px">
     {% render review_star_app_block %}
     {% render fit_guide_block %}
@@ -543,7 +547,7 @@
         "type": "text",
         "id": "product_title_font_size",
         "label": "Title font size",
-        "default": "24px",
+        "default": "30px",
         "info": "Example: 24px, 1.5rem, 2em"
       }, {
         "type": "select",
@@ -580,7 +584,7 @@
         "type": "text",
         "id": "product_title_padding",
         "label": "Title padding (top/bottom)",
-        "default": "0px",
+        "default": "5px",
         "info": "Vertical padding in pixels. Example: 10px"
       }, {
         "type": "header",
@@ -620,7 +624,7 @@
         "type": "text",
         "id": "product_description_padding",
         "label": "Description padding (top/bottom)",
-        "default": "0px",
+        "default": "5px",
         "info": "Vertical padding in pixels. Example: 8px"
       }, {
         "type": "header",
@@ -629,7 +633,7 @@
         "type": "text",
         "id": "star_review_padding",
         "label": "Star review padding (top/bottom)",
-        "default": "0px",
+        "default": "5px",
         "info": "Vertical padding in pixels. Example: 8px"
       }, {
         "type": "header",
@@ -638,7 +642,7 @@
         "type": "text",
         "id": "product_price_padding",
         "label": "Price padding (top/bottom)",
-        "default": "0px",
+        "default": "5px",
         "info": "Vertical padding in pixels. Example: 8px"
       }, {
         "type": "text",
