@@ -94,11 +94,9 @@
                         {% comment %} SIZE after select {% endcomment %}
                         <div id="after-select-size">{{ product.options_with_values[1].name }}:
                           <span id="option-value-size"></span>
-                          {% if fit_guide_block %}
                             <div class="fit-guide-slot">
-                              {% render fit_guide_block %}
+                              {{ fit_guide_block }}
                             </div>
-                          {% endif %}
                         </div>
   
                         <div class="variant-size" data-product-option>
@@ -143,12 +141,9 @@
                           <div id="after-select-size">
                             {{ product.options_with_values[0].name }}:
                             <span id="option-value-color"></span>
-  
-                            {% if fit_guide_block %}
                               <div class="fit-guide-slot">
-                                {% render fit_guide_block %}
+                                {{ fit_guide_block }}
                               </div>
-                            {% endif %}
                           </div>
   
                           <div class="color-size-variant-container">
@@ -200,11 +195,9 @@
                         {% else %}
                           <div id="after-select-size">{{ product.options_with_values[0].name }}:
                             <span id="option-value-size"></span>
-                            {% if fit_guide_block %}
                               <div class="fit-guide-slot">
-                                {% render fit_guide_block %}
+                                {{ fit_guide_block }}
                               </div>
-                            {% endif %}
                           </div>
   
                           <div class="variant-size" data-product-option>

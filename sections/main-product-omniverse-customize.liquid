@@ -4,15 +4,13 @@
 {%- assign buy_buttons_block = section.blocks | where: 'type', 'buy_buttons' | first -%}
 
 {% assign app_blocks = section.blocks | where: 'type', '@app' %}
-{%- if app_blocks.size > 1 -%}
-  {% assign fit_guide_block = app_blocks[1] %}
-{%- endif -%}
-{%- if app_blocks.size > 0 -%}
-  {% assign review_star_app_block = app_blocks[0] %}
-{%- endif -%}
+{% assign review_star_app_block = app_blocks[0] %}
 
+{% capture fit_guide_block %}
+  {% render 'fit-guide-modal' %}
+{% endcapture %}
 
-{% if template.name == 'product' %}
+  {% if template.name == 'product' %}
   {{ 'product-customize.css' | asset_url | stylesheet_tag }}
   <script src="{{ 'product-customize.js' | asset_url }}" defer></script>
 {% endif %}
@@ -70,10 +68,8 @@
       {{ product.metafields.custom.heading }}
       </div>
   {% endif %}
-  {% render fit_guide_block %}
   <div class="review-star" style="padding:{{ section.settings.star_review_padding }} 0px">
     {% render review_star_app_block %}
-    {% render fit_guide_block %}
     <div id="review-star-cover"></div>
   </div>
 
@@ -82,11 +78,15 @@
       style="text-decoration: line-through; 
       {% if product.selected_or_first_available_variant.compare_at_price <= product.selected_or_first_available_variant.price %}display: none;{% endif %}
       color: {{ section.settings.product_compare_at_price_color }};
-      font-size: {{ section.settings.product_compare_at_price_font_size }};"
+      font-size: {{ section.settings.product_compare_at_price_font_size }};
+      font-weight: {{ section.settings.product_price_font_weight }};
+      "
     >{{ product.selected_or_first_available_variant.compare_at_price | money }}</span>
     <span id="current-price" class="current-price"
     style="color:{{ section.settings.product_price_color }};
-    font-size: {{ section.settings.product_price_font_size }};"
+    font-size: {{ section.settings.product_price_font_size }};
+    font-weight: {{ section.settings.product_compare_price_font_weight }};
+    "
     >
       {{ product.selected_or_first_available_variant.price | money }}
     </span>
@@ -656,6 +656,32 @@
         "label": "Price color",
         "default": "#000000"
       }, {
+        "type": "select",
+        "id": "product_price_font_weight",
+        "label": "Price font weight",
+        "options": [
+          {
+            "value": "300",
+            "label": "Light"
+          },
+          {
+            "value": "400",
+            "label": "Normal"
+          },
+          {
+            "value": "500",
+            "label": "Medium"
+          },
+          {
+            "value": "600",
+            "label": "Semi-bold"
+          }, {
+            "value": "700",
+            "label": "Bold"
+          }
+        ],
+        "default": "600"
+      }, {
         "type": "text",
         "id": "product_compare_at_price_font_size",
         "label": "Compare at price font size",
@@ -666,6 +692,32 @@
         "id": "product_compare_at_price_color",
         "label": "Compare at price color",
         "default": "rgb(124, 124, 124)"
+      }, {
+        "type": "select",
+        "id": "product_compare_price_font_weight",
+        "label": "Compare at price font weight",
+        "options": [
+          {
+            "value": "300",
+            "label": "Light"
+          },
+          {
+            "value": "400",
+            "label": "Normal"
+          },
+          {
+            "value": "500",
+            "label": "Medium"
+          },
+          {
+            "value": "600",
+            "label": "Semi-bold"
+          }, {
+            "value": "700",
+            "label": "Bold"
+          }
+        ],
+        "default": "600"
       }
     ],
     "presets": [

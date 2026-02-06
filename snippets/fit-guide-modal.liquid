@@ -1,0 +1,150 @@
+{% assign banner_image = "https://cdn.shopify.com/s/files/1/0353/8478/7075/files/banner-fit-guide.webp?v=1770371778" %}
+{% assign description_image = "https://cdn.shopify.com/s/files/1/0353/8478/7075/files/Belt_Size_480x480.png?v=1637880190" %}
+
+<div class="fit-guide-button" aria-haspopup="dialog">
+  Fit Guide
+</div>
+<dialog id="dialog-fit-guide-modal">
+  <div class="close-button">X</div>
+  <div class="fit-guide-modal-content">
+    <div class="header-fit-guide">
+      <p>Fit Guide</p>
+      <span></span>
+    </div>
+    <img
+      src="{{ banner_image | escape }}"
+      width="500"
+      height="125"
+      loading="eager"
+      alt="Fit guide banner"
+      class="fit-guide-banner" />
+    <h1></h1>
+    <p>
+      The most accurate way to find your belt size is to take a measuring tape and a belt you currently own. Measure (in inches) from under the buckle (where the buckle meets the leather) to the
+      <span>hole you use to close the belt.</span>
+      That value will be the size you need. For example, you measure your belt from the buckle to the hole you use and find it is 36''. This means you need a size 36 belt. If you prefer a little extra hang, add two inches to this value.
+    </p>
+    <img
+      src="{{ description_image | escape }}"
+      width="480"
+      height="480"
+      loading="eager"
+      alt="Belt size guide"
+      class="fit-guide-description" />
+    <p style="margin-top: 1rem; margin-right: auto;">
+      *** Due to the global supply chain issue, buckles may vary slightly.
+    </p>
+  </div>
+</dialog>
+
+{% javascript %}
+  const button = document.querySelector('.fit-guide-button');
+  const closeButton = document.querySelector('.close-button');
+  const dialog = document.querySelector('#dialog-fit-guide-modal');
+
+  button.addEventListener('click', (e) => {
+    dialog.showModal();
+  });
+
+  closeButton.addEventListener('click', (e) => {
+    dialog.close();
+  });
+
+  dialog.addEventListener('click', (event) => {
+    if (event.target === dialog) {
+      dialog.close();
+    }
+  });
+{% endjavascript %}
+
+{% stylesheet %}
+  html:has(dialog[open]),
+  body:has(dialog[open]) {
+    overflow: hidden;
+  }
+  .fit-guide-button {
+    cursor: pointer;
+    text-decoration: underline;
+    font-weight: 500;
+  }
+  #dialog-fit-guide-modal {
+    width: 50%;
+    border: none;
+    border-radius: 20px;
+    padding: 0;
+    position: relative;
+    z-index: 100;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1)
+    , 0 1px 3px rgba(0, 0, 0, 0.06);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+  }
+
+  dialog:focus {
+    outline: none !important;
+    border: none !important;
+  }
+
+  #dialog-fit-guide-modal::backdrop {
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(2px);
+    border: none;
+  }
+  .header-fit-guide {
+    width: 100%;
+    display: flex;
+    height: 30px;
+  }
+  .header-fit-guide p {
+    font-weight: 700;
+    border-bottom: 2px solid #000;
+    width: fit-content;
+    height: 100%;
+    margin: 0;
+  }
+  .close-button {
+    position: sticky;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 2rem;
+    top: 10px;
+    float: right;
+    right: 10px;
+  }
+  .header-fit-guide span {
+    border-bottom: 2px solid #b9b9b9;
+    width: 80%;
+    height: 100%;
+  }
+  .fit-guide-modal-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1.5rem;
+    border: none;
+    outline: none;
+  }
+  .fit-guide-modal-content p {
+    font-weight: 500;
+  }
+  .fit-guide-modal-content span {
+    font-weight: 700;
+  }
+  @media (max-width: 768px) {
+    #dialog-fit-guide-modal {
+      width: 90%;
+      height: 60%;
+      overflow-y: auto;
+    }
+  }
+  .fit-guide-modal-content {
+    padding-top: 2rem;
+  }
+  .close-button {
+    font-size: 1rem;
+  }
+{% endstylesheet %}
