@@ -100,13 +100,14 @@
                         </div>
   
                         <div class="variant-size" data-product-option>
+                          {% assign firstSizeAvailable = '' %}
                           {% for variant in product.variants %}
                             {% if variant.option1 == selected_color %}
                               {% assign size = variant.option2 %}
                               {% assign sizeAvailable = variant.available %}
-  
+                              {% assign firstSizeAvailable = product.first_available_variant.option2  %}
                               <div
-                                class="title-size{% if sizeAvailable == false %} not-available{% endif %}"
+                                class="title-size{% if sizeAvailable == false %} not-available{%  elsif size == firstSizeAvailable %} active{% endif %}"
                                 data-size="{{ size }}"
                                 data-product-option
                                 data-option-position="{{ size_option.position }}"
@@ -119,8 +120,6 @@
                           {% endfor %}
                         </div>
                       </div>
-  
-  
                     {% comment %} 1 variant ONLY {% endcomment %}
                     {% else %}
                       {% assign variant_image_exist = nil %}

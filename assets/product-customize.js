@@ -152,10 +152,28 @@ document.addEventListener("DOMContentLoaded", function () {
     if (!variantId) {
       return null;
     }
+    // ADD SOLD OUT BADGE
+    soldOutBadgeHandler(variantId);
+
+    // Set the variant id to input
+    inputVariant.value = variantId.id;
+
+    inputVariant.dispatchEvent(new Event("change", { bubbles: true }));
+    inputVariant.dispatchEvent(new Event("input", { bubbles: true }));
+
     // Change Price when variant changes
     const priceEls = document.querySelectorAll(".current-price");
     const rawPrice = variantId.price; // usually something like 1000 for $10.00
-    const currency = window.ShopifyConfig?.moneyWithCurrencyFormat.slice(-3);
+    const format = window.ShopifyConfig?.moneyWithCurrencyFormat || "";
+    let currency;
+    if (format.includes("<span")) {
+      const match = format.match(/([A-Z]{3})<\/span>/);
+      currency = match ? match[1] : null;
+    }
+
+    if (!currency) {
+      currency = format.slice(-3);
+    }
     const newPrice = new Intl.NumberFormat("en-US", {
       style: "currency",
       currency: currency,
@@ -168,15 +186,6 @@ document.addEventListener("DOMContentLoaded", function () {
         priceEls[1].textContent = newPrice;
       }
     }
-
-    // ADD SOLD OUT BADGE
-    soldOutBadgeHandler(variantId);
-
-    // Set the variant id to input
-    inputVariant.value = variantId.id;
-
-    inputVariant.dispatchEvent(new Event("change", { bubbles: true }));
-    inputVariant.dispatchEvent(new Event("input", { bubbles: true }));
   }
   setInputValue();
 
@@ -250,7 +259,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   let currentIndex = 0;
 
-  function scrollToIndex(index) {
+  function scrollToIndex(index, behavior = "smooth") {
     const wrappers = document.querySelectorAll(".product-media-wrapper");
     if (!wrappers[index]) return;
 
@@ -278,7 +287,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const left = slide.offsetLeft - mainMedia.clientWidth / 2 + slide.clientWidth / 2;
     mainMedia.scrollTo({
       left,
-      behavior: "smooth",
+      behavior,
     });
   }
 
@@ -452,6 +461,8 @@ document.addEventListener("DOMContentLoaded", function () {
       el.textContent = size;
       wrap.appendChild(el);
     });
+    const firstTitleSize = wrap.querySelector(".title-size:not(.not-available)");
+    firstTitleSize.classList.add("active");
     selectedSizeHandler();
     inputVariant.value = "";
     inputVariant.dispatchEvent(new Event("change", { bubbles: true }));
@@ -486,6 +497,23 @@ document.addEventListener("DOMContentLoaded", function () {
     dotsContainer.innerHTML = "";
 
     gallery.forEach((media, index) => {
+      // Main media
+      const wrapperDiv = document.createElement("div");
+      wrapperDiv.className = "product-media-wrapper";
+      const mainMediaImg = document.createElement("img");
+
+      mainMediaImg.src = media.src;
+      mainMediaImg.loading = "eager";
+      mainMediaImg.className = "product-media";
+      mainMediaImg.alt = media.alt || productData.title;
+      mainMediaImg.dataset.index = index;
+      mainMediaImg.dataset.mediaId = media.id;
+      mainMediaImg.height = 900;
+      mainMediaImg.width = 900;
+      wrapperDiv.appendChild(mainMediaImg);
+      mainMediaContainer.scrollLeft = 0;
+      mainMediaContainer.appendChild(wrapperDiv);
+
       // Side media
       const mediaDiv = document.createElement("div");
       mediaDiv.className = "product-media";
@@ -505,33 +533,20 @@ document.addEventListener("DOMContentLoaded", function () {
       mediaDiv.appendChild(imageEl);
       sideMediaContainer.appendChild(mediaDiv);
 
-      // Main media
-      const wrapperDiv = document.createElement("div");
-      wrapperDiv.className = "product-media-wrapper";
-      const mainMediaImg = document.createElement("img");
-
-      mainMediaImg.src = media.src;
-      mainMediaImg.loading = "eager";
-      mainMediaImg.className = "product-media";
-      mainMediaImg.alt = media.alt || productData.title;
-      mainMediaImg.dataset.index = index;
-      mainMediaImg.dataset.mediaId = media.id;
-      mainMediaImg.height = 900;
-      mainMediaImg.width = 900;
-      wrapperDiv.appendChild(mainMediaImg);
-      mainMediaContainer.appendChild(wrapperDiv);
-
       // DOTS
       const dotDiv = document.createElement("div");
       dotDiv.className = "dot";
       dotDiv.dataset.index = index;
       dotsContainer.appendChild(dotDiv);
-      mainMediaContainer.scrollTo({ left: 0 });
     });
+
     resetDots();
     selectSideMedia();
     zoomFunctionality();
     dotClicked();
+    setTimeout(() => {
+      scrollToIndex(0, "instant");
+    }, 20);
   }
 
   // color selection
@@ -733,7 +748,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   };
   // Initial state
-  // updateAddToCartState();
+  updateAddToCartState();
   // On variant change
   variantInputSelect.addEventListener("input", (e) => {
     // console.log(e.target.value);

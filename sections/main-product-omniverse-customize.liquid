@@ -7,7 +7,18 @@
 {% assign review_star_app_block = app_blocks[0] %}
 
 {% capture fit_guide_block %}
-  {% render 'fit-guide-modal' %}
+  {% assign  collections = product.collections  %}
+
+  {% for collection in collections %}
+    {% if collection.metafields.custom.fit_guide %} 
+      {% assign fit_guide = collection.metafields.custom.fit_guide %}
+    {% endif %}
+    {% break %}
+  {% endfor %}
+
+  {% if fit_guide.value == "belts" %}
+    {% render 'fit-guide-belts-modal' %}
+  {% endif %}
 {% endcapture %}
 
   {% if template.name == 'product' %}
