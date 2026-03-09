@@ -192,6 +192,7 @@
                           </div>
   
                         {% else %}
+                        {% assign selected_variant = product.selected_or_first_available_variant %}
                           <div id="after-select-size">{{ product.options_with_values[0].name }}:
                             <span id="option-value-size"></span>
                               <div class="fit-guide-slot">
@@ -204,7 +205,8 @@
                               {% assign sizeAvailable = variant.available %}
                               <div
                                 class="title-size{% if product.options[0] contains 'Color' or product.options[0] contains 'Colour' %} variant-image{% endif %}
-                                    {% if sizeAvailable == false %} not-available{% endif %}"
+                                    {% if sizeAvailable == false %} not-available{% endif %}
+                                    {% if variant == selected_variant %} active{% endif %}"
                                 data-option-name="{{ product.options[0] }}"
                                 data-option-value="{{ variant.title }}"
                                 data_id="{{ variant.id }}"
@@ -338,6 +340,9 @@
                 <div class="desktop_product_tabs">
                   {% render 'dynamic-tabs' %}
                 </div>
+                <div class="mobile_product_tabs">
+                 {% render 'dynamic-tabs' %}
+                </div>
   
               {%- when 'store_pickup' -%}
                 {%- comment -%}The availability container will be added automatically if there is store pickup available{%- endcomment -%}
@@ -377,3 +382,172 @@
       {% comment %} </div> {% endcomment %}
     </div>
 </div>
+
+{% javascript %}
+    function _classCallCheck(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+      throw new TypeError("Cannot call a class as a function");
+    }
+  }
+  function _createClass(Constructor, protoProps, staticProps) {
+    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+    if (staticProps) _defineProperties(Constructor, staticProps);
+    return Constructor;
+  }
+  function _defineProperties(target, props) {
+    for (var i = 0; i < props.length; i++) {
+      var descriptor = props[i];
+      descriptor.enumerable = descriptor.enumerable || false;
+      descriptor.configurable = true;
+      if ("value" in descriptor) descriptor.writable = true;
+      Object.defineProperty(target, descriptor.key, descriptor);
+    }
+  }
+  var Dom = /*#__PURE__*/ (function () {
+    function Dom() {
+      _classCallCheck(this, Dom);
+    }
+
+    _createClass(Dom, null, [
+      {
+        key: "getSiblings",
+        value:
+          /**
+           * Get all the previous and next siblings, optionally filtered by a selector
+           */
+          function getSiblings(element, filter) {
+            var includeSelf =
+              arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+            var siblings = [];
+            var currentElement = element; // Do the previous first
+
+            while ((currentElement = currentElement.previousElementSibling)) {
+              if (!filter || currentElement.matches(filter)) {
+                siblings.push(currentElement);
+              }
+            }
+
+            if (includeSelf) {
+              siblings.push(element);
+            } // Then the next side
+
+            currentElement = element;
+
+            while ((currentElement = currentElement.nextElementSibling)) {
+              if (!filter || currentElement.matches(filter)) {
+                siblings.push(currentElement);
+              }
+            }
+
+            return siblings;
+          },
+      },
+      {
+        key: "nodeListToArray",
+        value: function nodeListToArray(nodeList, filter) {
+          var items = [];
+
+          for (var i = 0; i !== nodeList.length; ++i) {
+            if (!filter || nodeList[i].matches(filter)) {
+              items.push(nodeList[i]);
+            }
+          }
+
+          return items;
+        },
+      },
+      {
+        key: "outerWidthWithMargin",
+        value: function outerWidthWithMargin(element) {
+          var width = element.offsetWidth,
+            style = getComputedStyle(element);
+          width += parseInt(style.marginLeft) + parseInt(style.marginRight);
+          return width;
+        },
+      },
+      {
+        key: "outerHeightWithMargin",
+        value: function outerHeightWithMargin(element) {
+          var height = element.offsetHeight,
+            style = getComputedStyle(element);
+          height += parseInt(style.marginTop) + parseInt(style.marginBottom);
+          return height;
+        },
+      },
+    ]);
+
+    return Dom;
+  })();
+
+  const Animation = (() => {
+    function Animation() {
+      _classCallCheck(this, Animation);
+    }
+
+    _createClass(Animation, null, [
+      {
+        key: "slideUp",
+        value: function slideUp(element) {
+          element.style.height = "".concat(element.scrollHeight, "px");
+          element.offsetHeight; // Force redraw
+          element.style.height = 0;
+        },
+      },
+      {
+        key: "slideDown",
+        value: function slideDown(element) {
+          if (element.style.height === "auto") {
+            return;
+          }
+
+          element.style.height = "".concat(element.firstElementChild.scrollHeight, "px");
+
+          var transitionEnded = function transitionEnded(event) {
+            if (event.propertyName === "height") {
+              element.style.height = "auto"; // Allows the content to grow normally
+
+              element.removeEventListener("transitionend", transitionEnded);
+            }
+          };
+
+          element.addEventListener("transitionend", transitionEnded);
+        },
+      },
+    ]);
+
+    return Animation;
+  })();
+  const faqItems = document.querySelectorAll(".Faq__Item");
+  function _closeItem(item) {
+    const answerWrapper = item.querySelector(".Faq__AnswerWrapper");
+    item.setAttribute("aria-expanded", "false");
+    answerWrapper.setAttribute("aria-hidden", "true");
+    Animation.slideUp(answerWrapper);
+  }
+  function _openItem(item) {
+    const answerWrapper = item.querySelector(".Faq__AnswerWrapper");
+    item.setAttribute("aria-expanded", "true");
+    answerWrapper.setAttribute("aria-hidden", "false");
+    Animation.slideDown(answerWrapper, true);
+    Dom.getSiblings(item, '[aria-expanded="true"]').forEach(function (siblingItem) {
+      const siblingAnswerWrapper = siblingItem.querySelector(".Faq__AnswerWrapper");
+      siblingItem.setAttribute("aria-expanded", "false");
+      siblingAnswerWrapper.setAttribute("aria-hidden", "true");
+      Animation.slideUp(siblingAnswerWrapper);
+    });
+  }
+
+  faqItems.forEach((item) => {
+    const button = item.querySelector(".Faq__Question");
+    if (button) {
+      button.addEventListener("click", function (e) {
+        e.preventDefault(); // Prevent default button behavior
+        if (item.getAttribute("aria-expanded") === "true") {
+          _closeItem(item);
+        } else {
+          _openItem(item);
+        }
+      });
+    }
+  });
+{% endjavascript %}

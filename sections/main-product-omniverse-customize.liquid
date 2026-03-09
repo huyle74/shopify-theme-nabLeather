@@ -21,7 +21,7 @@
   {% endif %}
 {% endcapture %}
 
-  {% if template.name == 'product' %}
+{% if template.name == 'product' %}
   {{ 'product-customize.css' | asset_url | stylesheet_tag }}
   <script src="{{ 'product-customize.js' | asset_url }}" defer></script>
 {% endif %}
@@ -194,7 +194,9 @@
     {% render 'product-info'
       , product_title_price: product_title_price
       , fit_guide_block: fit_guide_block %}
-
+  {% comment %} <div class="mobile_product_tabs">
+          {% include 'dynamic-tabs' %}
+      </div> {% endcomment %}
   </div>
 
   {% comment %} FLOAT CART FOR MOBILE  {% endcomment %}
@@ -239,9 +241,6 @@
       {{- product_aside -}}
     </div>
   {%- endif -%}
-  <div class="mobile_product_tabs">
-    {% include 'dynamic-tabs' %}
-  </div>
 </section>
 
 {%- if section.settings.enable_image_zoom -%}

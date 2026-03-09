@@ -114,6 +114,33 @@ document.addEventListener("DOMContentLoaded", function () {
     soldOutBadge.style.zIndex = "-1";
   }
 
+  // Button label update on variant change
+  const cartForm = document.getElementById("js-add-to-cart");
+  const addToCartBtn = cartForm.querySelector("button[data-action='add-to-cart']");
+  function updateButtonLabel(label) {
+    const have2Options = document.getElementById("2-variant-existed") || null;
+    const oneOptionOnly = document.getElementById("one-option-only") || null;
+    const mobileFloatingCart = document.getElementById("mobile-floating-cart");
+    const mobileCartBtn = mobileFloatingCart.querySelector("button");
+
+    if (have2Options) {
+      // console.log("2 options");
+      addToCartBtn.textContent = label || "Select Size";
+      mobileCartBtn.textContent = label || "Select Size";
+    }
+
+    if (oneOptionOnly) {
+      const optionType = document.getElementById("option-value-color") ? "Color" : "Size";
+      addToCartBtn.textContent = label || `Select ${optionType}`;
+      mobileCartBtn.textContent = label || `Select ${optionType}`;
+    }
+
+    if (!productData.available) {
+      addToCartBtn.textContent = "Sold Out";
+      return;
+    }
+  }
+
   // Set input value based on selected options
   let initRemoveDisableCartButton = false;
   function setInputValue() {
@@ -191,9 +218,9 @@ document.addEventListener("DOMContentLoaded", function () {
       const cartButton = document.querySelector("button[data-action='add-to-cart']");
 
       if (cartButton) {
-        addToCartBtn.removeAttribute("disabled");
-        addToCartBtn.setAttribute("aria-disabled", "false");
-        cartButton.setAttribute() = "Add to Cart";
+        cartButton.removeAttribute("disabled");
+        cartButton.setAttribute("aria-disabled", "false");
+        updateButtonLabel("Add to Cart");
       }
       initRemoveDisableCartButton = true;
     }
@@ -715,8 +742,6 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // Enable Disable Add to cart button based on variant availability
-  const cartForm = document.getElementById("js-add-to-cart");
-
   const updateAddToCartState = () => {
     const addToCartBtn = cartForm.querySelector("button[data-action='add-to-cart']");
     const variantInputSelect = cartForm.querySelector('input[name="id"]');
@@ -753,8 +778,8 @@ document.addEventListener("DOMContentLoaded", function () {
       mobileCartBtn.setAttribute("disabled", "disabled");
       mobileCartBtn.setAttribute("aria-disabled", "true");
 
-      if (have2Options) updateButtonLabel("Select Size");
-      if (oneOptionOnly) updateButtonLabel();
+      // if (have2Options) updateButtonLabel("Select Size");
+      // if (oneOptionOnly) updateButtonLabel();
     }
   };
   // Initial state
@@ -765,32 +790,7 @@ document.addEventListener("DOMContentLoaded", function () {
     updateAddToCartState();
   });
 
-  // Button label update on variant change
-  const addToCartBtn = cartForm.querySelector("button[data-action='add-to-cart']");
-  function updateButtonLabel(label) {
-    const have2Options = document.getElementById("2-variant-existed") || null;
-    const oneOptionOnly = document.getElementById("one-option-only") || null;
-    const mobileFloatingCart = document.getElementById("mobile-floating-cart");
-    const mobileCartBtn = mobileFloatingCart.querySelector("button");
-
-    if (have2Options) {
-      // console.log("2 options");
-      addToCartBtn.textContent = label || "Select Size";
-      mobileCartBtn.textContent = label || "Select Size";
-    }
-
-    if (oneOptionOnly) {
-      const optionType = document.getElementById("option-value-color") ? "Color" : "Size";
-      addToCartBtn.textContent = label || `Select ${optionType}`;
-      mobileCartBtn.textContent = label || `Select ${optionType}`;
-    }
-
-    if (!productData.available) {
-      addToCartBtn.textContent = "Sold Out";
-      return;
-    }
-  }
-  updateButtonLabel();
+  // updateButtonLabel();
 
   // Mobile function
   // const isMobileScreen = window.matchMedia("(max-width: 768px)").matches;
@@ -1234,173 +1234,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
   handlePopupGalleryAndScroll();
 
-  // FAQ expand handler
-  function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-      throw new TypeError("Cannot call a class as a function");
-    }
-  }
-  function _createClass(Constructor, protoProps, staticProps) {
-    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) _defineProperties(Constructor, staticProps);
-    return Constructor;
-  }
-  function _defineProperties(target, props) {
-    for (var i = 0; i < props.length; i++) {
-      var descriptor = props[i];
-      descriptor.enumerable = descriptor.enumerable || false;
-      descriptor.configurable = true;
-      if ("value" in descriptor) descriptor.writable = true;
-      Object.defineProperty(target, descriptor.key, descriptor);
-    }
-  }
-  var Dom = /*#__PURE__*/ (function () {
-    function Dom() {
-      _classCallCheck(this, Dom);
-    }
-
-    _createClass(Dom, null, [
-      {
-        key: "getSiblings",
-        value:
-          /**
-           * Get all the previous and next siblings, optionally filtered by a selector
-           */
-          function getSiblings(element, filter) {
-            var includeSelf =
-              arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
-            var siblings = [];
-            var currentElement = element; // Do the previous first
-
-            while ((currentElement = currentElement.previousElementSibling)) {
-              if (!filter || currentElement.matches(filter)) {
-                siblings.push(currentElement);
-              }
-            }
-
-            if (includeSelf) {
-              siblings.push(element);
-            } // Then the next side
-
-            currentElement = element;
-
-            while ((currentElement = currentElement.nextElementSibling)) {
-              if (!filter || currentElement.matches(filter)) {
-                siblings.push(currentElement);
-              }
-            }
-
-            return siblings;
-          },
-      },
-      {
-        key: "nodeListToArray",
-        value: function nodeListToArray(nodeList, filter) {
-          var items = [];
-
-          for (var i = 0; i !== nodeList.length; ++i) {
-            if (!filter || nodeList[i].matches(filter)) {
-              items.push(nodeList[i]);
-            }
-          }
-
-          return items;
-        },
-      },
-      {
-        key: "outerWidthWithMargin",
-        value: function outerWidthWithMargin(element) {
-          var width = element.offsetWidth,
-            style = getComputedStyle(element);
-          width += parseInt(style.marginLeft) + parseInt(style.marginRight);
-          return width;
-        },
-      },
-      {
-        key: "outerHeightWithMargin",
-        value: function outerHeightWithMargin(element) {
-          var height = element.offsetHeight,
-            style = getComputedStyle(element);
-          height += parseInt(style.marginTop) + parseInt(style.marginBottom);
-          return height;
-        },
-      },
-    ]);
-
-    return Dom;
-  })();
-
-  const Animation = (() => {
-    function Animation() {
-      _classCallCheck(this, Animation);
-    }
-
-    _createClass(Animation, null, [
-      {
-        key: "slideUp",
-        value: function slideUp(element) {
-          element.style.height = "".concat(element.scrollHeight, "px");
-          element.offsetHeight; // Force redraw
-          element.style.height = 0;
-        },
-      },
-      {
-        key: "slideDown",
-        value: function slideDown(element) {
-          if (element.style.height === "auto") {
-            return;
-          }
-
-          element.style.height = "".concat(element.firstElementChild.scrollHeight, "px");
-
-          var transitionEnded = function transitionEnded(event) {
-            if (event.propertyName === "height") {
-              element.style.height = "auto"; // Allows the content to grow normally
-
-              element.removeEventListener("transitionend", transitionEnded);
-            }
-          };
-
-          element.addEventListener("transitionend", transitionEnded);
-        },
-      },
-    ]);
-
-    return Animation;
-  })();
-  const faqItems = document.querySelectorAll(".Faq__Item");
-  function _closeItem(item) {
-    const answerWrapper = item.querySelector(".Faq__AnswerWrapper");
-    item.setAttribute("aria-expanded", "false");
-    answerWrapper.setAttribute("aria-hidden", "true");
-    Animation.slideUp(answerWrapper);
-  }
-  function _openItem(item) {
-    const answerWrapper = item.querySelector(".Faq__AnswerWrapper");
-    item.setAttribute("aria-expanded", "true");
-    answerWrapper.setAttribute("aria-hidden", "false");
-    Animation.slideDown(answerWrapper, true);
-    Dom.getSiblings(item, '[aria-expanded="true"]').forEach(function (siblingItem) {
-      const siblingAnswerWrapper = siblingItem.querySelector(".Faq__AnswerWrapper");
-      siblingItem.setAttribute("aria-expanded", "false");
-      siblingAnswerWrapper.setAttribute("aria-hidden", "true");
-      Animation.slideUp(siblingAnswerWrapper);
-    });
-  }
-
-  faqItems.forEach((item) => {
-    const button = item.querySelector(".Faq__Question");
-    if (button) {
-      button.addEventListener("click", function (e) {
-        e.preventDefault(); // Prevent default button behavior
-        if (item.getAttribute("aria-expanded") === "true") {
-          _closeItem(item);
-        } else {
-          _openItem(item);
-        }
-      });
-    }
-  });
   // Recommend PRODUCT
   (async () => {
     const section = document.querySelector('[data-section-type="product-recommendations"]');
@@ -1447,6 +1280,25 @@ document.addEventListener("DOMContentLoaded", function () {
   })();
 
   // Recently viewed products
+  function _createClass(Constructor, protoProps, staticProps) {
+    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+    if (staticProps) _defineProperties(Constructor, staticProps);
+    return Constructor;
+  }
+  function _defineProperties(target, props) {
+    for (var i = 0; i < props.length; i++) {
+      var descriptor = props[i];
+      descriptor.enumerable = descriptor.enumerable || false;
+      descriptor.configurable = true;
+      if ("value" in descriptor) descriptor.writable = true;
+      Object.defineProperty(target, descriptor.key, descriptor);
+    }
+  }
+  function _classCallCheck(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+      throw new TypeError("Cannot call a class as a function");
+    }
+  }
   var Carousel = /*#__PURE__*/ (function () {
     function Carousel(element) {
       var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
@@ -1657,6 +1509,7 @@ document.addEventListener("DOMContentLoaded", function () {
   })();
 
   (async () => {
+    console.log("Hello we here");
     const section = document.querySelector('[data-section-type="recently-viewed-products"]');
     if (!section) return;
 
@@ -1713,4 +1566,4 @@ document.addEventListener("DOMContentLoaded", function () {
       // throw new Error("❌ Error loading recently viewed products:", error);
     }
   })();
-})();
+});
