@@ -115,8 +115,8 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // Set input value based on selected options
+  let initRemoveDisableCartButton = false;
   function setInputValue() {
-    // if (!optionType) return null;
     const selectedColor = colorContainer
       ? colorContainer.querySelector(".variant-image.active") || null
       : null;
@@ -185,6 +185,17 @@ document.addEventListener("DOMContentLoaded", function () {
       } else {
         priceEls[1].textContent = newPrice;
       }
+    }
+    // init Remove disable and label cart button if only 2 options or 1 option are available
+    if (!initRemoveDisableCartButton && variantId && variantId.available) {
+      const cartButton = document.querySelector("button[data-action='add-to-cart']");
+
+      if (cartButton) {
+        addToCartBtn.removeAttribute("disabled");
+        addToCartBtn.setAttribute("aria-disabled", "false");
+        cartButton.setAttribute() = "Add to Cart";
+      }
+      initRemoveDisableCartButton = true;
     }
   }
   setInputValue();
@@ -705,11 +716,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Enable Disable Add to cart button based on variant availability
   const cartForm = document.getElementById("js-add-to-cart");
-  let variantInputSelect = cartForm.querySelector('input[name="id"]');
+
   const updateAddToCartState = () => {
     const addToCartBtn = cartForm.querySelector("button[data-action='add-to-cart']");
-    variantInputSelect = cartForm.querySelector('input[name="id"]');
-    // console.log(variantInputSelect.value);
+    const variantInputSelect = cartForm.querySelector('input[name="id"]');
     const have2Options = document.getElementById("2-variant-existed") || null;
     const oneOptionOnly = document.getElementById("one-option-only") || null;
 
@@ -748,10 +758,10 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   };
   // Initial state
-  updateAddToCartState();
+  // updateAddToCartState();
   // On variant change
+  const variantInputSelect = cartForm.querySelector('input[name="id"]');
   variantInputSelect.addEventListener("input", (e) => {
-    // console.log(e.target.value);
     updateAddToCartState();
   });
 
@@ -1222,7 +1232,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   };
 
-  handlePopupGalleryAndScroll();
   handlePopupGalleryAndScroll();
 
   // FAQ expand handler
