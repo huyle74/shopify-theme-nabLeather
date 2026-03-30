@@ -1,0 +1,171 @@
+{% assign banner_image = "https://cdn.shopify.com/s/files/1/0353/8478/7075/files/banner-fit-guide.webp?v=1770371778" %}
+{% assign description_image = "https://cdn.shopify.com/s/files/1/0353/8478/7075/files/Belt_Size_480x480.png?v=1637880190" %}
+
+<div class="fit-guide-button" aria-haspopup="dialog">
+  Fit Guide
+</div>
+<dialog id="dialog-fit-guide-modal">
+  <div class="close-button">
+    <svg
+      width="64px"
+      height="64px"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg">
+      <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+      <g
+        id="SVGRepo_tracerCarrier"
+        stroke-linecap="round"
+        stroke-linejoin="round"></g>
+      <g id="SVGRepo_iconCarrier">
+        <path
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          d="M10.9393 12L6.9696 15.9697L8.03026 17.0304L12 13.0607L15.9697 17.0304L17.0304 15.9697L13.0607 12L17.0303 8.03039L15.9696 6.96973L12 10.9393L8.03038 6.96973L6.96972 8.03039L10.9393 12Z"
+          fill="#080341"></path>
+      </g>
+    </svg>
+  </div>
+  <div class="fit-guide-modal-content">
+    <img
+      src="{{ banner_image | escape }}"
+      width="500"
+      height="125"
+      loading="eager"
+      alt="Fit guide banner"
+      class="fit-guide-banner" />
+    <h1></h1>
+    <p>
+      The most accurate way to find your belt size is to take a measuring tape and a belt you currently own. Measure (in inches) from under the buckle (where the buckle meets the leather) to the
+      <span>hole you use to close the belt.</span>
+      That value will be the size you need. For example, you measure your belt from the buckle to the hole you use and find it is 36''. This means you need a size 36 belt. If you prefer a little extra hang, add two inches to this value.
+    </p>
+    <img
+      src="{{ description_image | escape }}"
+      width="480"
+      height="480"
+      loading="eager"
+      alt="Belt size guide"
+      class="fit-guide-description" />
+    <p style="margin-top: 1rem; margin-right: auto;">
+      *** Due to the global supply chain issue, buckles may vary slightly.
+    </p>
+  </div>
+</dialog>
+
+{% javascript %}
+  const button = document.querySelector('.fit-guide-button');
+  const closeButton = document.querySelector('.close-button');
+  const dialog = document.querySelector('#dialog-fit-guide-modal');
+
+  button.addEventListener('click', (e) => {
+    dialog.showModal();
+  });
+
+  closeButton.addEventListener('click', (e) => {
+    dialog.close();
+  });
+
+  dialog.addEventListener('click', (event) => {
+    if (event.target === dialog) {
+      dialog.close();
+    }
+  });
+{% endjavascript %}
+
+{% stylesheet %}
+  html:has(dialog[open]),
+  body:has(dialog[open]) {
+    overflow: hidden;
+  }
+  .fit-guide-button {
+    cursor: pointer;
+    text-decoration: underline;
+    font-weight: 500;
+  }
+  #dialog-fit-guide-modal {
+    width: 50%;
+    border: none;
+    border-radius: 20px;
+    padding: 0;
+    position: relative;
+    z-index: 100;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1)
+    , 0 1px 3px rgba(0, 0, 0, 0.06);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+  }
+
+  dialog:focus {
+    outline: none !important;
+    border: none !important;
+  }
+
+  #dialog-fit-guide-modal::backdrop {
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(2px);
+    border: none;
+  }
+
+  .close-button {
+    position: sticky;
+    cursor: pointer;
+    top: 5px;
+    float: right;
+    right: 5px;
+  }
+
+  .fit-guide-modal-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1.5rem;
+    border: none;
+    outline: none;
+    Width: 100%;
+  }
+  .fit-guide-modal-content p {
+    font-weight: 500;
+  }
+  .fit-guide-modal-content span {
+    font-weight: 700;
+  }
+  @media (max-width: 768px) {
+    #dialog-fit-guide-modal {
+      width: 95%;
+      height: 70%;
+      overflow-y: auto;
+    }
+    .fit-guide-modal-content {
+      padding-top: 1rem;
+    }
+    .close-button {
+      font-size: 1rem;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 30px;
+      background-color: white;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1)
+      , 0 1px 3px rgba(0, 0, 0, 0.06);
+    }
+  }
+{% endstylesheet %}
+{% schema %}
+  {
+    "name": "Fit guide belts modal",
+    "settings": [],
+    "presets": [
+      {
+        "name": "Fit guide belts modal",
+        "category": "Custom"
+      }
+    ]
+  }
+{% endschema %}
